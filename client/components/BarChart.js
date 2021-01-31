@@ -24,7 +24,7 @@ class BarChart extends Component {
 
     // Scales the bars height
     const yScale = d3
-      .scaleLinear()
+      .scaleBand()
       .domain([0, dataMax]) // 0 to the maximum value in our dataset
       .range([0, this.props.size[1]]) // Basically the size of the chart; 0 - width
 

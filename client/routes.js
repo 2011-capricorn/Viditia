@@ -6,6 +6,7 @@ import {Login, Signup, UserHome} from './components'
 import {me} from './store'
 import SignUpVidit from './components/SignUpVidit'
 import SurveyInput from './components/SurveyInput'
+import testVidit from './components/testVidit'
 
 /**
  * COMPONENT
@@ -25,6 +26,7 @@ class Routes extends Component {
         <Route path="/signup" component={Signup} />
         <Route path="/test" component={SignUpVidit} />
         <Route path="/seed" component={SurveyInput} />
+        <Route path="/vidit" component={testVidit} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}

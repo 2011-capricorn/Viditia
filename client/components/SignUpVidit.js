@@ -1,13 +1,4 @@
 import React from 'react'
-import BarChart from './BarChart'
-
-import firebase from '../../public/firebase'
-
-const db = firebase.firestore()
-
-db.collection('users')
-  .doc('Qcnh71oMAUn89QMyLq28')
-  .onSnapshot((doc) => console.log('Current data: ', doc.data()))
 
 const SignUpVidit = () => {
   const handleSubmit = (e) => {
@@ -118,7 +109,6 @@ const SignUpVidit = () => {
         <br />
         <button type="submit">Submit signup Vidits</button>
       </form>
-      <BarChart data={[5, 10, 1, 3]} size={[500, 500]} />
     </div>
     // Breakfast, lunch, or dinner?
     // <input type="radio" name="Breakfast" value="bSFg0z7HcoFjS4FbDVCQ" />
