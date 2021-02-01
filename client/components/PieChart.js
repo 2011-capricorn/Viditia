@@ -139,6 +139,7 @@ class PieChart extends Component {
       'newHands[0] -->',
       newHands[0].then((i) => console.log(i))
     )
+
     this.setState({
       chartData: [
         {
