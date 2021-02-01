@@ -6,9 +6,9 @@ import firebase from '../../public/firebase'
 
 const db = firebase.firestore()
 
-db.collection('users')
-  .doc('Qcnh71oMAUn89QMyLq28')
-  .onSnapshot((doc) => console.log('Current data: ', doc.data()))
+// db.collection('users')
+//   .doc('Qcnh71oMAUn89QMyLq28')
+//   .onSnapshot((doc) => console.log('Current data: ', doc.data()))
 
 const testVidit = () => {
   return (
