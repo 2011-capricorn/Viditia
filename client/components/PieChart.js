@@ -1,21 +1,42 @@
 import React, {Component} from 'react'
 import * as d3 from 'd3'
+import firebase from '../../public/firebase'
+
+import './styles/PieChart.css'
+
+const db = firebase.firestore()
+
+const signUpQuestions = {
+  hand: 'AydpVc7N4PlfCgafhsFO',
+  season: 'CP21nrZ0iDdwf6trKR8c',
+  animal: 'jbFoVzlEJmuNK7vLkxK5',
+  drink: 'Kh8m2S1k0ED9VFYgAw3F',
+  scenery: 'zQIfSpxEVLEm2tyv0n9w',
+  travel: '23cVgvROTUzo24WHKl6w',
+  food: '1qb7vLsHAkCz3GvnjYtK',
+  artist: 'JqzBPNZ4QyZr0HKXWjzA',
+  boolean: 'PjRhb7Y5pmuwaI9Ds4Jf',
+  awake: 'ZGKpkv4LFvbyAGrR09yD',
+}
 
 class PieChart extends Component {
   constructor() {
     super()
     this.state = {
       chartData: [
-        {
-          name: 'Summer',
-          value: 60,
-        },
-        {
-          name: 'Winter',
-          value: 34,
-        },
+        // {
+        //   name: 'Summer',
+        //   value: 60,
+        // },
+        // {
+        //   name: 'Winter',
+        //   value: 34,
+        // },
       ],
       colors: [d3.rgb(226, 138, 138), d3.rgb(116, 176, 228)],
+      users: [],
+      doc: [],
+      hands: [],
     }
     this.createPieChart = this.createPieChart.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -23,11 +44,40 @@ class PieChart extends Component {
   }
 
   componentDidMount() {
+    db.collection('testAnswers')
+      .doc('Jjxs5iWmny5Ox4cvhZPA')
+      .onSnapshot((doc) => this.formatData(doc.data().answers))
     this.createPieChart()
   }
 
   componentDidUpdate() {
+    // db.collection('testAnswers')
+    //   .doc('Jjxs5iWmny5Ox4cvhZPA')
+    //   .onSnapshot((doc) => this.formatData(doc.data().answers))
     this.createPieChart()
+  }
+
+  formatData(data) {
+    if (data.length) {
+      this.setState({doc: data})
+
+      const test = data.reduce((result, next) => {
+        if (result[next.answer]) result[next.answer]++
+        else result[next.answer] = 1
+        return result
+      }, {})
+
+      this.setState({
+        users: data.map((entry) => entry.userKey),
+      })
+
+      let result = []
+      for (let key in test) {
+        result.push({name: key, value: test[key]})
+      }
+
+      this.setState({chartData: result})
+    }
   }
 
   createPieChart() {
@@ -66,7 +116,7 @@ class PieChart extends Component {
     pies
       .append('path')
       .attr('d', path)
-      .attr('fill', (d) => color(d.data.value))
+      .attr('fill', (d, i) => color(i))
 
     pies
       .append('text')
@@ -80,6 +130,15 @@ class PieChart extends Component {
   }
 
   handleClick() {
+    const newHands = this.state.users.map(async (user) => {
+      const test = await db.collection('users').doc(user).get()
+      return test.data().signUpAnswers.hand
+    })
+
+    console.log(
+      'newHands[0] -->',
+      newHands[0].then((i) => console.log(i))
+    )
     this.setState({
       chartData: [
         {
