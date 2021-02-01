@@ -1,4 +1,7 @@
 import React, {Component} from 'react'
+import firebase from '../../public/firebase'
+
+const db = firebase.firestore()
 
 class SignUpVidit extends Component {
   constructor() {
@@ -23,6 +26,44 @@ class SignUpVidit extends Component {
   handleSubmit(e) {
     e.preventDefault()
     console.log('SUBMIT State --->', this.state)
+    const {
+      Season,
+      Awake,
+      Animal,
+      Hand,
+      Drink,
+      Scenery,
+      Travel,
+      Food,
+      Artist,
+      Boolean,
+      Last_Name,
+    } = this.state
+    db.collection('users')
+      .add({
+        'GS-ID': this.state['GS-ID'],
+        First_Name: `user`,
+        Last_Name,
+        Email: `user${this.state['GS-ID']}@email.com`,
+        signUpAnswers: {
+          Season,
+          Awake,
+          Animal,
+          Hand,
+          Drink,
+          Scenery,
+          Travel,
+          Food,
+          Artist,
+          Boolean,
+        },
+      })
+      .then(function (docRef) {
+        console.log('Document written with ID: ', docRef.id)
+      })
+      .catch(function (error) {
+        console.error('Error adding document: ', error)
+      })
     this.setState({
       Season: '',
       Awake: '',
