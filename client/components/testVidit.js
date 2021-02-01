@@ -15,7 +15,7 @@ const testVidit = () => {
     <div>
       <h1>Test Vidit</h1>
       {/* <BarChart data={[2, 4, 6, 8]} size={[500, 500]} /> */}
-      <PieChart size={[500, 500]} />
+      <PieChart size={{width: 500, height: 500}} />
     </div>
   )
 }

@@ -23,20 +23,12 @@ class PieChart extends Component {
   constructor() {
     super()
     this.state = {
-      chartData: [
-        // {
-        //   name: 'Summer',
-        //   value: 60,
-        // },
-        // {
-        //   name: 'Winter',
-        //   value: 34,
-        // },
-      ],
+      chartData: [],
+      reset: [],
       colors: [d3.rgb(226, 138, 138), d3.rgb(116, 176, 228)],
       users: [],
       doc: [],
-      hands: [],
+      filter: '',
     }
     this.createPieChart = this.createPieChart.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -44,22 +36,24 @@ class PieChart extends Component {
   }
 
   componentDidMount() {
-    db.collection('testAnswers')
+    db.collection('polls')
       .doc('Jjxs5iWmny5Ox4cvhZPA')
       .onSnapshot((doc) => this.formatData(doc.data().answers))
     this.createPieChart()
   }
 
   componentDidUpdate() {
-    // db.collection('testAnswers')
-    //   .doc('Jjxs5iWmny5Ox4cvhZPA')
-    //   .onSnapshot((doc) => this.formatData(doc.data().answers))
     this.createPieChart()
   }
 
   formatData(data) {
     if (data.length) {
-      this.setState({doc: data})
+      this.setState({
+        doc: data.reduce((result, next) => {
+          result[next.userKey] = next.answer
+          return result
+        }, {}),
+      })
 
       const test = data.reduce((result, next) => {
         if (result[next.answer]) result[next.answer]++
@@ -76,7 +70,7 @@ class PieChart extends Component {
         result.push({name: key, value: test[key]})
       }
 
-      this.setState({chartData: result})
+      this.setState({chartData: result, reset: result})
     }
   }
 
@@ -84,8 +78,10 @@ class PieChart extends Component {
     const data = this.state.chartData
 
     const svg = d3.select('svg'),
-      width = svg.attr('width'),
-      height = svg.attr('height')
+      // width = svg.attr('width'),
+      // height = svg.attr('height')
+      width = this.props.size.width,
+      height = this.props.size.height
 
     const radius = 200
     const g = svg
@@ -129,35 +125,33 @@ class PieChart extends Component {
       .text((d) => d.data.name)
   }
 
-  handleClick() {
-    const newHands = this.state.users.map(async (user) => {
-      const test = await db.collection('users').doc(user).get()
-      return test.data().signUpAnswers.hand
-    })
-
-    console.log(
-      'newHands[0] -->',
-      newHands[0].then((i) => console.log(i))
+  async handleClick() {
+    const newHands = await Promise.all(
+      this.state.users.map(async (user) => {
+        const test = await db.collection('users').doc(user).get()
+        return {userKey: user, hand: test.data().signUpAnswers.hand}
+      })
     )
-    this.setState({
-      chartData: [
-        {
-          name: 'Summer (R)',
-          value: 48,
-        },
-        {
-          name: 'Summer (L)',
-          value: 12,
-        },
-        {
-          name: 'Winter (R)',
-          value: 33,
-        },
-        {
-          name: 'Winter (L)',
+
+    let result = []
+    for (let hand of newHands) {
+      let unique = true
+      for (let entry of result) {
+        if (entry.name === `${this.state.doc[hand.userKey]} ${hand.hand}`) {
+          unique = false
+          entry.value++
+        }
+      }
+      if (unique) {
+        result.push({
+          name: `${this.state.doc[hand.userKey]} ${hand.hand}`,
           value: 1,
-        },
-      ],
+        })
+      }
+    }
+
+    this.setState({
+      chartData: result,
       colors: [
         d3.rgb(226, 138, 138),
         d3.rgb(226, 75, 75),
@@ -168,17 +162,9 @@ class PieChart extends Component {
   }
 
   resetFilter() {
+    const {reset} = this.state
     this.setState({
-      chartData: [
-        {
-          name: 'Summer',
-          value: 60,
-        },
-        {
-          name: 'Winter',
-          value: 34,
-        },
-      ],
+      chartData: reset,
       colors: [d3.rgb(226, 138, 138), d3.rgb(116, 176, 228)],
     })
   }
@@ -186,7 +172,7 @@ class PieChart extends Component {
   render() {
     return (
       <div id="testChart">
-        <svg width="400" height="400"></svg>
+        <svg width="500" height="500"></svg>
         <br></br>
         <br></br>
         <button type="button" onClick={this.handleClick}>
