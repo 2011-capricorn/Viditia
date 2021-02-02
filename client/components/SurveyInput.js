@@ -696,6 +696,7 @@ class SurveyInput extends Component {
           <label htmlFor="Waffles">Waffles</label>
           <br />
           <br />
+          <hr />
           How old were you at the time of your first kiss?
           <br />
           <label htmlFor="4CbajKs75QKoSP1I3J3a">Age</label>
@@ -742,6 +743,7 @@ class SurveyInput extends Component {
           <label htmlFor="cursiveYes">Yes</label>
           <br />
           <br />
+          <hr />
           Tv shows or movies?
           <br />
           <input
@@ -762,6 +764,7 @@ class SurveyInput extends Component {
           <label htmlFor="Movies">Movies</label>
           <br />
           <br />
+          <hr />
           How many countries have you visited?
           <br />
           <label htmlFor="yqEqD9PpiLRB898akHTY">Number of Countries</label>
@@ -775,6 +778,7 @@ class SurveyInput extends Component {
           />
           <br />
           <br />
+          <hr />
           Average time (hours) sleeping per night
           <br />
           <label htmlFor="OhGBt2o71rdNVmlZdCsL">Hours</label>
@@ -786,6 +790,7 @@ class SurveyInput extends Component {
           />
           <br />
           <br />
+          <hr />
           Can you juggle?
           <br />
           <input
@@ -808,6 +813,7 @@ class SurveyInput extends Component {
           <label htmlFor="juggleNo">No</label>
           <br />
           <br />
+          <hr />
           Do you prefer your eggs sunny side up or hard boiled?
           <br />
           <input
@@ -828,6 +834,7 @@ class SurveyInput extends Component {
           <label htmlFor="Sunny side">Sunny side</label>
           <br />
           <br />
+          <hr />
           When I think about my body 1-10, 1:lose weight, 5:content, 10:gain
           weight
           <br />
@@ -842,6 +849,7 @@ class SurveyInput extends Component {
           />
           <br />
           <br />
+          <hr />
           Evens or Odds?
           <br />
           <input
@@ -862,6 +870,7 @@ class SurveyInput extends Component {
           <label htmlFor="Evens">Evens</label>
           <br />
           <br />
+          <hr />
           Which one doesn't have a mustache?
           <br />
           <input
@@ -898,6 +907,7 @@ class SurveyInput extends Component {
           <label htmlFor="King of Hearts">King of Hearts</label>
           <br />
           <br />
+          <hr />
           Favorite Fruit?
           <br />
           <label htmlFor="Favorite fruit = (YV8GcDKo9pILz5xzGXG7)">
