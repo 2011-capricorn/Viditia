@@ -1,7 +1,9 @@
 import React, {useState} from 'react'
+import {connect} from 'react-redux'
+import {setUser} from '../store/user'
 import firebase from '../../public/firebase'
 
-export default function SignUpForm() {
+const SignUpForm = ({register}) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -12,11 +14,7 @@ export default function SignUpForm() {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        // Signed in
-        console.log('userCredential -->', userCredential)
-        // ...
-      })
+      .then(({user}) => register(user.uid))
       .catch((err) => setError(err.message))
   }
 
@@ -48,3 +46,9 @@ export default function SignUpForm() {
     </form>
   )
 }
+
+const mapDispatch = (dispatch) => ({
+  register: (user) => dispatch(setUser(user)),
+})
+
+export default connect(null, mapDispatch)(SignUpForm)
