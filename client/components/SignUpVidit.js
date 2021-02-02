@@ -374,13 +374,6 @@ class SignUpVidit extends Component {
           <br />
         </form>
       </div>
-      // Breakfast, lunch, or dinner?
-      // <input type="radio" name="Breakfast" value="bSFg0z7HcoFjS4FbDVCQ" />
-      // <label htmlFor="Breakfast">Breakfast</label>
-      // <input type="radio" name="Lunch" value="AeA4qK7f0JqewA9hizRq" />
-      // <label htmlFor="Lunch">Lunch</label>
-      // <input type="radio" name="Dinner" value="AeA4qK7f0JqewA9hizRq" />
-      // <label htmlFor="Dinner">Dinner</label>
     )
   }
 }
