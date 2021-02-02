@@ -44,8 +44,8 @@ class PieChart extends Component {
   }
 
   componentDidMount() {
-    db.collection('testAnswers')
-      .doc('Jjxs5iWmny5Ox4cvhZPA')
+    db.collection('polls')
+      .doc('b8ALlRKAoo6n3RGq2LtL'
       .onSnapshot((doc) => this.formatData(doc.data().answers))
     this.createPieChart()
   }
@@ -129,11 +129,14 @@ class PieChart extends Component {
       .text((d) => d.data.name)
   }
 
-  handleClick() {
-    const newHands = this.state.users.map(async (user) => {
-      const test = await db.collection('users').doc(user).get()
-      return test.data().signUpAnswers.hand
-    })
+  async handleClick() {
+    const newHands = await Promise.all(
+      this.state.users.map(async (user) => {
+        const test = await db.collection('users').doc(user).get()
+        console.log('test -->', test.data(), user)
+        return {userKey: user, hand: test.data().signUpAnswers.Hand}
+      })
+    )
 
     console.log(
       'newHands[0] -->',
