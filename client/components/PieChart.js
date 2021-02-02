@@ -45,21 +45,25 @@ class PieChart extends Component {
 
   componentDidMount() {
     db.collection('polls')
-      .doc('b8ALlRKAoo6n3RGq2LtL'
+      .doc('b8ALlRKAoo6n3RGq2LtL')
       .onSnapshot((doc) => this.formatData(doc.data().answers))
     this.createPieChart()
   }
 
   componentDidUpdate() {
-    // db.collection('testAnswers')
-    //   .doc('Jjxs5iWmny5Ox4cvhZPA')
-    //   .onSnapshot((doc) => this.formatData(doc.data().answers))
     this.createPieChart()
   }
 
   formatData(data) {
     if (data.length) {
       this.setState({doc: data})
+
+      this.setState({
+        doc: data.reduce((result, next) => {
+          result[next.userKey] = next.answer
+          return result
+        }, {}),
+      })
 
       const test = data.reduce((result, next) => {
         if (result[next.answer]) result[next.answer]++
@@ -76,7 +80,7 @@ class PieChart extends Component {
         result.push({name: key, value: test[key]})
       }
 
-      this.setState({chartData: result})
+      this.setState({chartData: result, reset: result})
     }
   }
 
@@ -133,35 +137,29 @@ class PieChart extends Component {
     const newHands = await Promise.all(
       this.state.users.map(async (user) => {
         const test = await db.collection('users').doc(user).get()
-        console.log('test -->', test.data(), user)
         return {userKey: user, hand: test.data().signUpAnswers.Hand}
       })
     )
 
-    console.log(
-      'newHands[0] -->',
-      newHands[0].then((i) => console.log(i))
-    )
+    let result = []
+    for (let hand of newHands) {
+      let unique = true
+      for (let entry of result) {
+        if (entry.name === `${this.state.doc[hand.userKey]} ${hand.hand}`) {
+          unique = false
+          entry.value++
+        }
+      }
+      if (unique) {
+        result.push({
+          name: `${this.state.doc[hand.userKey]} ${hand.hand}`,
+          value: 1,
+        })
+      }
+    }
 
     this.setState({
-      chartData: [
-        {
-          name: 'Summer (R)',
-          value: 48,
-        },
-        {
-          name: 'Summer (L)',
-          value: 12,
-        },
-        {
-          name: 'Winter (R)',
-          value: 33,
-        },
-        {
-          name: 'Winter (L)',
-          value: 1,
-        },
-      ],
+      chartData: result,
       colors: [
         d3.rgb(226, 138, 138),
         d3.rgb(226, 75, 75),
