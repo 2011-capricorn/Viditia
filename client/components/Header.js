@@ -8,8 +8,8 @@ import {
   ListItem,
   ListItemText,
   Hidden,
+  makeStyles,
 } from '@material-ui/core'
-import {makeStyles} from '@material-ui/core'
 import {Home} from '@material-ui/icons'
 import SideDrawer from './SideDrawer'
 
