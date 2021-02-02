@@ -45,7 +45,7 @@ class PieChart extends Component {
 
   componentDidMount() {
     db.collection('polls')
-      .doc('b8ALlRKAoo6n3RGq2LtL'
+      .doc('b8ALlRKAoo6n3RGq2LtL')
       .onSnapshot((doc) => this.formatData(doc.data().answers))
     this.createPieChart()
   }
