@@ -23,20 +23,11 @@ class PieChart extends Component {
   constructor() {
     super()
     this.state = {
-      chartData: [
-        // {
-        //   name: 'Summer',
-        //   value: 60,
-        // },
-        // {
-        //   name: 'Winter',
-        //   value: 34,
-        // },
-      ],
+      chartData: [],
+      reset: [],
       colors: [d3.rgb(226, 138, 138), d3.rgb(116, 176, 228)],
       users: [],
       doc: [],
-      hands: [],
     }
     this.createPieChart = this.createPieChart.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -45,7 +36,7 @@ class PieChart extends Component {
 
   componentDidMount() {
     db.collection('polls')
-      .doc('b8ALlRKAoo6n3RGq2LtL')
+      .doc('Jjxs5iWmny5Ox4cvhZPA')
       .onSnapshot((doc) => this.formatData(doc.data().answers))
     this.createPieChart()
   }
@@ -170,17 +161,9 @@ class PieChart extends Component {
   }
 
   resetFilter() {
+    const {reset} = this.state
     this.setState({
-      chartData: [
-        {
-          name: 'Summer',
-          value: 60,
-        },
-        {
-          name: 'Winter',
-          value: 34,
-        },
-      ],
+      chartData: reset,
       colors: [d3.rgb(226, 138, 138), d3.rgb(116, 176, 228)],
     })
   }

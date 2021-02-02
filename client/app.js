@@ -8,8 +8,8 @@ import Routes from './routes'
 const App = () => {
   return (
     <div>
-      {/* <Header />
-      <SideDrawer /> */}
+      {/* <Header /> */}
+      {/* <SideDrawer /> */}
       <Navbar />
       <Routes />
     </div>
