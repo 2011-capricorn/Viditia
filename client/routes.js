@@ -22,8 +22,8 @@ class Routes extends Component {
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={LoginForm} />
         <Route path="/signup" component={SignUpForm} />
-        <Route path="/test" component={SignUpVidit} />
-        <Route path="/seed" component={SurveyInput} />
+        {/* <Route path="/test" component={SignUpVidit} /> */}
+        {/* <Route path="/seed" component={SurveyInput} /> */}
         <Route path="/vidit" component={testVidit} />
         {isLoggedIn && (
           <Switch>
