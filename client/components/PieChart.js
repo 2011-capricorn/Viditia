@@ -28,10 +28,12 @@ class PieChart extends Component {
       colors: [d3.rgb(226, 138, 138), d3.rgb(116, 176, 228)],
       users: [],
       doc: [],
+      filter: 'Hand',
     }
     this.createPieChart = this.createPieChart.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.resetFilter = this.resetFilter.bind(this)
+    this.chooseFilter = this.chooseFilter.bind(this)
   }
 
   componentDidMount() {
@@ -73,6 +75,13 @@ class PieChart extends Component {
 
       this.setState({chartData: result, reset: result})
     }
+  }
+
+  async chooseFilter(e) {
+    let filter = e.target.value
+    this.setState({
+      filter: filter,
+    })
   }
 
   createPieChart() {
@@ -125,25 +134,32 @@ class PieChart extends Component {
   }
 
   async handleClick() {
-    const newHands = await Promise.all(
+    const filterChoice = this.state.filter
+    const users = await Promise.all(
       this.state.users.map(async (user) => {
         const test = await db.collection('users').doc(user).get()
-        return {userKey: user, hand: test.data().signUpAnswers.Hand}
+        return {
+          userKey: user,
+          [filterChoice]: test.data().signUpAnswers[filterChoice],
+        }
       })
     )
 
     let result = []
-    for (let hand of newHands) {
+    for (let feature of users) {
       let unique = true
       for (let entry of result) {
-        if (entry.name === `${this.state.doc[hand.userKey]} ${hand.hand}`) {
+        if (
+          entry.name ===
+          `${this.state.doc[feature.userKey]} ${feature[filterChoice]}`
+        ) {
           unique = false
           entry.value++
         }
       }
       if (unique) {
         result.push({
-          name: `${this.state.doc[hand.userKey]} ${hand.hand}`,
+          name: `${this.state.doc[feature.userKey]} ${feature[filterChoice]}`,
           value: 1,
         })
       }
@@ -174,8 +190,29 @@ class PieChart extends Component {
         <svg width="400" height="400"></svg>
         <br></br>
         <br></br>
+        <label htmlFor="filter">Choose a filter</label>
+        <br></br>
+        <select
+          name="filter"
+          id="filterChoice"
+          onChange={this.chooseFilter}
+          defaultValue="Hand"
+        >
+          <option value="Hand">Right or left hand</option>
+          <option value="Season">Summer or winter</option>
+          <option value="Animal">Dog or cat</option>
+          <option value="Drink">Coffee or tea</option>
+          <option value="Scenery">Beach or Mountains</option>
+          <option value="Travel">Do you like to travel</option>
+          <option value="Food">Cheeseburger or hotdog</option>
+          <option value="Artist">Beyonce or Black Sabbath</option>
+          <option value="Boolean">Yes or no</option>
+          <option value="Awake">Early bird or night owl</option>
+        </select>
+        <br></br>
+        <br></br>
         <button type="button" onClick={this.handleClick}>
-          Filter by right/left hand
+          Activate Filter
         </button>
         <br></br>
         <br></br>
