@@ -18,16 +18,19 @@ export const getUser = () => {
   //     return {type: GET_USER, user: uid}
   //   })
 }
-export const setUser = (user, signUpAnswers) => {
+
+export const setUser = (user) => ({type: SET_USER, user})
+
+export const signInThunk = (user, signUpAnswers) => {
   return async (dispatch) => {
     const result = await db
       .collection('users')
       .doc(user)
       .set({signUpAnswers})
       .then(() => {
-        return {type: SET_USER, user}
+        return user
       })
-    dispatch(result)
+    dispatch(setUser(user))
   }
 }
 const removeUser = () => ({type: REMOVE_USER})
