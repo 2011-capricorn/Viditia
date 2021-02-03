@@ -6,7 +6,9 @@ import {
   IconButton,
   InputAdornment,
   InputLabel,
+  MenuItem,
   OutlinedInput,
+  Select,
   TextField,
 } from '@material-ui/core'
 import {Visibility, VisibilityOff} from '@material-ui/icons'
@@ -22,18 +24,54 @@ const SignUpForm = React.forwardRef(({register}, ref) => {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const signUpQuestions = {
+    Season: ['Summer or winter?', ['Summer', 'Winter']],
+    Awake: [
+      'Are you an early bird or a night owl?',
+      ['Early Bird', 'Night Owl'],
+    ],
+    Animal: ['Cat or do?', ['Cat', 'Dog']],
+    Hand: ['Are you right or left handed?', ['Right', 'Left']],
+    Drink: ['Coffee or tea?', ['Coffee', 'Tea']],
+    Scenery: ['Beach or mountains?', ['Beach', 'Moutains']],
+    Travel: ['Do you like to travel?', ['Yes', 'No']],
+    Food: ['Cheeseburger or hotdog?', ['CheeseBurger', 'Hotdog']],
+    Artist: ['Beyonce or Black Sabbath?', ['Beyonce', 'Black Sabbath']],
+    Boolean: ['Yes or no?', ['Yes', 'No']],
+  }
+  const [signUpAnswers, setSignUpAnswers] = useState({
+    Season: '',
+    Awake: '',
+    Animal: '',
+    Hand: '',
+    Drink: '',
+    Scenery: '',
+    Travel: '',
+    Food: '',
+    Artist: '',
+    Boolean: '',
+  })
   const [error, setError] = useState('')
+
+  const checkAnswers = () => {
+    return Object.keys(signUpAnswers).some(
+      (answer) => signUpAnswers[answer] === ''
+    )
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
     if (password !== confirmPassword) {
       setError('Passwords do not match')
       return
+    } else if (checkAnswers()) {
+      setError('Please answer all the questions!')
+      return
     }
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(({user}) => register(user.uid))
+      .then(({user}) => register(user.uid, signUpAnswers))
       .catch((err) => setError(err.message))
   }
 
@@ -46,13 +84,14 @@ const SignUpForm = React.forwardRef(({register}, ref) => {
       >
         <TextField
           required
+          fullWidth={true}
           variant="outlined"
           label="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <FormControl variant="outlined" id="mgt">
+        <FormControl variant="outlined" id="mgt" fullWidth={true}>
           <InputLabel htmlFor="Password">Password</InputLabel>
           <OutlinedInput
             id="Password"
@@ -73,7 +112,7 @@ const SignUpForm = React.forwardRef(({register}, ref) => {
           />
         </FormControl>
 
-        <FormControl variant="outlined" id="mgt">
+        <FormControl variant="outlined" id="mgt" fullWidth={true}>
           <InputLabel htmlFor="confirmPassword">Confirm Password</InputLabel>
           <OutlinedInput
             id="confirmPassword"
@@ -93,6 +132,34 @@ const SignUpForm = React.forwardRef(({register}, ref) => {
             }
           />
         </FormControl>
+
+        <h2>Tell us a little about yourself!</h2>
+
+        {Object.keys(signUpQuestions).map((question) => {
+          return (
+            <FormControl key={question} id="mgt" fullWidth={true}>
+              <InputLabel>{signUpQuestions[question][0]}</InputLabel>
+              <Select
+                value={signUpAnswers[question]}
+                onChange={(e) => {
+                  setSignUpAnswers({
+                    ...signUpAnswers,
+                    [question]: e.target.value,
+                  })
+                  console.log(signUpAnswers)
+                }}
+                label="Answer"
+              >
+                <MenuItem value={signUpQuestions[question][1][0]}>
+                  {signUpQuestions[question][1][0]}
+                </MenuItem>
+                <MenuItem value={signUpQuestions[question][1][1]}>
+                  {signUpQuestions[question][1][1]}
+                </MenuItem>
+              </Select>
+            </FormControl>
+          )
+        })}
         {error !== '' && <p>{error}</p>}
         <Button variant="outlined" color="primary" type="submit" id="mgt">
           Sign up!
@@ -103,7 +170,7 @@ const SignUpForm = React.forwardRef(({register}, ref) => {
 })
 
 const mapDispatch = (dispatch) => ({
-  register: (user) => dispatch(setUser(user)),
+  register: (user, answers) => dispatch(setUser(user, answers)),
 })
 
 export default connect(null, mapDispatch)(SignUpForm)
