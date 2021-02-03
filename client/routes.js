@@ -15,15 +15,14 @@ class Routes extends Component {
 
   render() {
     const {isLoggedIn} = this.props
-    console.log('routes user -->', this.props.user)
 
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={LoginForm} />
         <Route path="/signup" component={SignUpForm} />
-        <Route path="/test" component={SignUpVidit} />
-        <Route path="/seed" component={SurveyInput} />
+        {/* <Route path="/test" component={SignUpVidit} /> */}
+        {/* <Route path="/seed" component={SurveyInput} /> */}
         <Route path="/vidit" component={testVidit} />
         {isLoggedIn && (
           <Switch>
