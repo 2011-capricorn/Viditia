@@ -6,16 +6,38 @@ a {
   text-decoration: none;
 }
 
-label {
-  display: block;
-}
-
 nav a {
   display: inline-block;
   margin: 1em;
 }
 
-form div {
-  margin: 1em;
-  display: inline-block;
+.flex {
+  display: flex;
+}
+.fdc {
+  flex-direction: column;
+}
+
+.jcc {
+  justify-content: center;
+}
+.jcb {
+  justify-content: space-between;
+}
+.jce {
+  justify-content: space-evenly;
+}
+
+.aic {
+  align-items: center;
+}
+.aifs {
+  align-items: flex-start;
+}
+.aife {
+  align-items: end;
+}
+
+#mgt {
+  margin-top: 20px;
 }
