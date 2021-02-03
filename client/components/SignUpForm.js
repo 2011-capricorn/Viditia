@@ -30,7 +30,7 @@ const SignUpForm = React.forwardRef(({register}, ref) => {
       'Are you an early bird or a night owl?',
       ['Early Bird', 'Night Owl'],
     ],
-    Animal: ['Cat or do?', ['Cat', 'Dog']],
+    Animal: ['Cat or dog?', ['Cat', 'Dog']],
     Hand: ['Are you right or left handed?', ['Right', 'Left']],
     Drink: ['Coffee or tea?', ['Coffee', 'Tea']],
     Scenery: ['Beach or mountains?', ['Beach', 'Moutains']],

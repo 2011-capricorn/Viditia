@@ -12,7 +12,7 @@ const Navbar = ({isLoggedIn}) => {
 
   return (
     <div>
-      <h1>BOILERMAKER</h1>
+      <h1>Viditia</h1>
       <nav>
         {isLoggedIn ? (
           <div>
