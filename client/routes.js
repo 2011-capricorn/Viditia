@@ -26,13 +26,13 @@ class Routes extends Component {
         <Route path="/signup" component={SignUpForm} />
         {/* <Route path="/test" component={SignUpVidit} /> */}
         {/* <Route path="/seed" component={SurveyInput} /> */}
-        <Route path="/vidit" component={singleVidit} />
-        <Route path="/chartVoting" component={ChartVoting} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
             <Route path="/create" component={CreateVidit} />
+            <Route path="/vidit/:id" component={singleVidit} />
+            <Route path="/chartVoting" component={ChartVoting} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
