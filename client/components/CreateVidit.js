@@ -11,7 +11,7 @@ import {connect} from 'react-redux'
 
 import {addViditThunk} from '../store/vidit'
 
-const CreateVidit = ({addNewVidit}) => {
+const CreateVidit = ({userKey, addNewVidit}) => {
   const [question, setQuestion] = useState('')
   const [type, setType] = useState('')
   const [min, setMin] = useState(0)
@@ -58,9 +58,9 @@ const CreateVidit = ({addNewVidit}) => {
 
   const getReturnValue = () => {
     const returnValue = {question, type, answers: []}
-    if (type === 'Open') addNewVidit({...returnValue, dataType})
-    else if (type === 'Range') addNewVidit({...returnValue, min, max})
-    else addNewVidit({...returnValue, choices})
+    if (type === 'Open') addNewVidit({...returnValue, dataType}, userKey)
+    else if (type === 'Range') addNewVidit({...returnValue, min, max}, userKey)
+    else addNewVidit({...returnValue, choices}, userKey)
   }
 
   const handleSubmit = () => {
@@ -162,8 +162,12 @@ const CreateVidit = ({addNewVidit}) => {
   )
 }
 
-const mapDispatch = (dispatch) => ({
-  addNewVidit: (vidit) => dispatch(addViditThunk(vidit)),
+const mapState = ({user: {userKey}}) => ({
+  userKey,
 })
 
-export default connect(null, mapDispatch)(CreateVidit)
+const mapDispatch = (dispatch) => ({
+  addNewVidit: (vidit, userKey) => dispatch(addViditThunk(vidit, userKey)),
+})
+
+export default connect(mapState, mapDispatch)(CreateVidit)
