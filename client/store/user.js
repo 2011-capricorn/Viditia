@@ -1,9 +1,11 @@
-import firebase from '../../public/firebase'
-const db = firebase.firestore()
+import firebase from 'firebase'
+import myFirebase from '../../public/firebase'
+const db = myFirebase.firestore()
 
 const GET_USER = 'GET_USER'
 const SET_USER = 'SET_USER'
 const REMOVE_USER = 'REMOVE_USER'
+const UPDATE_ANSWERED = 'UPDATE_ANSWERED'
 
 const defaultUser = {
   // userKey: 'bddR4THyLXZh0kw7DEYb2iusoY42',
@@ -13,6 +15,7 @@ const defaultUser = {
 }
 
 export const setUser = (user) => ({type: SET_USER, user})
+const updateAnswered = (pollKey) => ({type: UPDATE_ANSWERED, pollKey})
 
 export const getUserThunk = () => {
   return async (dispatch) => {
@@ -72,7 +75,22 @@ export const signUpThunk = (email, password, signUpAnswers) => {
     }
   }
 }
+
 const removeUser = () => ({type: REMOVE_USER})
+
+export const updateAnsweredThunk = (pollKey, userKey) => {
+  return async (dispatch) => {
+    try {
+      const userRef = await db.collection('users').doc(userKey)
+      userRef.update({
+        answered: firebase.firestore.FieldValue.arrayUnion(pollKey),
+      })
+      dispatch(updateAnswered(pollKey))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
 
 export default function (state = defaultUser, action) {
   switch (action.type) {
@@ -80,6 +98,10 @@ export default function (state = defaultUser, action) {
       return action.user
     case REMOVE_USER:
       return defaultUser
+    case UPDATE_ANSWERED: {
+      const newState = [...state.answered, action.pollKey]
+      return {...state, answered: newState}
+    }
     default:
       return state
   }

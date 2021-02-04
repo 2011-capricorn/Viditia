@@ -1,8 +1,10 @@
-import firebase from '../../public/firebase'
-const db = firebase.firestore()
+import firebase from 'firebase'
+import myFirebase from '../../public/firebase'
+const db = myFirebase.firestore()
 
 const ADD_VIDIT = 'ADD_VIDIT'
 const GET_ALL_VIDIT = 'GET_ALL_VIDIT'
+const UPDATE_VIDIT = 'UPDATE_VIDIT'
 
 const getAllVidit = (vidits) => ({
   type: GET_ALL_VIDIT,
@@ -12,6 +14,11 @@ const getAllVidit = (vidits) => ({
 const addVidit = (vidit) => ({
   type: ADD_VIDIT,
   vidit,
+})
+
+const updateVidit = (pollKey) => ({
+  type: UPDATE_VIDIT,
+  pollKey,
 })
 
 export const getAllViditThunk = () => {
@@ -60,6 +67,23 @@ export const addViditThunk = (vidit, userKey) => {
   }
 }
 
+export const updateVoteThunk = (pollKey, answer, userKey) => {
+  return async (dispatch) => {
+    try {
+      const pollRef = await db.collection('polls').doc(pollKey)
+      pollRef.update({
+        answers: firebase.firestore.FieldValue.arrayUnion({
+          answer,
+          userKey,
+        }),
+      })
+      dispatch(updateVidit(pollKey))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
 const defaultState = {
   allVidit: [],
   singleVidit: {pollKey: '', results: []},
@@ -71,6 +95,15 @@ export default (state = defaultState, action) => {
       return {...state, allVidit: action.vidits}
     case ADD_VIDIT:
       return {...state, allVidit: [...state.allVidit, action.vidit]}
+    case UPDATE_VIDIT: {
+      const newState = state.allVidit.map((vidit) => {
+        if (vidit.pollKey === action.pollKey) {
+          vidit.totalVoteCount++
+        }
+        return vidit
+      })
+      return {...state, allVidit: newState}
+    }
     default:
       return state
   }
