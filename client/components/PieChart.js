@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import * as d3 from 'd3'
 import firebase from '../../public/firebase'
+import pieChartColors from './styles/pieChartColors'
 
 import './styles/PieChart.css'
 
@@ -40,10 +41,20 @@ class PieChart extends Component {
     this.chooseFilter = this.chooseFilter.bind(this)
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     db.collection('polls')
       .doc('Jjxs5iWmny5Ox4cvhZPA')
       .onSnapshot((doc) => this.formatData(doc.data().answers))
+    let randomNumber = Math.floor(Math.random() * 11)
+    const one = pieChartColors[randomNumber][0]
+    const two = pieChartColors[randomNumber][1]
+    const three = pieChartColors[randomNumber][2]
+    const four = pieChartColors[randomNumber][3]
+    const five = pieChartColors[randomNumber][4]
+    const six = pieChartColors[randomNumber][5]
+    await this.setState({
+      colors: [d3.rgb(one, two, three), d3.rgb(four, five, six)],
+    })
     this.createMainPieChart()
   }
 
@@ -304,6 +315,20 @@ class PieChart extends Component {
     })
     this.createPieChartA()
     this.createPieChartB()
+
+    const filterChartA = document.getElementById('filterA')
+    const filterChartB = document.getElementById('filterB')
+    const v = document.getElementById('V')
+
+    filterChartA.className = 'filterRideA'
+    filterChartB.className = 'filterRideB'
+    v.className = 'vFlare'
+
+    setTimeout(() => {
+      filterChartA.className = 'filterEndA'
+      filterChartB.className = 'filterEndB'
+      v.className = 'vHidden'
+    }, 2000)
   }
 
   resetFilter() {
@@ -319,7 +344,7 @@ class PieChart extends Component {
   render() {
     return (
       <div id="testChart">
-        <img src="capitalV.png" id="V" />
+        <img src="capitalV.png" id="V" className="vHidden" />
         <div id="mainChart">
           <svg width="400" height="400"></svg>
           <br></br>
@@ -346,19 +371,23 @@ class PieChart extends Component {
             </select>
             <br></br>
             <br></br>
-            <button type="button" onClick={this.handleClick}>
+            <button
+              type="button"
+              onClick={this.handleClick}
+              id="activateFilter"
+            >
               Activate Filter
             </button>
             <br></br>
             <br></br>
-            <button type="button" onClick={this.resetFilter}>
+            <button type="button" onClick={this.resetFilter} id="resetFilter">
               Reset Filter
             </button>
           </div>
         </div>
         <div id="subCharts">
-          <div id="filterA"></div>
-          <div id="filterB"></div>
+          <div id="filterA" className="filterStart"></div>
+          <div id="filterB" className="filterStart"></div>
           {/* <svg id="filterA" className="filterCharts" width="400" height="400"></svg>
           <svg id="filterB" className="filterCharts" width="400" height="400"></svg> */}
         </div>
