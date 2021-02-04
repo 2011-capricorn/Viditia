@@ -13,7 +13,7 @@ import {
 } from '@material-ui/core'
 import {Visibility, VisibilityOff} from '@material-ui/icons'
 
-import {setUser} from '../store/user'
+import {signUpThunk} from '../store/user'
 import firebase from '../../public/firebase'
 import './styles/SignUpForm.css'
 
@@ -59,20 +59,17 @@ const SignUpForm = React.forwardRef(({register}, ref) => {
     )
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    setError('')
+
     if (password !== confirmPassword) {
       setError('Passwords do not match')
-      return
     } else if (checkAnswers()) {
       setError('Please answer all the questions!')
-      return
     }
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then(({user}) => register(user.uid, signUpAnswers))
-      .catch((err) => setError(err.message))
+
+    if (!error) setError(await register(email, password, signUpAnswers))
   }
 
   return (
@@ -146,7 +143,6 @@ const SignUpForm = React.forwardRef(({register}, ref) => {
                     ...signUpAnswers,
                     [question]: e.target.value,
                   })
-                  console.log(signUpAnswers)
                 }}
                 label="Answer"
               >
@@ -170,7 +166,8 @@ const SignUpForm = React.forwardRef(({register}, ref) => {
 })
 
 const mapDispatch = (dispatch) => ({
-  register: (user, answers) => dispatch(setUser(user, answers)),
+  register: (email, password, answers) =>
+    dispatch(signUpThunk(email, password, answers)),
 })
 
 export default connect(null, mapDispatch)(SignUpForm)
