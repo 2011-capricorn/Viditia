@@ -187,38 +187,42 @@ class PieChart extends Component {
   render() {
     return (
       <div id="testChart">
-        <svg width="400" height="400"></svg>
-        <br></br>
-        <br></br>
-        <label htmlFor="filter">Choose a filter</label>
-        <br></br>
-        <select
-          name="filter"
-          id="filterChoice"
-          onChange={this.chooseFilter}
-          defaultValue="Hand"
-        >
-          <option value="Hand">Right or left hand</option>
-          <option value="Season">Summer or winter</option>
-          <option value="Animal">Dog or cat</option>
-          <option value="Drink">Coffee or tea</option>
-          <option value="Scenery">Beach or Mountains</option>
-          <option value="Travel">Do you like to travel</option>
-          <option value="Food">Cheeseburger or hotdog</option>
-          <option value="Artist">Beyonce or Black Sabbath</option>
-          <option value="Boolean">Yes or no</option>
-          <option value="Awake">Early bird or night owl</option>
-        </select>
-        <br></br>
-        <br></br>
-        <button type="button" onClick={this.handleClick}>
-          Activate Filter
-        </button>
-        <br></br>
-        <br></br>
-        <button type="button" onClick={this.resetFilter}>
-          Reset Filter
-        </button>
+        <img src="capitalV.png" id="V" />
+        <div id="mainChart">
+          <svg width="400" height="400"></svg>
+          <br></br>
+          <br></br>
+          <label htmlFor="filter">Choose a filter</label>
+          <br></br>
+          <select
+            name="filter"
+            id="filterChoice"
+            onChange={this.chooseFilter}
+            defaultValue="Hand"
+          >
+            <option value="Hand">Right or left hand</option>
+            <option value="Season">Summer or winter</option>
+            <option value="Animal">Dog or cat</option>
+            <option value="Drink">Coffee or tea</option>
+            <option value="Scenery">Beach or Mountains</option>
+            <option value="Travel">Do you like to travel</option>
+            <option value="Food">Cheeseburger or hotdog</option>
+            <option value="Artist">Beyonce or Black Sabbath</option>
+            <option value="Boolean">Yes or no</option>
+            <option value="Awake">Early bird or night owl</option>
+          </select>
+          <br></br>
+          <br></br>
+          <button type="button" onClick={this.handleClick}>
+            Activate Filter
+          </button>
+          <br></br>
+          <br></br>
+          <button type="button" onClick={this.resetFilter}>
+            Reset Filter
+          </button>
+        </div>
+        <div id="subCharts"></div>
       </div>
     )
   }
