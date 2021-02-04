@@ -1,0 +1,8 @@
+#navBar {
+  display: flex;
+  align-items: center;
+}
+
+#nav {
+  margin-left: 36px;
+}

@@ -1,5 +1,6 @@
 #testChart {
   margin-left: 50px;
+  margin-top: 25px;
   /* background-color: aquamarine; */
   height: 100vh;
   width: 1150px;
@@ -67,7 +68,7 @@
 }
 
 #filterControls {
-  margin: 0px;
+  margin: 75px 0px 0px 0px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -165,4 +166,12 @@
 
 #resetFilter:hover {
   background-color: rgb(238, 53, 53);
+}
+
+.centerWord {
+  font-family: 'Caveat', cursive;
+}
+
+.sliceWord {
+  font-family: 'Montserrat', sans-serif;
 }

@@ -7,27 +7,30 @@ import {Backdrop, Fade, Modal} from '@material-ui/core'
 import SignUpForm from './SignUpForm'
 // import {logout} from '../store'
 
+import './styles/navBar.css'
+
 const Navbar = ({isLoggedIn}) => {
   const [open, setOpen] = useState(false)
 
   return (
     <div>
-      <h1>Viditia</h1>
-      <nav>
-        {isLoggedIn ? (
-          <div>
-            {/* The navbar will show these links after you log in */}
-            <Link to="/home">Home</Link>
-            <Link to="/create">Create Vidit</Link>
-            {/* <a href="#" onClick={handleClick}>
+      <div id="navBar">
+        <h1>Viditia</h1>
+        <nav id="nav">
+          {isLoggedIn ? (
+            <div>
+              {/* The navbar will show these links after you log in */}
+              <Link to="/home">Home</Link>
+              <Link to="/create">Create Vidit</Link>
+              {/* <a href="#" onClick={handleClick}>
             Logout
           </a> */}
-          </div>
-        ) : (
-          <div>
-            {/* The navbar will show these links before you log in */}
-            <Link to="/login">Login</Link>
-            {/* <button type="button" onClick={() => setOpen(true)}>
+            </div>
+          ) : (
+            <div>
+              {/* The navbar will show these links before you log in */}
+              <Link to="/login">Login</Link>
+              {/* <button type="button" onClick={() => setOpen(true)}>
               Sign Up
             </button>
             <Modal
@@ -46,10 +49,11 @@ const Navbar = ({isLoggedIn}) => {
               </Fade>
             </Modal> */}
 
-            <Link to="/signup">Sign Up</Link>
-          </div>
-        )}
-      </nav>
+              <Link to="/signup">Sign Up</Link>
+            </div>
+          )}
+        </nav>
+      </div>
       <hr />
     </div>
   )
