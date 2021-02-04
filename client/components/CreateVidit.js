@@ -1,18 +1,23 @@
 import {
+  Button,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
   TextField,
 } from '@material-ui/core'
-import React from 'react'
-import {useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
+import {connect} from 'react-redux'
 
-export default function CreateVidit() {
+import {addViditThunk} from '../store/vidit'
+
+const CreateVidit = ({addNewVidit}) => {
   const [question, setQuestion] = useState('')
   const [type, setType] = useState('')
   const [min, setMin] = useState(0)
   const [max, setMax] = useState(0)
+  const [dataType, setDataType] = useState('String')
+  const [error, setError] = useState('')
 
   const [choices, setChoices] = useState({})
   useEffect(() => {
@@ -22,20 +27,51 @@ export default function CreateVidit() {
       if (splitType[1] === '2') setChoices({a: '', b: ''})
       if (splitType[1] === '3') setChoices({a: '', b: '', c: ''})
       if (splitType[1] === '4') setChoices({a: '', b: '', c: '', d: ''})
+    } else {
+      setChoices({})
     }
   }, [type])
 
-  console.log('choices -->', choices)
-  console.log('choices keys -->', Object.keys(choices))
+  const checkField = (field, name) => {
+    if (field.length) return false
+    setError(`${name} cannot be empty!`)
+    return true
+  }
 
-  // need a state for range type
-  // min and max? anything else?
+  const checkRange = () => {
+    if (max <= min) {
+      setError('Max cannot be less than min!')
+      return true
+    }
+    return false
+  }
 
-  // console.log('type -->', type)
-  // console.log(type.length ? `split type --> ${type.split(' ')}` : 'No type yet' )
+  const checkChoices = () => {
+    for (let key in choices) {
+      if (choices[key] === '') {
+        setError('Choices cannot be empty!')
+        return true
+      }
+    }
+    return false
+  }
 
-  console.log('min -->', min)
-  console.log('max -->', max)
+  const getReturnValue = () => {
+    const returnValue = {question, type, answers: []}
+    if (type === 'Open') addNewVidit({...returnValue, dataType})
+    else if (type === 'Range') addNewVidit({...returnValue, min, max})
+    else addNewVidit({...returnValue, choices})
+  }
+
+  const handleSubmit = () => {
+    setError('')
+    let errorExists =
+      checkField(question, 'Question') || checkField(type, 'Format')
+    if (type === 'Range') errorExists = checkRange() || errorExists
+    if (type.split(' ')[0] === 'Multiple')
+      errorExists = checkChoices() || errorExists
+    if (!errorExists) getReturnValue()
+  }
 
   return (
     <div>
@@ -62,26 +98,34 @@ export default function CreateVidit() {
           <MenuItem value="Open">Free Response</MenuItem>
         </Select>
       </FormControl>
-      {/* render choice inputs based off number of choices */}
-      {choices !== {} &&
-        Object.keys(choices).map((choice) => (
-          <TextField
-            key={choice}
-            fullWidth={true}
-            required
-            label={choice.toUpperCase()}
-            value={choices[choice]}
-            onChange={(e) => setChoices({...choices, [choice]: e.target.value})}
-          />
-        ))}
+
+      {Object.keys(choices).length !== 0 && (
+        <div>
+          <p>What are the choices?</p>
+          {Object.keys(choices).map((choice) => (
+            <TextField
+              key={choice}
+              fullWidth={true}
+              required
+              label={choice.toUpperCase()}
+              value={choices[choice]}
+              onChange={(e) =>
+                setChoices({...choices, [choice]: e.target.value})
+              }
+            />
+          ))}
+        </div>
+      )}
+
       {type === 'Range' && (
         <div>
+          <p>What is the range?</p>
           <TextField
             fullWidth={true}
             required
             label="min"
             value={min}
-            min={0}
+            InputProps={{inputProps: {min: 0}}}
             type="number"
             onChange={(e) => setMin(e.target.value)}
           />
@@ -90,12 +134,36 @@ export default function CreateVidit() {
             required
             label="max"
             value={max}
-            min={0}
+            InputProps={{inputProps: {min: 0}}}
             type="number"
             onChange={(e) => setMax(e.target.value)}
           />
         </div>
       )}
+      {type === 'Open' && (
+        <div>
+          <FormControl fullWidth={true}>
+            <InputLabel>Data Type:</InputLabel>
+            <Select
+              value={dataType}
+              onChange={(e) => setDataType(e.target.value)}
+            >
+              <MenuItem value="String">String</MenuItem>
+              <MenuItem value="Number">Number</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
+      )}
+      {error.length > 0 && <p>{error}</p>}
+      <Button onClick={handleSubmit} variant="outlined" color="primary">
+        Submit
+      </Button>
     </div>
   )
 }
+
+const mapDispatch = (dispatch) => ({
+  addNewVidit: (vidit) => dispatch(addViditThunk(vidit)),
+})
+
+export default connect(null, mapDispatch)(CreateVidit)
