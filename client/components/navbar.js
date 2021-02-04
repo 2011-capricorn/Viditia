@@ -60,7 +60,7 @@ const Navbar = ({isLoggedIn}) => {
  */
 const mapState = (state) => {
   return {
-    isLoggedIn: !!state.user,
+    isLoggedIn: !!state.user.userKey,
   }
 }
 

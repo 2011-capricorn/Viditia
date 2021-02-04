@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {connect} from 'react-redux'
-import {setUser} from '../store/user'
+import {loginThunk} from '../store/user'
 import firebase from '../../public/firebase'
 
 const LoginForm = ({login}) => {
@@ -8,13 +8,9 @@ const LoginForm = ({login}) => {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(() => login(firebase.auth().currentUser.uid))
-      .catch(() => setError('Invalid email or password'))
+    setError(await login(email, password))
   }
 
   return (
@@ -40,7 +36,7 @@ const LoginForm = ({login}) => {
 }
 
 const mapDispatch = (dispatch) => ({
-  login: (user) => dispatch(setUser(user)),
+  login: (email, password) => dispatch(loginThunk(email, password)),
 })
 
 export default connect(null, mapDispatch)(LoginForm)
