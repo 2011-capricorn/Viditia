@@ -1,0 +1,35 @@
+#chartVoting {
+  position: absolute;
+  margin-left: 50px;
+  height: 100vh;
+  width: 1150px;
+  min-width: 1150px;
+  max-width: 1150px;
+  border-radius: 25px;
+  background-color: rgb(249, 249, 249);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#formDiv {
+  height: 400px;
+  width: 400px;
+  border-radius: 15px;
+  background-color: rgb(225, 225, 225);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#submitBtn {
+  margin: 0px;
+}

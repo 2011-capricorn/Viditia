@@ -7,6 +7,7 @@ import {getUser} from './store/user'
 import SignUpVidit from './components/SignUpVidit'
 import SurveyInput from './components/SurveyInput'
 import singleVidit from './components/singleVidit'
+import ChartVoting from './components/ChartVoting'
 
 class Routes extends Component {
   componentDidMount() {
@@ -24,6 +25,7 @@ class Routes extends Component {
         {/* <Route path="/test" component={SignUpVidit} /> */}
         {/* <Route path="/seed" component={SurveyInput} /> */}
         <Route path="/vidit" component={singleVidit} />
+        <Route path="/chartVoting" component={ChartVoting} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
