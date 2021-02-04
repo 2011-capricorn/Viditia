@@ -32,6 +32,7 @@ class PieChart extends Component {
       users: [],
       doc: [],
       filter: 'Hand',
+      filterActive: false,
     }
     this.createMainPieChart = this.createMainPieChart.bind(this)
     this.createPieChartA = this.createPieChartA.bind(this)
@@ -45,7 +46,7 @@ class PieChart extends Component {
     db.collection('polls')
       .doc('Jjxs5iWmny5Ox4cvhZPA')
       .onSnapshot((doc) => this.formatData(doc.data().answers))
-    let randomNumber = Math.floor(Math.random() * 11)
+    let randomNumber = Math.floor(Math.random() * 12)
     const one = pieChartColors[randomNumber][0]
     const two = pieChartColors[randomNumber][1]
     const three = pieChartColors[randomNumber][2]
@@ -94,7 +95,7 @@ class PieChart extends Component {
 
   async chooseFilter(e) {
     let filter = e.target.value
-    this.setState({
+    await this.setState({
       filter: filter,
     })
   }
@@ -145,11 +146,23 @@ class PieChart extends Component {
         return `translate(${label.centroid(d)})`
       })
       .attr('text-anchor', 'middle')
+      .attr('class', `sliceWord`)
       .text((d) => d.data.name)
   }
 
   createPieChartA() {
     const data = this.state.chartDataA
+    const filterWord = filterAB[this.state.filter][0]
+
+    data[0].name = data[0].name
+      .split(' ')
+      .filter((word) => !filterWord.includes(word))
+      .join(' ')
+    data[1].name = data[1].name
+      .split(' ')
+      .filter((word) => !filterWord.includes(word))
+      .join(' ')
+
     const svgWidth = 400
     const svgHeight = 400
 
@@ -202,11 +215,30 @@ class PieChart extends Component {
         return `translate(${label.centroid(d)})`
       })
       .attr('text-anchor', 'middle')
+      .attr('class', `sliceWord`)
       .text((d) => d.data.name)
+
+    g.append('text')
+      .attr('text-anchor', 'middle')
+      .attr('font-size', '30px')
+      .attr('class', `centerWord`)
+      .text(filterWord)
   }
 
   createPieChartB() {
     const data = this.state.chartDataB
+
+    const filterWord = filterAB[this.state.filter][1]
+
+    data[0].name = data[0].name
+      .split(' ')
+      .filter((word) => !filterWord.includes(word))
+      .join(' ')
+    data[1].name = data[1].name
+      .split(' ')
+      .filter((word) => !filterWord.includes(word))
+      .join(' ')
+
     const svgWidth = 400
     const svgHeight = 400
 
@@ -259,10 +291,20 @@ class PieChart extends Component {
         return `translate(${label.centroid(d)})`
       })
       .attr('text-anchor', 'middle')
+      .attr('class', `sliceWord`)
       .text((d) => d.data.name)
+
+    g.append('text')
+      .attr('text-anchor', 'middle')
+      .attr('font-size', '30px')
+      .attr('class', `centerWord`)
+      .text(filterWord)
   }
 
   async handleClick() {
+    if (this.state.filterActive) {
+      this.resetFilter()
+    }
     const filterChoice = this.state.filter
     const users = await Promise.all(
       this.state.users.map(async (user) => {
@@ -312,6 +354,7 @@ class PieChart extends Component {
     await this.setState({
       chartDataA: splitResultA,
       chartDataB: splitResultB,
+      filterActive: true,
     })
     this.createPieChartA()
     this.createPieChartB()
@@ -336,6 +379,7 @@ class PieChart extends Component {
     this.setState({
       chartDataA: reset,
       chartDataB: reset,
+      filterActive: false,
     })
     d3.select('#svgA').remove()
     d3.select('#svgB').remove()
