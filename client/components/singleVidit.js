@@ -1,7 +1,7 @@
 import React from 'react'
 import BarChart from './BarChart'
 import PieChart from './PieChart'
-
+import ChartVoting from './ChartVoting'
 import firebase from '../../public/firebase'
 import './styles/SingleVidit.css'
 
@@ -15,6 +15,7 @@ const singleVidit = () => {
   return (
     <div>
       <h1 id="title">Single Vidit</h1>
+      <ChartVoting />
       {/* <BarChart data={[2, 4, 6, 8]} size={[500, 500]} /> */}
       <PieChart size={[500, 500]} />
     </div>
