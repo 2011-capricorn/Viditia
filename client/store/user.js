@@ -5,7 +5,7 @@ const GET_USER = 'GET_USER'
 const SET_USER = 'SET_USER'
 const REMOVE_USER = 'REMOVE_USER'
 
-const defaultUser = ''
+const defaultUser = '1jutcIgg2HfsoM9guXROzzuq3c62'
 
 export const getUser = () => {
   if (firebase.auth().currentUser)
