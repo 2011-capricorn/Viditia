@@ -4,6 +4,7 @@ import {withRouter, Route, Switch} from 'react-router-dom'
 
 import {LoginForm, SignUpForm, UserHome, CreateVidit} from './components'
 import {getUserThunk} from './store/user'
+import {getAllViditThunk} from './store/vidit'
 import SignUpVidit from './components/SignUpVidit'
 import SurveyInput from './components/SurveyInput'
 import singleVidit from './components/singleVidit'
@@ -11,6 +12,7 @@ import singleVidit from './components/singleVidit'
 class Routes extends Component {
   componentDidMount() {
     this.props.getUser()
+    this.props.getVidits()
   }
 
   render() {
@@ -42,7 +44,10 @@ const mapState = (state) => ({
   isLoggedIn: !!state.user.userKey,
 })
 
-const mapDispatch = (dispatch) => ({getUser: () => dispatch(getUserThunk())})
+const mapDispatch = (dispatch) => ({
+  getUser: () => dispatch(getUserThunk()),
+  getVidits: () => dispatch(getAllViditThunk()),
+})
 
 // The `withRouter` wrapper makes sure that updates are not blocked
 // when the url changes
