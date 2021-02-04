@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 
-import {LoginForm, SignUpForm, UserHome} from './components'
+import {LoginForm, SignUpForm, UserHome, CreateVidit} from './components'
 import {getUser} from './store/user'
 import SignUpVidit from './components/SignUpVidit'
 import SurveyInput from './components/SurveyInput'
@@ -28,6 +28,7 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
+            <Route path="/create" component={CreateVidit} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
