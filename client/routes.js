@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 
 import {LoginForm, SignUpForm, UserHome, CreateVidit} from './components'
-import {getUser} from './store/user'
+import {getUserThunk} from './store/user'
 import SignUpVidit from './components/SignUpVidit'
 import SurveyInput from './components/SurveyInput'
 import singleVidit from './components/singleVidit'
@@ -39,11 +39,10 @@ class Routes extends Component {
 }
 
 const mapState = (state) => ({
-  isLoggedIn: !!state.user,
-  user: state.user,
+  isLoggedIn: !!state.user.userKey,
 })
 
-const mapDispatch = (dispatch) => ({getUser: () => dispatch(getUser)})
+const mapDispatch = (dispatch) => ({getUser: () => dispatch(getUserThunk())})
 
 // The `withRouter` wrapper makes sure that updates are not blocked
 // when the url changes
