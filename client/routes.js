@@ -17,6 +17,7 @@ import {getAllViditThunk} from './store/vidit'
 import SignUpVidit from './components/SignUpVidit'
 import SurveyInput from './components/SurveyInput'
 import ErrorPage from './components/ErrorPage'
+import LoadingScreen from './components/LoadingScreen'
 
 class Routes extends Component {
   componentDidMount() {
@@ -31,6 +32,7 @@ class Routes extends Component {
       <Switch>
         <Route exact path="/" component={AllVidits} />
         <Route exact path="/vidits" component={AllVidits} />
+        <Route path="/loading" component={LoadingScreen} />
         <Route path="/feedback" component={Feedback} />
         <Route path="/login" component={LoginForm} />
         <Route path="/signup" component={SignUpForm} />

@@ -367,12 +367,6 @@ class PieChart extends Component {
     filterChartA.className = 'filterRideA'
     filterChartB.className = 'filterRideB'
     v.className = 'vFlare'
-
-    setTimeout(() => {
-      filterChartA.className = 'filterEndA'
-      filterChartB.className = 'filterEndB'
-      v.className = 'vHidden'
-    }, 2000)
   }
 
   resetFilter() {
@@ -384,6 +378,12 @@ class PieChart extends Component {
     })
     d3.select('#svgA').remove()
     d3.select('#svgB').remove()
+    const filterChartA = document.getElementById('filterA')
+    const filterChartB = document.getElementById('filterB')
+    const v = document.getElementById('V')
+    filterChartA.className = 'filterStart'
+    filterChartB.className = 'filterStart'
+    v.className = 'vHidden'
   }
 
   render() {
@@ -392,7 +392,11 @@ class PieChart extends Component {
       <div id="testChart">
         <img src="/capitalV.png" id="V" className="vHidden" />
         <div id="mainChart">
-          <svg id="mainChartSVG" width="400" height="400"></svg>
+
+          <svg width="400" height="400" id="mainChartSVG"></svg>
+
+          
+
           <br></br>
           <br></br>
           <div id="filterControls">

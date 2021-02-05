@@ -22,7 +22,9 @@ const SingleVidit = (props) => {
     <div>
       <h1 id="title">Single Vidit</h1>
       {!userAnswered && <ChartVoting pollKey={data.pollKey} />}
-      {userAnswered && data.type === 'Multiple' && <PieChart pollKey={id} />}
+
+      {data.type === 'Multiple' && <PieChart size={[500, 500]} pollKey={id} />}
+
       {/* userAnswered && data.type !== 'Multiple' && <BarChart data={[2, 4, 6, 8]} size={[500, 500]} /> */}
     </div>
   ) : (

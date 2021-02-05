@@ -36,14 +36,24 @@ class ChartVoting extends Component {
     ).data()
 
     this.setState({question, choices, type, loading: false})
+    const voteBtn = document.getElementById('submitBtn')
+    voteBtn.disabled = false
   }
 
   handleSubmit(e) {
     e.preventDefault()
+
+    const thankYou = document.getElementById('thankYou')
+    const mainDiv = document.getElementById('chartVoting')
+    const voteBtn = document.getElementById('submitBtn')
+    thankYou.className = 'tyReveal'
+    mainDiv.className = 'chartVotingFade'
+    voteBtn.className = 'submitBtnHidden'
+    voteBtn.disabled = true
     const {pollKey, userKey, updateViditStore, updateUserStore} = this.props
     const {answer} = this.state
-    updateViditStore(pollKey, answer, userKey)
-    updateUserStore(pollKey, userKey)
+    setTimeout(() => updateViditStore(pollKey, answer, userKey), 3100)
+    setTimeout(() => updateUserStore(pollKey, userKey), 3100)
   }
 
   async handleChange(e) {
@@ -60,7 +70,9 @@ class ChartVoting extends Component {
       <div id="chartVoting" className="visable">
         <div id="formDiv">
           <form id="form" onSubmit={this.handleSubmit}>
-            <label htmlFor=" Question at hand">{question}</label>
+            <label id="question" htmlFor=" Question at hand">
+              {question}
+            </label>
             {type === 'Multiple' &&
               Object.keys(choices).map((choice) => (
                 <div key={choice}>
@@ -70,8 +82,11 @@ class ChartVoting extends Component {
                     value={choices[choice]}
                     onChange={this.handleChange}
                     checked={answer === choices[choice]}
+                    className="radioButton"
                   />
-                  <label htmlFor={pollKey}>{choices[choice]}</label>
+                  <label htmlFor={pollKey} className="radioLabel">
+                    {choices[choice]}
+                  </label>
                 </div>
               ))}
             {type === 'Range' && <div>Range questions</div>}
@@ -83,6 +98,9 @@ class ChartVoting extends Component {
             <button id="submitBtn" type="submit">
               VOTE
             </button>
+            <h3 id="thankYou" className="tyHidden">
+              Thank you for voting!
+            </h3>
           </form>
         </div>
       </div>

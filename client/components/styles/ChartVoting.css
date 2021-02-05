@@ -1,17 +1,35 @@
 #chartVoting {
   position: absolute;
   margin-left: 50px;
+  /* margin-top: 25px; */
   height: 100vh;
   width: 1150px;
   min-width: 1150px;
   max-width: 1150px;
   border-radius: 25px;
-  background-color: rgb(249, 249, 249);
+  background-color: rgba(249, 249, 249);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
+
+@keyframes fade {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.chartVotingFade {
+  animation-name: fade;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  animation-delay: 1s;
+}
+
 #formDiv {
   height: 400px;
   width: 400px;
@@ -32,4 +50,64 @@
 
 #submitBtn {
   margin: 0px;
+  border-radius: 15px;
+  height: 36px;
+  width: 100px;
+  background-image: linear-gradient(to bottom, #c69400 0%, #f9bb00 100%);
+  transition-duration: 0.2s;
+  font-family: 'Montserrat', sans-serif;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 5px;
+}
+
+.submitBtnHidden {
+  visibility: hidden;
+}
+
+#submitBtn:hover {
+  transform: scale(1.1);
+}
+
+#question {
+  margin: 15px;
+  font-size: 25px;
+  text-align: center;
+  font-family: 'Oswald', sans-serif;
+}
+
+.radioButton {
+  margin-top: 15px;
+}
+
+.radioLabel {
+  margin-left: 10px;
+  margin-top: 15px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.tyHidden {
+  font-family: 'Oswald', sans-serif;
+  font-size: 20px;
+  margin-top: 36px;
+  opacity: 0;
+}
+
+@keyframes show {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.tyReveal {
+  font-family: 'Oswald', sans-serif;
+  font-size: 20px;
+  margin-top: 36px;
+  opacity: 1;
+  animation-name: show;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
 }
