@@ -10,7 +10,7 @@ const LoginForm = ({login, history}) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError(await login(email, password))
-    if (!error) history.push('/login')
+    if (!error) history.push('/home')
   }
 
   return (
