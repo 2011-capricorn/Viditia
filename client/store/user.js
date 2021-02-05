@@ -15,6 +15,7 @@ const defaultUser = {
 }
 
 export const setUser = (user) => ({type: SET_USER, user})
+export const removeUser = () => ({type: REMOVE_USER})
 const updateAnswered = (pollKey) => ({type: UPDATE_ANSWERED, pollKey})
 
 export const getUserThunk = () => {
@@ -75,8 +76,6 @@ export const signUpThunk = (email, password, signUpAnswers) => {
     }
   }
 }
-
-const removeUser = () => ({type: REMOVE_USER})
 
 export const updateAnsweredThunk = (pollKey, userKey) => {
   return async (dispatch) => {
