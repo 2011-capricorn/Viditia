@@ -39,7 +39,7 @@ class ChartVoting extends Component {
     ).data()
 
     this.setState({question, choices, type, loading: false})
-    const voteBtn = document.getElementById('submitBtn')
+    const voteBtn = document.getElementById('submitBtnVote')
     voteBtn.disabled = false
   }
 
@@ -48,10 +48,10 @@ class ChartVoting extends Component {
 
     const thankYou = document.getElementById('thankYou')
     const mainDiv = document.getElementById('chartVoting')
-    const voteBtn = document.getElementById('submitBtn')
+    const voteBtn = document.getElementById('submitBtnVote')
     thankYou.className = 'tyReveal'
     mainDiv.className = 'chartVotingFade'
-    voteBtn.className = 'submitBtnHidden'
+    voteBtn.className = 'submitBtnVoteHidden'
     voteBtn.disabled = true
     const {pollKey, userKey, updateViditStore, updateUserStore} = this.props
     const {answer} = this.state
@@ -71,9 +71,9 @@ class ChartVoting extends Component {
 
     return !loading ? (
       <div id="chartVoting" className="visable">
-        <div id="formDiv">
-          <form id="form" onSubmit={this.handleSubmit}>
-            <label id="question" htmlFor=" Question at hand">
+        <div id="formDivVote">
+          <form id="formVote" onSubmit={this.handleSubmit}>
+            <label id="votequestion" htmlFor=" Question at hand">
               {question}
             </label>
             {type === 'Multiple' &&
@@ -85,9 +85,9 @@ class ChartVoting extends Component {
                     value={choices[choice]}
                     onChange={this.handleChange}
                     checked={answer === choices[choice]}
-                    className="radioButton"
+                    className="radioButtonVote"
                   />
-                  <label htmlFor={pollKey} className="radioLabel">
+                  <label htmlFor={pollKey} className="radioLabelVote">
                     {choices[choice]}
                   </label>
                 </div>
@@ -98,7 +98,7 @@ class ChartVoting extends Component {
             <br />
             <br />
             <br />
-            <button id="submitBtn" type="submit">
+            <button id="submitBtnVote" type="submit">
               VOTE
             </button>
             <h3 id="thankYou" className="tyHidden">

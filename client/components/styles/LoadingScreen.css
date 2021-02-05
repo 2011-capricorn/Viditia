@@ -1,7 +1,7 @@
-#master {
+#masterLoading {
   width: 250px;
   height: 250px;
-  margin: 25px 75px 75px 75px;
+  margin: 25px 0px 0px 0px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,7 +20,7 @@
   }
 }
 
-.dcredblue {
+.dcredblueloading {
   width: 50px;
   height: auto;
   z-index: 5;
@@ -47,7 +47,7 @@
   }
 }
 
-.dcyellowpink {
+.dcyellowpinkloading {
   width: 50px;
   height: auto;
   position: absolute;
@@ -74,7 +74,7 @@
   }
 }
 
-.dcgreenpurple {
+.dcgreenpurpleloading {
   width: 50px;
   height: auto;
   position: absolute;
@@ -98,7 +98,7 @@
   }
 }
 
-.v {
+.vloading {
   height: 200px;
   width: auto;
   z-index: 0;
@@ -123,18 +123,25 @@
   }
 }
 
-#loading {
-  margin-left: 150px;
+#loadingtitle {
+  margin: 0px;
   font-family: 'Caveat', cursive;
   animation-name: loading;
   animation-duration: 2.5s;
   animation-iteration-count: infinite;
+  text-align: center;
 }
 
-#full {
+#fullloading {
   width: 95vw;
   height: 95vh;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#middleloading {
   flex-direction: column;
   align-items: center;
   justify-content: center;

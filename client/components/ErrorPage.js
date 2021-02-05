@@ -5,8 +5,8 @@ import './styles/ErrorPage.css'
 class ErrorPage extends Component {
   render() {
     return (
-      <div id="master">
-        <h1 id="title">404 Page Not Found!</h1>
+      <div id="masterError">
+        <h1 id="errortitle">404 Page Not Found!</h1>
         <iframe
           src="https://giphy.com/embed/3rgXByB0tbT7oXK7Xq"
           width="480"

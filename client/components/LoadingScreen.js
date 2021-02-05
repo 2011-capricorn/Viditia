@@ -4,14 +4,14 @@ import './styles/LoadingScreen.css'
 
 const LoadingScreen = (props) => {
   return (
-    <div id="full">
-      <div>
-        <h1 id="loading">Loading...</h1>
-        <div id="master">
-          <img src="/dummyPieChart.png" className="dcredblue" />
-          <img src="/capitalV.png" className="v" />
-          <img src="/donutGreenPurple.png" className="dcgreenpurple" />
-          <img src="/donutYellowPink.png" className="dcyellowpink" />
+    <div id="fullloading">
+      <div id="middleloading">
+        <h1 id="loadingtitle">Loading...</h1>
+        <div id="masterLoading">
+          <img src="/dummyPieChart.png" className="dcredblueloading" />
+          <img src="/capitalV.png" className="vloading" />
+          <img src="/donutGreenPurple.png" className="dcgreenpurpleloading" />
+          <img src="/donutYellowPink.png" className="dcyellowpinkloading" />
         </div>
       </div>
     </div>
