@@ -12,11 +12,3 @@ https://viditia-cf976.web.app/
 2.  Back-end: Node, Express, Socket.io
 3.  Database: FireBase
 4.  Testing: Mocha
-
-## Getting Started ✔️
-
-1. Fork and clone this repo
-2. `npm install`
-3. Read the rest of this `README.md` for additional information
-4. Create a database `createdb Viditia`
-5. Start your application with: `npm run start-dev`
