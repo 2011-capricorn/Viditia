@@ -44,7 +44,7 @@ class PieChart extends Component {
 
   async componentDidMount() {
     db.collection('polls')
-      .doc('Jjxs5iWmny5Ox4cvhZPA')
+      .doc(this.props.pollKey)
       .onSnapshot((doc) => this.formatData(doc.data().answers))
     let randomNumber = Math.floor(Math.random() * 12)
     const one = pieChartColors[randomNumber][0]
@@ -103,7 +103,7 @@ class PieChart extends Component {
   createMainPieChart() {
     const data = this.state.chartData
 
-    const svg = d3.select('svg'),
+    const svg = d3.select('#mainChartSVG'),
       width = svg.attr('width'),
       height = svg.attr('height')
 
@@ -388,9 +388,9 @@ class PieChart extends Component {
   render() {
     return (
       <div id="testChart">
-        <img src="capitalV.png" id="V" className="vHidden" />
+        <img src="/capitalV.png" id="V" className="vHidden" />
         <div id="mainChart">
-          <svg width="400" height="400"></svg>
+          <svg id="mainChartSVG" width="400" height="400"></svg>
           <br></br>
           <br></br>
           <div id="filterControls">

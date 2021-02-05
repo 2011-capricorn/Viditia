@@ -40,7 +40,6 @@ class Routes extends Component {
           <Switch>
             <Route path="/create" component={CreateVidit} />
             <Route path="/vidit/:id" component={SingleVidit} />
-            <Route path="/chartVoting" component={ChartVoting} />
           </Switch>
         )}
         <Route component={UserHome} />
