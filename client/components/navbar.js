@@ -16,6 +16,7 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import VpnKeyIcon from '@material-ui/icons/VpnKey'
+import FeedbackIcon from '@material-ui/icons/Feedback'
 
 import {removeUser} from '../store/user'
 import './styles/navBar.css'
@@ -54,6 +55,17 @@ const Navbar = ({isLoggedIn, logout}) => {
                 </ListItem>
               </Link>
             ))}
+            <Link
+              to="/feedback"
+              style={{textDecoration: 'none', color: 'black'}}
+            >
+              <ListItem button onClick={() => setOpen(false)}>
+                <ListItemIcon>
+                  <FeedbackIcon />
+                </ListItemIcon>
+                <ListItemText primary="Feedback" />
+              </ListItem>
+            </Link>
           </List>
           <br />
           <br />

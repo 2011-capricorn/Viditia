@@ -10,6 +10,7 @@ import {
   SingleVidit,
   ChartVoting,
   AllVidits,
+  Feedback,
 } from './components'
 import {getUserThunk} from './store/user'
 import {getAllViditThunk} from './store/vidit'
@@ -28,6 +29,7 @@ class Routes extends Component {
     return (
       <Switch>
         <Route exact path="/vidits" component={AllVidits} />
+        <Route path="/feedback" component={Feedback} />
         <Route path="/login" component={LoginForm} />
         <Route path="/signup" component={SignUpForm} />
         {/* <Route path="/test" component={SignUpVidit} /> */}
