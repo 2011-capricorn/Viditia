@@ -29,6 +29,7 @@ class Routes extends Component {
 
     return (
       <Switch>
+        <Route exact path="/" component={AllVidits} />
         <Route exact path="/vidits" component={AllVidits} />
         <Route path="/feedback" component={Feedback} />
         <Route path="/login" component={LoginForm} />
@@ -42,7 +43,7 @@ class Routes extends Component {
             <Route path="/vidit/:id" component={SingleVidit} />
           </Switch>
         )}
-        <Route component={UserHome} />
+        <Route path="/home" component={UserHome} />
       </Switch>
     )
   }
