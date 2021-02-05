@@ -1,0 +1,141 @@
+#master {
+  width: 250px;
+  height: 250px;
+  margin: 25px 75px 75px 75px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+@keyframes main {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.dcredblue {
+  width: 50px;
+  height: auto;
+  z-index: 5;
+  animation-name: main;
+  animation-duration: 2.5s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes left {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  80% {
+    margin-top: -200px;
+    margin-left: -75px;
+  }
+  100% {
+    opacity: 0;
+    margin-top: -200px;
+    margin-left: -75px;
+  }
+}
+
+.dcyellowpink {
+  width: 50px;
+  height: auto;
+  position: absolute;
+  animation-name: left;
+  animation-duration: 2.5s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes right {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  80% {
+    margin-top: -200px;
+    margin-left: 75px;
+  }
+  100% {
+    opacity: 0;
+    margin-top: -200px;
+    margin-left: 75px;
+  }
+}
+
+.dcgreenpurple {
+  width: 50px;
+  height: auto;
+  position: absolute;
+  animation-name: right;
+  animation-duration: 2.5s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes flare {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.1;
+  }
+  75% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.v {
+  height: 200px;
+  width: auto;
+  z-index: 0;
+  position: absolute;
+  opacity: 0.5;
+  transform: rotate(180deg);
+  margin-top: -25px;
+  animation-name: flare;
+  animation-duration: 2.5s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes loading {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+#loading {
+  margin-left: 150px;
+  font-family: 'Caveat', cursive;
+  animation-name: loading;
+  animation-duration: 2.5s;
+  animation-iteration-count: infinite;
+}
+
+#full {
+  width: 95vw;
+  height: 95vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
