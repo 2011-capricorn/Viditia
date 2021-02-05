@@ -1,11 +1,10 @@
 import React, {Component} from 'react'
-import firebase from '../../public/firebase'
-import {getAllViditThunk} from '../store/vidit.js'
 import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
 
 import './styles/AllVidits.css'
-
-import {connect} from 'react-redux'
+import firebase from '../../public/firebase'
+import {getAllViditThunk} from '../store/vidit.js'
 
 const db = firebase.firestore()
 

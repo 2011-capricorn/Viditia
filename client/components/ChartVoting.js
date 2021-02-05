@@ -1,11 +1,10 @@
 import React, {Component} from 'react'
-import * as d3 from 'd3'
-import firebase from '../../public/firebase'
+import {connect} from 'react-redux'
 
 import './styles/ChartVoting.css'
-import {connect} from 'react-redux'
 import {updateVoteThunk} from '../store/vidit'
 import {updateAnsweredThunk} from '../store/user'
+import firebase from '../../public/firebase'
 const db = firebase.firestore()
 //FUNCTIONS
 //HandleSubmit

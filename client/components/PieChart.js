@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import * as d3 from 'd3'
-import firebase from '../../public/firebase'
-import pieChartColors from './styles/pieChartColors'
 
 import './styles/PieChart.css'
+import pieChartColors from './styles/pieChartColors'
+import firebase from '../../public/firebase'
 
 const db = firebase.firestore()
 
@@ -44,6 +44,7 @@ class PieChart extends Component {
 
   async componentDidMount() {
     db.collection('polls')
+      // .doc(this.props.pollKey)
       .doc('Jjxs5iWmny5Ox4cvhZPA')
       .onSnapshot((doc) => this.formatData(doc.data().answers))
     let randomNumber = Math.floor(Math.random() * 12)
@@ -102,6 +103,7 @@ class PieChart extends Component {
 
   createMainPieChart() {
     const data = this.state.chartData
+    console.log(11111, data)
 
     const svg = d3.select('svg'),
       width = svg.attr('width'),
@@ -386,9 +388,10 @@ class PieChart extends Component {
   }
 
   render() {
+    console.log('id in PieChart -->', this.props.pollKey)
     return (
       <div id="testChart">
-        <img src="capitalV.png" id="V" className="vHidden" />
+        <img src="/capitalV.png" id="V" className="vHidden" />
         <div id="mainChart">
           <svg width="400" height="400"></svg>
           <br></br>
