@@ -1,12 +1,11 @@
 import React from 'react'
+import {connect} from 'react-redux'
+
 import BarChart from './BarChart'
 import PieChart from './PieChart'
 import ChartVoting from './ChartVoting'
-import firebase from '../../public/firebase'
 import './styles/SingleVidit.css'
-
-import {connect} from 'react-redux'
-
+import firebase from '../../public/firebase'
 const db = firebase.firestore()
 
 // db.collection('users')
@@ -23,7 +22,9 @@ const SingleVidit = (props) => {
     <div>
       <h1 id="title">Single Vidit</h1>
       {!userAnswered && <ChartVoting pollKey={data.pollKey} />}
-      {data.type === 'Multiple' && <PieChart size={[500, 500]} />}
+
+      {data.type === 'Multiple' && <PieChart size={[500, 500]} pollKey={id} />}
+
       {/* userAnswered && data.type !== 'Multiple' && <BarChart data={[2, 4, 6, 8]} size={[500, 500]} /> */}
     </div>
   ) : (

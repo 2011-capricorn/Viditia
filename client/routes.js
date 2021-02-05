@@ -30,6 +30,7 @@ class Routes extends Component {
 
     return (
       <Switch>
+        <Route exact path="/" component={AllVidits} />
         <Route exact path="/vidits" component={AllVidits} />
         <Route path="/loading" component={LoadingScreen} />
         <Route path="/feedback" component={Feedback} />
@@ -42,10 +43,9 @@ class Routes extends Component {
           <Switch>
             <Route path="/create" component={CreateVidit} />
             <Route path="/vidit/:id" component={SingleVidit} />
-            <Route path="/chartVoting" component={ChartVoting} />
           </Switch>
         )}
-        <Route component={UserHome} />
+        <Route path="/home" component={UserHome} />
       </Switch>
     )
   }

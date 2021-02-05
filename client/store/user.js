@@ -60,6 +60,31 @@ export const loginThunk = (email, password) => {
   }
 }
 
+export const oauthLoginThunk = (type) => {
+  return async (dispatch) => {
+    try {
+      let provider
+      if (type === 'Google') provider = new firebase.auth.GoogleAuthProvider()
+      if (type === 'Facebook')
+        provider = new firebase.auth.FacebookAuthProvider()
+      if (type === 'Github') provider = new firebase.auth.GithubAuthProvider()
+
+      const {
+        user: {uid},
+      } = await firebase.auth().signInWithPopup(provider)
+      try {
+        const user = db.collection('users').doc(uid).get()
+        if (user.exists) console.log(user)
+        else db.collection('users').doc()
+      } catch (error) {
+        dispatch(setUser({userKey: uid, answered: [], created: []}))
+      }
+    } catch (error) {
+      return 'Something went wrong'
+    }
+  }
+}
+
 export const signUpThunk = (email, password, signUpAnswers) => {
   return async (dispatch) => {
     try {

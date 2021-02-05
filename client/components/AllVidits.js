@@ -1,11 +1,10 @@
 import React, {Component} from 'react'
-import firebase from '../../public/firebase'
-import {getAllViditThunk} from '../store/vidit.js'
 import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
 
 import './styles/AllVidits.css'
-
-import {connect} from 'react-redux'
+import firebase from '../../public/firebase'
+import {getAllViditThunk} from '../store/vidit.js'
 
 const db = firebase.firestore()
 
@@ -25,20 +24,30 @@ class AllVidits extends Component {
       <div id="allViditContainer">
         {allVidit.map((vidit) => (
           <div key={vidit.pollKey} className="singleVidit">
-            <Link className="viditQuestion" to={`/vidit/${vidit.pollKey}`}>
-              {vidit.question}
-            </Link>
+            {vidit.type === 'Multiple' ? (
+              <Link className="viditQuestion" to={`/vidit/${vidit.pollKey}`}>
+                {vidit.question}
+              </Link>
+            ) : vidit.type === 'Range' ? (
+              <Link className="viditQuestion" to="/error">
+                {vidit.question}
+              </Link>
+            ) : (
+              <Link className="viditQuestion" to="/error">
+                {vidit.question}
+              </Link>
+            )}
             <h6 className="viditVoteCount">{vidit.totalVoteCount} Votes</h6>
             {vidit.type === 'Multiple' ? (
               <Link to={`/vidit/${vidit.pollKey}`}>
                 <img src="dummyPieChart.png" className="pieChartImg" />
               </Link>
             ) : vidit.type === 'Range' ? (
-              <Link to={`/vidit/${vidit.pollKey}`}>
+              <Link to="/error">
                 <img src="dummyBarChart.png" className="barChartImg" />
               </Link>
             ) : (
-              <Link to={`/vidit/${vidit.pollKey}`}>
+              <Link to="/error">
                 <img src="dummyLineChart.png" className="lineChartImg" />
               </Link>
             )}
