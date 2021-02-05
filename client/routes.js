@@ -2,14 +2,19 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 
-import {LoginForm, SignUpForm, UserHome, CreateVidit} from './components'
+import {
+  LoginForm,
+  SignUpForm,
+  UserHome,
+  CreateVidit,
+  SingleVidit,
+  ChartVoting,
+  AllVidits,
+} from './components'
 import {getUserThunk} from './store/user'
 import {getAllViditThunk} from './store/vidit'
 import SignUpVidit from './components/SignUpVidit'
 import SurveyInput from './components/SurveyInput'
-import singleVidit from './components/singleVidit'
-import ChartVoting from './components/ChartVoting'
-import AllVidits from './components/AllVidits'
 
 class Routes extends Component {
   componentDidMount() {
@@ -22,24 +27,19 @@ class Routes extends Component {
 
     return (
       <Switch>
-        {/* Routes placed here are available to all visitors */}
-        <Route exact path="/" component={AllVidits} />
+        <Route exact path="/vidits" component={AllVidits} />
         <Route path="/login" component={LoginForm} />
         <Route path="/signup" component={SignUpForm} />
         {/* <Route path="/test" component={SignUpVidit} /> */}
         {/* <Route path="/seed" component={SurveyInput} /> */}
         {isLoggedIn && (
           <Switch>
-            {/* Routes placed here are only available after logging in */}
-            <Route exact path="/" component={AllVidits} />
-            <Route path="/home" component={UserHome} />
             <Route path="/create" component={CreateVidit} />
-            <Route path="/vidit/:id" component={singleVidit} />
+            <Route path="/vidit/:id" component={SingleVidit} />
             <Route path="/chartVoting" component={ChartVoting} />
           </Switch>
         )}
-        {/* Displays our Login component as a fallback */}
-        <Route component={SignUpForm} />
+        <Route component={UserHome} />
       </Switch>
     )
   }

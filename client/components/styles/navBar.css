@@ -1,6 +1,14 @@
-#navBar {
-  display: flex;
-  align-items: center;
+#drawer {
+  width: 250px;
+}
+
+#drawer-header {
+  margin-top: 132px;
+}
+
+.navBar {
+  padding: 0 30px 0 30px;
+  border-bottom: 1px solid black;
 }
 
 #nav {
