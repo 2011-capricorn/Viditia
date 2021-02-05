@@ -37,6 +37,7 @@ class Routes extends Component {
         <Route path="/login" component={LoginForm} />
         <Route path="/signup" component={SignUpForm} />
         <Route path="/error" component={ErrorPage} />
+        {!isLoggedIn && <Route path="/vidit/:id" component={SignUpForm} />}
         {/* <Route path="/test" component={SignUpVidit} /> */}
         {/* <Route path="/seed" component={SurveyInput} /> */}
         {isLoggedIn && (
