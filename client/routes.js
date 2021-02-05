@@ -16,6 +16,7 @@ import {getUserThunk} from './store/user'
 import {getAllViditThunk} from './store/vidit'
 import SignUpVidit from './components/SignUpVidit'
 import SurveyInput from './components/SurveyInput'
+import ErrorPage from './components/ErrorPage'
 
 class Routes extends Component {
   componentDidMount() {
@@ -32,6 +33,7 @@ class Routes extends Component {
         <Route path="/feedback" component={Feedback} />
         <Route path="/login" component={LoginForm} />
         <Route path="/signup" component={SignUpForm} />
+        <Route path="/error" component={ErrorPage} />
         {/* <Route path="/test" component={SignUpVidit} /> */}
         {/* <Route path="/seed" component={SurveyInput} /> */}
         {isLoggedIn && (
