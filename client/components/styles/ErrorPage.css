@@ -5,3 +5,12 @@
 #gif {
   margin: 25px;
 }
+
+#master {
+  width: 90vw;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

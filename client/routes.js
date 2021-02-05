@@ -11,13 +11,13 @@ import {
   ChartVoting,
   AllVidits,
   Feedback,
+  LoadingScreen,
+  ErrorPage,
 } from './components'
 import {getUserThunk} from './store/user'
 import {getAllViditThunk} from './store/vidit'
 import SignUpVidit from './components/SignUpVidit'
 import SurveyInput from './components/SurveyInput'
-import ErrorPage from './components/ErrorPage'
-import LoadingScreen from './components/LoadingScreen'
 
 class Routes extends Component {
   componentDidMount() {

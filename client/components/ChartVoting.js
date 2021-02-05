@@ -6,6 +6,9 @@ import {updateVoteThunk} from '../store/vidit'
 import {updateAnsweredThunk} from '../store/user'
 import firebase from '../../public/firebase'
 const db = firebase.firestore()
+
+import LoadingScreen from './LoadingScreen'
+
 //FUNCTIONS
 //HandleSubmit
 
@@ -105,7 +108,7 @@ class ChartVoting extends Component {
         </div>
       </div>
     ) : (
-      <div>loading</div>
+      <LoadingScreen />
     )
   }
 }

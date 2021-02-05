@@ -6,6 +6,7 @@ import PieChart from './PieChart'
 import ChartVoting from './ChartVoting'
 import './styles/SingleVidit.css'
 import firebase from '../../public/firebase'
+import LoadingScreen from './LoadingScreen'
 const db = firebase.firestore()
 
 // db.collection('users')
@@ -28,7 +29,7 @@ const SingleVidit = (props) => {
       {/* userAnswered && data.type !== 'Multiple' && <BarChart data={[2, 4, 6, 8]} size={[500, 500]} /> */}
     </div>
   ) : (
-    <div>loading</div>
+    <LoadingScreen />
   )
 }
 
