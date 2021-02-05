@@ -1,12 +1,11 @@
 import React from 'react'
+import {connect} from 'react-redux'
+
 import BarChart from './BarChart'
 import PieChart from './PieChart'
 import ChartVoting from './ChartVoting'
-import firebase from '../../public/firebase'
 import './styles/SingleVidit.css'
-
-import {connect} from 'react-redux'
-
+import firebase from '../../public/firebase'
 const db = firebase.firestore()
 
 // db.collection('users')

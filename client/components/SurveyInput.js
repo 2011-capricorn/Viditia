@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 
 import firebase from 'firebase'
 import myFirebase from '../../public/firebase'
-
 const db = myFirebase.firestore()
 
 class SurveyInput extends Component {

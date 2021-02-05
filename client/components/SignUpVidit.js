@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import firebase from '../../public/firebase'
 
+import firebase from '../../public/firebase'
 const db = firebase.firestore()
 
 class SignUpVidit extends Component {
@@ -25,7 +25,6 @@ class SignUpVidit extends Component {
   }
   handleSubmit(e) {
     e.preventDefault()
-    console.log('SUBMIT State --->', this.state)
     const {
       Season,
       Awake,

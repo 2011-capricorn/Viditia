@@ -16,6 +16,14 @@ nav a {
   margin: 1em;
 }
 
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 66%;
+  height: 60%;
+}
+
 .flex {
   display: flex;
 }

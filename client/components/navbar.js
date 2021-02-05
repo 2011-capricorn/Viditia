@@ -18,8 +18,8 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import VpnKeyIcon from '@material-ui/icons/VpnKey'
 import FeedbackIcon from '@material-ui/icons/Feedback'
 
-import {removeUser} from '../store/user'
 import './styles/navBar.css'
+import {removeUser} from '../store/user'
 
 const Navbar = ({isLoggedIn, logout}) => {
   const [open, setOpen] = useState(false)

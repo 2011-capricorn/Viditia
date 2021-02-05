@@ -14,11 +14,10 @@ import {
 import {Visibility, VisibilityOff} from '@material-ui/icons'
 
 import {signUpThunk} from '../store/user'
-import firebase from '../../public/firebase'
 import './styles/SignUpForm.css'
 
 // eslint-disable-next-line react/display-name
-const SignUpForm = React.forwardRef(({register}, ref) => {
+const SignUpForm = ({register, history}) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -70,15 +69,12 @@ const SignUpForm = React.forwardRef(({register}, ref) => {
     }
 
     if (!error) setError(await register(email, password, signUpAnswers))
+    if (!error) history.push('/home')
   }
 
   return (
     <div>
-      <form
-        onSubmit={handleSubmit}
-        className="sign-up-form flex fdc jcc aic"
-        ref={ref}
-      >
+      <form onSubmit={handleSubmit} className="sign-up-form flex fdc jcc aic">
         <TextField
           required
           fullWidth={true}
@@ -163,7 +159,7 @@ const SignUpForm = React.forwardRef(({register}, ref) => {
       </form>
     </div>
   )
-})
+}
 
 const mapDispatch = (dispatch) => ({
   register: (email, password, answers) =>
