@@ -1,0 +1,49 @@
+#allViditContainer {
+  width: 1400px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  background-color: rgb(240, 240, 240);
+  border-radius: 15px;
+  margin: 15px;
+}
+
+.singleVidit {
+  background-color: rgb(206, 206, 206);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+  padding: 15px;
+  max-width: 600px;
+}
+
+.pieChartImg {
+  width: 150px;
+  height: auto;
+}
+
+.barChartImg {
+  margin-top: 20px;
+  width: 200px;
+  height: auto;
+}
+
+.lineChartImg {
+  margin-top: 20px;
+  width: 200px;
+  height: auto;
+}
+
+.viditQuestion {
+  font-size: 18px;
+  text-align: center;
+  line-height: 25px;
+  color: black;
+  font-family: 'Oswald', sans-serif;
+}
+
+.viditVoteCount {
+  font-family: 'Montserrat', sans-serif;
+}

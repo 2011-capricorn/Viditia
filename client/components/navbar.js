@@ -15,14 +15,34 @@ const Navbar = ({isLoggedIn}) => {
   return (
     <div>
       <div id="navBar">
-        <h1>Viditia</h1>
+        <Link to="/" style={{textDecoration: 'none'}}>
+          <h1 id="logo">Viditia</h1>
+        </Link>
         <nav id="nav">
           {isLoggedIn ? (
             <div>
               {/* The navbar will show these links after you log in */}
-              <Link to="/home">Home</Link>
-              <Link to="/create">Create Vidit</Link>
-              <Link to="/vidit/1IygiR99g2pTTpd7kqqF">Vote</Link>
+              <Link
+                to="/home"
+                className="navItem"
+                style={{textDecoration: 'none'}}
+              >
+                Home
+              </Link>
+              <Link
+                to="/create"
+                className="navItem"
+                style={{textDecoration: 'none'}}
+              >
+                Create Vidit
+              </Link>
+              <Link
+                to="/vidit/1IygiR99g2pTTpd7kqqF"
+                className="navItem"
+                style={{textDecoration: 'none'}}
+              >
+                Vote
+              </Link>
               {/* <a href="#" onClick={handleClick}>
             Logout
           </a> */}
@@ -30,7 +50,13 @@ const Navbar = ({isLoggedIn}) => {
           ) : (
             <div>
               {/* The navbar will show these links before you log in */}
-              <Link to="/login">Login</Link>
+              <Link
+                to="/login"
+                className="navItem"
+                style={{textDecoration: 'none'}}
+              >
+                Login
+              </Link>
               {/* <button type="button" onClick={() => setOpen(true)}>
               Sign Up
             </button>
@@ -50,7 +76,9 @@ const Navbar = ({isLoggedIn}) => {
               </Fade>
             </Modal> */}
 
-              <Link to="/signup">Sign Up</Link>
+              <Link to="/signup" className="navItem">
+                Sign Up
+              </Link>
             </div>
           )}
         </nav>
