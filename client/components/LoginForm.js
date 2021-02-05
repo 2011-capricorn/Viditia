@@ -1,4 +1,14 @@
-import {Button, Divider, TextField} from '@material-ui/core'
+import {
+  Button,
+  Divider,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  TextField,
+} from '@material-ui/core'
+import {Visibility, VisibilityOff} from '@material-ui/icons'
 import React, {useState} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
@@ -9,6 +19,7 @@ import './styles/LoginForm.css'
 const LoginForm = ({login, oauthLogin, history}) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
 
   const handleSubmit = async (e) => {
@@ -55,14 +66,26 @@ const LoginForm = ({login, oauthLogin, history}) => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <TextField
-          label="Password"
-          variant="outlined"
-          required
-          fullWidth={true}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <FormControl variant="outlined" id="mgt" fullWidth={true}>
+          <InputLabel htmlFor="Password">Password</InputLabel>
+          <OutlinedInput
+            id="Password"
+            type={showPassword ? 'text' : 'password'}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={() => setShowPassword(!showPassword)}
+                  edge="end"
+                >
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </FormControl>
         {error !== '' && <p>{error}</p>}
         <Button variant="contained" color="primary" type="submit">
           Login
