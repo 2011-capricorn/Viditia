@@ -10,6 +10,7 @@ import SurveyInput from './components/SurveyInput'
 import singleVidit from './components/singleVidit'
 import ChartVoting from './components/ChartVoting'
 import AllVidits from './components/AllVidits'
+import ErrorPage from './components/ErrorPage'
 
 class Routes extends Component {
   componentDidMount() {
@@ -26,6 +27,7 @@ class Routes extends Component {
         <Route exact path="/" component={AllVidits} />
         <Route path="/login" component={LoginForm} />
         <Route path="/signup" component={SignUpForm} />
+        <Route path="/error" component={ErrorPage} />
         {/* <Route path="/test" component={SignUpVidit} /> */}
         {/* <Route path="/seed" component={SurveyInput} /> */}
         {isLoggedIn && (
