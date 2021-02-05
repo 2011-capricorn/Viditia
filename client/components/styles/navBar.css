@@ -6,3 +6,19 @@
 #nav {
   margin-left: 36px;
 }
+#logo {
+  font-family: 'Sacramento', cursive;
+  font-size: 36px;
+  margin-left: 16px;
+  color: black;
+}
+
+.navItem {
+  font-family: 'Oswald', sans-serif;
+  margin-left: 15px;
+  color: black;
+}
+
+.navItem:hover {
+  transform: scale(1.1);
+}
