@@ -1,4 +1,4 @@
-#title {
+#errortitle {
   margin: 25px;
 }
 
@@ -6,7 +6,7 @@
   margin: 25px;
 }
 
-#master {
+#masterError {
   width: 90vw;
   height: 90vh;
   display: flex;
