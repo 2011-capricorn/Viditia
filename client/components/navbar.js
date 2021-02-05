@@ -1,108 +1,125 @@
 import React, {useState} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
+import {
+  Divider,
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+} from '@material-ui/core'
+import MenuIcon from '@material-ui/icons/Menu'
+import HomeIcon from '@material-ui/icons/Home'
+import PollIcon from '@material-ui/icons/Poll'
+import AccountBoxIcon from '@material-ui/icons/AccountBox'
+import AddBoxIcon from '@material-ui/icons/AddBox'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+import VpnKeyIcon from '@material-ui/icons/VpnKey'
+import FeedbackIcon from '@material-ui/icons/Feedback'
 
-import {Backdrop, Fade, Modal} from '@material-ui/core'
-
-import SignUpForm from './SignUpForm'
-// import {logout} from '../store'
-
+import {removeUser} from '../store/user'
 import './styles/navBar.css'
 
-const Navbar = ({isLoggedIn}) => {
+const Navbar = ({isLoggedIn, logout}) => {
   const [open, setOpen] = useState(false)
 
-  return (
-    <div>
-      <div id="navBar">
-        <Link to="/" style={{textDecoration: 'none'}}>
-          <h1 id="logo">Viditia</h1>
-        </Link>
-        <nav id="nav">
-          {isLoggedIn ? (
-            <div>
-              {/* The navbar will show these links after you log in */}
-              <Link
-                to="/home"
-                className="navItem"
-                style={{textDecoration: 'none'}}
-              >
-                Home
-              </Link>
-              <Link
-                to="/create"
-                className="navItem"
-                style={{textDecoration: 'none'}}
-              >
-                Create Vidit
-              </Link>
-              <Link
-                to="/vidit/1IygiR99g2pTTpd7kqqF"
-                className="navItem"
-                style={{textDecoration: 'none'}}
-              >
-                Vote
-              </Link>
-              {/* <a href="#" onClick={handleClick}>
-            Logout
-          </a> */}
-            </div>
-          ) : (
-            <div>
-              {/* The navbar will show these links before you log in */}
-              <Link
-                to="/login"
-                className="navItem"
-                style={{textDecoration: 'none'}}
-              >
-                Login
-              </Link>
-              {/* <button type="button" onClick={() => setOpen(true)}>
-              Sign Up
-            </button>
-            <Modal
-              aria-labelledby="transition-modal-title"
-              aria-describedby="transition-modal-description"
-              open={open}
-              onClose={() => setOpen(false)}
-              closeAfterTransition
-              BackdropComponent={Backdrop}
-              BackdropProps={{
-                timeout: 500,
-              }}
-            >
-              <Fade in={open}>
-                <SignUpForm />
-              </Fade>
-            </Modal> */}
+  const handleLink = (text) => {
+    if (text === 'Home') return '/home'
+    if (text === 'Vidits') return '/vidits'
+    if (text === 'Profile') return '/profile'
+    if (text === 'Create Vidit!') return '/create'
+    if (text === 'Logout') return '/home'
+  }
 
-              <Link to="/signup" className="navItem">
-                Sign Up
+  return (
+    <div className="navBar flex jcb aic">
+      <MenuIcon onClick={() => setOpen(true)} />
+      <Drawer anchor="left" open={open} onClose={() => setOpen(false)}>
+        <div id="drawer">
+          <div id="drawer-header">
+            <Divider />
+          </div>
+          <List>
+            {['Home', 'Vidits'].map((text, index) => (
+              <Link
+                key={text}
+                to={handleLink(text)}
+                style={{textDecoration: 'none', color: 'black'}}
+              >
+                <ListItem button onClick={() => setOpen(false)}>
+                  <ListItemIcon>
+                    {index % 2 === 0 ? <HomeIcon /> : <PollIcon />}
+                  </ListItemIcon>
+                  <ListItemText primary={text} />
+                </ListItem>
               </Link>
-            </div>
+            ))}
+            <Link
+              to="/feedback"
+              style={{textDecoration: 'none', color: 'black'}}
+            >
+              <ListItem button onClick={() => setOpen(false)}>
+                <ListItemIcon>
+                  <FeedbackIcon />
+                </ListItemIcon>
+                <ListItemText primary="Feedback" />
+              </ListItem>
+            </Link>
+          </List>
+          <br />
+          <br />
+          <Divider />
+          {isLoggedIn ? (
+            <List>
+              {['Profile', 'Create Vidit!', 'Logout'].map((text) => (
+                <Link
+                  key={text}
+                  to={handleLink(text)}
+                  style={{textDecoration: 'none', color: 'black'}}
+                >
+                  <ListItem
+                    button
+                    onClick={() => {
+                      if (text === 'Logout') logout()
+                      setOpen(false)
+                    }}
+                  >
+                    <ListItemIcon>
+                      {text === 'Profile' && <AccountBoxIcon />}
+                      {text === 'Create Vidit!' && <AddBoxIcon />}
+                      {text === 'Logout' && <ExitToAppIcon />}
+                    </ListItemIcon>
+                    <ListItemText primary={text} />
+                  </ListItem>
+                </Link>
+              ))}
+            </List>
+          ) : (
+            <Link to="/login" style={{textDecoration: 'none', color: 'black'}}>
+              <ListItem button onClick={() => setOpen(false)}>
+                <ListItemIcon>
+                  <VpnKeyIcon />
+                </ListItemIcon>
+                <ListItemText primary="Login" />
+              </ListItem>
+            </Link>
           )}
-        </nav>
-      </div>
-      <hr />
+        </div>
+      </Drawer>
+      <Link to="/" style={{textDecoration: 'none', color: 'black'}}>
+        <p id="logo">Viditia</p>
+      </Link>
     </div>
   )
 }
 
-/**
- * CONTAINER
- */
-const mapState = (state) => {
-  return {
-    isLoggedIn: !!state.user.userKey,
-  }
-}
+const mapState = (state) => ({
+  isLoggedIn: !!state.user.userKey,
+})
 
-const mapDispatch = (dispatch) => {
-  // return {
-  //   handleClick() {
-  //     dispatch(logout())
-  //   }
-  // }
-}
+const mapDispatch = (dispatch) => ({
+  logout: () => dispatch(removeUser()),
+})
 
-export default connect(mapState)(Navbar)
+export default connect(mapState, mapDispatch)(Navbar)
