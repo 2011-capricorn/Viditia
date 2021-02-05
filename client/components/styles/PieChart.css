@@ -114,6 +114,7 @@
   position: absolute;
   animation-name: rideA;
   animation-duration: 2s;
+  animation-fill-mode: forwards;
   /* animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); */
 }
 
@@ -121,19 +122,8 @@
   position: absolute;
   animation-name: rideB;
   animation-duration: 2s;
+  animation-fill-mode: forwards;
   /* animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); */
-}
-
-.filterEndA {
-  margin-top: -200px;
-  margin-left: -285px;
-  position: relative;
-}
-
-.filterEndB {
-  margin-top: -200px;
-  margin-right: -285px;
-  position: relative;
 }
 
 #filterChoice {
