@@ -1,9 +1,8 @@
 import React, {useState} from 'react'
 import {connect} from 'react-redux'
 import {loginThunk} from '../store/user'
-import firebase from '../../public/firebase'
 
-const LoginForm = ({login}) => {
+const LoginForm = ({login, history}) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -11,6 +10,7 @@ const LoginForm = ({login}) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError(await login(email, password))
+    if (!error) history.push('/login')
   }
 
   return (
