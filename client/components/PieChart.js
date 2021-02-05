@@ -102,7 +102,6 @@ class PieChart extends Component {
 
   createMainPieChart() {
     const data = this.state.chartData
-    console.log(11111, data)
 
     const svg = d3.select('#mainChartSVG'),
       width = svg.attr('width'),
@@ -392,10 +391,7 @@ class PieChart extends Component {
       <div id="testChart">
         <img src="/capitalV.png" id="V" className="vHidden" />
         <div id="mainChart">
-
           <svg width="400" height="400" id="mainChartSVG"></svg>
-
-          
 
           <br></br>
           <br></br>
