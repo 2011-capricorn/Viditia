@@ -21,7 +21,7 @@ const updateAnswered = (pollKey) => ({type: UPDATE_ANSWERED, pollKey})
 export const getUserThunk = () => {
   return async (dispatch) => {
     try {
-      console.log('get me thunk')
+      // console.log('get me thunk')
       // const user = firebase.auth().currentUser
       // if (user) {
       //   const userKey = user.uid
