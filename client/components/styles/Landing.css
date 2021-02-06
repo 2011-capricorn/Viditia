@@ -1,0 +1,181 @@
+#landingmaster {
+  color: white;
+  height: 100vh;
+  width: 100vw;
+}
+
+#masterLanding {
+  width: 250px;
+  height: 250px;
+  margin: 25px 0px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+@keyframes mainLanding {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.dcredbluelanding {
+  width: 50px;
+  height: auto;
+  z-index: 5;
+  animation-name: mainLanding;
+  animation-duration: 2.5s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes leftLanding {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  80% {
+    margin-top: -200px;
+    margin-left: -75px;
+  }
+  100% {
+    opacity: 0;
+    margin-top: -200px;
+    margin-left: -75px;
+  }
+}
+
+.dcyellowpinklanding {
+  width: 50px;
+  height: auto;
+  position: absolute;
+  animation-name: leftLanding;
+  animation-duration: 2.5s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes rightLanding {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  80% {
+    margin-top: -200px;
+    margin-left: 75px;
+  }
+  100% {
+    opacity: 0;
+    margin-top: -200px;
+    margin-left: 75px;
+  }
+}
+
+.dcgreenpurplelanding {
+  width: 50px;
+  height: auto;
+  position: absolute;
+  animation-name: rightLanding;
+  animation-duration: 2.5s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes flare {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.1;
+  }
+  75% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.vlanding {
+  height: 200px;
+  width: auto;
+  z-index: 0;
+  position: absolute;
+  transform: rotate(180deg);
+  margin-top: -25px;
+  opacity: 0;
+  animation-name: flare;
+  animation-duration: 2.5s;
+  animation-iteration-count: 1;
+}
+
+@keyframes landingTitle {
+  0% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+#landingtitle {
+  margin: 0px;
+  font-family: 'Caveat', cursive;
+  animation-name: landingTitle;
+  animation-duration: 2.5s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  text-align: center;
+  color: black;
+}
+
+#fulllanding {
+  width: 95vw;
+  height: 95vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#middlelanding {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes unblock {
+  0% {
+    margin-left: 65px;
+  }
+  100% {
+    margin-left: 200px;
+  }
+}
+
+#blocker {
+  background-color: rgb(255, 255, 255);
+  height: 50px;
+  width: 125px;
+  position: absolute;
+  margin-top: -45px;
+  margin-left: 65px;
+  animation-name: unblock;
+  animation-duration: 2.5s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}

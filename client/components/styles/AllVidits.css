@@ -1,3 +1,9 @@
+#allViditFull {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+
 #allViditContainer {
   width: 1400px;
   display: flex;

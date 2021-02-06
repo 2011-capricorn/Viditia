@@ -21,38 +21,40 @@ class AllVidits extends Component {
   render() {
     let {allVidit} = this.props.vidits
     return (
-      <div id="allViditContainer">
-        {allVidit.map((vidit) => (
-          <div key={vidit.pollKey} className="singleVidit">
-            {vidit.type === 'Multiple' ? (
-              <Link className="viditQuestion" to={`/vidit/${vidit.pollKey}`}>
-                {vidit.question}
-              </Link>
-            ) : vidit.type === 'Range' ? (
-              <Link className="viditQuestion" to="/error">
-                {vidit.question}
-              </Link>
-            ) : (
-              <Link className="viditQuestion" to="/error">
-                {vidit.question}
-              </Link>
-            )}
-            <h6 className="viditVoteCount">{vidit.totalVoteCount} Votes</h6>
-            {vidit.type === 'Multiple' ? (
-              <Link to={`/vidit/${vidit.pollKey}`}>
-                <img src="dummyPieChart.png" className="pieChartImg" />
-              </Link>
-            ) : vidit.type === 'Range' ? (
-              <Link to="/error">
-                <img src="dummyBarChart.png" className="barChartImg" />
-              </Link>
-            ) : (
-              <Link to="/error">
-                <img src="dummyLineChart.png" className="lineChartImg" />
-              </Link>
-            )}
-          </div>
-        ))}
+      <div id="allViditFull">
+        <div id="allViditContainer">
+          {allVidit.map((vidit) => (
+            <div key={vidit.pollKey} className="singleVidit">
+              {vidit.type === 'Multiple' ? (
+                <Link className="viditQuestion" to={`/vidit/${vidit.pollKey}`}>
+                  {vidit.question}
+                </Link>
+              ) : vidit.type === 'Range' ? (
+                <Link className="viditQuestion" to="/error">
+                  {vidit.question}
+                </Link>
+              ) : (
+                <Link className="viditQuestion" to="/error">
+                  {vidit.question}
+                </Link>
+              )}
+              <h6 className="viditVoteCount">{vidit.totalVoteCount} Votes</h6>
+              {vidit.type === 'Multiple' ? (
+                <Link to={`/vidit/${vidit.pollKey}`}>
+                  <img src="dummyPieChart.png" className="pieChartImg" />
+                </Link>
+              ) : vidit.type === 'Range' ? (
+                <Link to="/error">
+                  <img src="dummyBarChart.png" className="barChartImg" />
+                </Link>
+              ) : (
+                <Link to="/error">
+                  <img src="dummyLineChart.png" className="lineChartImg" />
+                </Link>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     )
   }

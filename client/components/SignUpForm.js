@@ -32,9 +32,9 @@ const SignUpForm = ({register, history}) => {
     Animal: ['Cat or dog?', ['Cat', 'Dog']],
     Hand: ['Are you right or left handed?', ['Right', 'Left']],
     Drink: ['Coffee or tea?', ['Coffee', 'Tea']],
-    Scenery: ['Beach or mountains?', ['Beach', 'Moutains']],
+    Scenery: ['Beach or mountains?', ['Beach', 'Mountains']],
     Travel: ['Do you like to travel?', ['Yes', 'No']],
-    Food: ['Cheeseburger or hotdog?', ['CheeseBurger', 'Hotdog']],
+    Food: ['Cheeseburger or hotdog?', ['Cheeseburger', 'Hotdog']],
     Artist: ['Beyonce or Black Sabbath?', ['Beyonce', 'Black Sabbath']],
     Boolean: ['Yes or no?', ['Yes', 'No']],
   }
