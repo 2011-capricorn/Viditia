@@ -1,6 +1,5 @@
 import {
   Button,
-  Divider,
   FormControl,
   IconButton,
   InputAdornment,
@@ -9,7 +8,7 @@ import {
   TextField,
 } from '@material-ui/core'
 import {Visibility, VisibilityOff} from '@material-ui/icons'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {loginThunk, oauthLoginThunk} from '../store/user'
@@ -20,18 +19,20 @@ const LoginForm = ({login, oauthLogin, history}) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
-  const [error, setError] = useState('')
+  const [error, setError] = useState(null)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError(await login(email, password))
-    if (!error) history.push('/vidits')
   }
 
   const handleOauth = async (type) => {
     setError(await oauthLogin(type))
-    if (!error) history.push('/vidits')
   }
+
+  useEffect(() => {
+    if (error === undefined) history.push('/vidits')
+  }, [error])
 
   return (
     <div className="flex jcb aic container">
@@ -65,12 +66,7 @@ const LoginForm = ({login, oauthLogin, history}) => {
             }
           />
         </FormControl>
-        <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          style={{marginTop: '20px'}}
-        >
+        <Button variant="contained" color="primary" type="submit" id="mgt">
           Login
         </Button>
       </form>
@@ -101,7 +97,7 @@ const LoginForm = ({login, oauthLogin, history}) => {
           />
         </p>
 
-        <p style={{textDecoration: 'none'}} className="tac">
+        <p className="tac">
           New user? <Link to="/signup">Sign up!</Link>
         </p>
       </div>

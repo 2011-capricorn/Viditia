@@ -1,7 +1,8 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 import {
   Button,
+  Divider,
   FormControl,
   IconButton,
   InputAdornment,
@@ -16,7 +17,6 @@ import {Visibility, VisibilityOff} from '@material-ui/icons'
 import {signUpThunk} from '../store/user'
 import './styles/SignUpForm.css'
 
-// eslint-disable-next-line react/display-name
 const SignUpForm = ({register, history}) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -58,7 +58,11 @@ const SignUpForm = ({register, history}) => {
     )
   }
 
-  const handleSubmit = async (e) => {
+  const proceedRegister = async () => {
+    if (!error) setError(await register(email, password, signUpAnswers))
+  }
+
+  const handleSubmit = (e) => {
     e.preventDefault()
     setError('')
 
@@ -68,93 +72,108 @@ const SignUpForm = ({register, history}) => {
       setError('Please answer all the questions!')
     }
 
-    if (!error) setError(await register(email, password, signUpAnswers))
-
-    if (!error) history.push('/vidits')
+    proceedRegister()
   }
 
+  useEffect(() => {
+    if (error === undefined) history.push('/vidits')
+  }, [error])
+
   return (
-    <div>
-      <form onSubmit={handleSubmit} className="sign-up-form flex fdc jcc aic">
-        <TextField
-          required
-          fullWidth={true}
-          variant="outlined"
-          label="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-
-        <FormControl variant="outlined" id="mgt" fullWidth={true}>
-          <InputLabel htmlFor="Password">Password</InputLabel>
-          <OutlinedInput
-            id="Password"
-            type={showPassword ? 'text' : 'password'}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={() => setShowPassword(!showPassword)}
-                  edge="end"
-                >
-                  {showPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            }
+    <div className="flex jcc aic signup-container">
+      <h1 className="tac">Welcome to Viditia!</h1>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <TextField
+            required
+            fullWidth={true}
+            variant="outlined"
+            label="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
-        </FormControl>
 
-        <FormControl variant="outlined" id="mgt" fullWidth={true}>
-          <InputLabel htmlFor="confirmPassword">Confirm Password</InputLabel>
-          <OutlinedInput
-            id="confirmPassword"
-            type={showConfirmPassword ? 'text' : 'password'}
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  edge="end"
+          <FormControl variant="outlined" id="mgt" fullWidth={true}>
+            <InputLabel htmlFor="Password">Password</InputLabel>
+            <OutlinedInput
+              id="Password"
+              type={showPassword ? 'text' : 'password'}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => setShowPassword(!showPassword)}
+                    edge="end"
+                  >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+
+          <FormControl variant="outlined" id="mgt" fullWidth={true}>
+            <InputLabel htmlFor="confirmPassword">Confirm Password</InputLabel>
+            <OutlinedInput
+              id="confirmPassword"
+              type={showConfirmPassword ? 'text' : 'password'}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    edge="end"
+                  >
+                    {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+        </div>
+
+        <Divider style={{margin: '20px'}} />
+
+        <div>
+          <h2 className="tac" style={{margin: 0}}>
+            Tell us a little about yourself!
+          </h2>
+
+          {Object.keys(signUpQuestions).map((question) => {
+            return (
+              <FormControl key={question} id="mgt" fullWidth={true}>
+                <InputLabel>{signUpQuestions[question][0]}</InputLabel>
+                <Select
+                  value={signUpAnswers[question]}
+                  onChange={(e) => {
+                    setSignUpAnswers({
+                      ...signUpAnswers,
+                      [question]: e.target.value,
+                    })
+                  }}
+                  label="Answer"
                 >
-                  {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </FormControl>
-
-        <h2>Tell us a little about yourself!</h2>
-
-        {Object.keys(signUpQuestions).map((question) => {
-          return (
-            <FormControl key={question} id="mgt" fullWidth={true}>
-              <InputLabel>{signUpQuestions[question][0]}</InputLabel>
-              <Select
-                value={signUpAnswers[question]}
-                onChange={(e) => {
-                  setSignUpAnswers({
-                    ...signUpAnswers,
-                    [question]: e.target.value,
-                  })
-                }}
-                label="Answer"
-              >
-                <MenuItem value={signUpQuestions[question][1][0]}>
-                  {signUpQuestions[question][1][0]}
-                </MenuItem>
-                <MenuItem value={signUpQuestions[question][1][1]}>
-                  {signUpQuestions[question][1][1]}
-                </MenuItem>
-              </Select>
-            </FormControl>
-          )
-        })}
-        {error !== '' && <p>{error}</p>}
-        <Button variant="outlined" color="primary" type="submit" id="mgt">
+                  <MenuItem value={signUpQuestions[question][1][0]}>
+                    {signUpQuestions[question][1][0]}
+                  </MenuItem>
+                  <MenuItem value={signUpQuestions[question][1][1]}>
+                    {signUpQuestions[question][1][1]}
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            )
+          })}
+        </div>
+        {error !== '' && (
+          <p className="tac" style={{marginBottom: 0}}>
+            {error}
+          </p>
+        )}
+        <Button variant="contained" color="primary" type="submit" id="mgt">
           Sign up!
         </Button>
       </form>
