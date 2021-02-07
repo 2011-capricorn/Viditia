@@ -388,54 +388,56 @@ class PieChart extends Component {
   render() {
     console.log('id in PieChart -->', this.props.pollKey)
     return (
-      <div id="testChart">
-        <img src="/capitalV.png" id="V" className="vHidden" />
-        <div id="mainChart">
-          <svg width="400" height="400" id="mainChartSVG"></svg>
+      <div id="singleViditFull">
+        <div id="testChart">
+          <img src="/capitalV.png" id="V" className="vHidden" />
+          <div id="mainChart">
+            <svg width="400" height="400" id="mainChartSVG"></svg>
 
-          <br></br>
-          <br></br>
-          <div id="filterControls">
-            <label htmlFor="filter">Choose a filter</label>
-            <br></br>
-            <select
-              name="filter"
-              id="filterChoice"
-              onChange={this.chooseFilter}
-              defaultValue="Hand"
-            >
-              <option value="Hand">Right or left hand</option>
-              <option value="Season">Summer or winter</option>
-              <option value="Animal">Cat or Dog</option>
-              <option value="Drink">Coffee or tea</option>
-              <option value="Scenery">Beach or Mountains</option>
-              <option value="Travel">Do you like to travel</option>
-              <option value="Food">Cheeseburger or hotdog</option>
-              <option value="Artist">Beyonce or Black Sabbath</option>
-              <option value="Boolean">Yes or no</option>
-              <option value="Awake">Early bird or night owl</option>
-            </select>
             <br></br>
             <br></br>
-            <button
-              type="button"
-              onClick={this.handleClick}
-              id="activateFilter"
-            >
-              Activate Filter
-            </button>
-            <br></br>
-            <br></br>
-            <button type="button" onClick={this.resetFilter} id="resetFilter">
-              Reset Filter
-            </button>
+            <div id="filterControls">
+              <label htmlFor="filter">Choose a filter</label>
+              <br></br>
+              <select
+                name="filter"
+                id="filterChoice"
+                onChange={this.chooseFilter}
+                defaultValue="Hand"
+              >
+                <option value="Hand">Right or left hand</option>
+                <option value="Season">Summer or winter</option>
+                <option value="Animal">Cat or Dog</option>
+                <option value="Drink">Coffee or tea</option>
+                <option value="Scenery">Beach or Mountains</option>
+                <option value="Travel">Do you like to travel</option>
+                <option value="Food">Cheeseburger or hotdog</option>
+                <option value="Artist">Beyonce or Black Sabbath</option>
+                <option value="Boolean">Yes or no</option>
+                <option value="Awake">Early bird or night owl</option>
+              </select>
+              <br></br>
+              <br></br>
+              <button
+                type="button"
+                onClick={this.handleClick}
+                id="activateFilter"
+              >
+                Activate Filter
+              </button>
+              <br></br>
+              <br></br>
+              <button type="button" onClick={this.resetFilter} id="resetFilter">
+                Reset Filter
+              </button>
+            </div>
           </div>
-        </div>
-        <div id="subCharts">
-          <div id="filterA" className="filterStart"></div>
-          <div id="filterB" className="filterStart"></div>
-          {/* <svg id="filterA" className="filterCharts" width="400" height="400"></svg>
+          <div id="subCharts">
+            <div id="filterA" className="filterStart"></div>
+            <div id="filterB" className="filterStart"></div>
+            {/* <svg id="filterA" className="filterCharts" width="400" height="400"></svg>
           <svg id="filterB" className="filterCharts" width="400" height="400"></svg> */}
+          </div>
         </div>
       </div>
     )
