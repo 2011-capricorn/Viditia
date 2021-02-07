@@ -14,14 +14,14 @@ const defaultUser = {
   created: [],
 }
 
-export const setUser = (user) => ({type: SET_USER, user})
-export const removeUser = () => ({type: REMOVE_USER})
+const setUser = (user) => ({type: SET_USER, user})
+const removeUser = () => ({type: REMOVE_USER})
 const updateAnswered = (pollKey) => ({type: UPDATE_ANSWERED, pollKey})
 
 export const getUserThunk = () => {
   return async (dispatch) => {
     try {
-      // console.log('get me thunk')
+      // console.log('get me thunk current user -->', firebase.auth().currentUser)
       // const user = firebase.auth().currentUser
       // if (user) {
       //   const userKey = user.uid
@@ -68,16 +68,27 @@ export const oauthLoginThunk = (type) => {
       if (type === 'Facebook')
         provider = new firebase.auth.FacebookAuthProvider()
       if (type === 'Github') provider = new firebase.auth.GithubAuthProvider()
+      if (type === 'Twitter') provider = new firebase.auth.TwitterAuthProvider()
 
       const {
         user: {uid},
       } = await firebase.auth().signInWithPopup(provider)
 
-      try {
-        const user = db.collection('users').doc(uid).get()
-        if (user.exists) console.log(user)
-        else db.collection('users').doc()
-      } catch (error) {
+      const user = await db.collection('users').doc(uid).get()
+      if (user.exists)
+        dispatch(
+          setUser({
+            userKey: uid,
+            answered: user.answered,
+            created: user.created,
+          })
+        )
+      else {
+        db.collection('users').doc(uid).set({
+          answered: [],
+          created: [],
+          signUpAnswers: {},
+        })
         dispatch(setUser({userKey: uid, answered: [], created: []}))
       }
     } catch (error) {
@@ -99,6 +110,17 @@ export const signUpThunk = (email, password, signUpAnswers) => {
       dispatch(setUser({userKey, answered: [], created: []}))
     } catch (error) {
       return error.message
+    }
+  }
+}
+
+export const logoutThunk = () => {
+  return async (dispatch) => {
+    try {
+      await firebase.auth().signOut()
+      dispatch(removeUser())
+    } catch (error) {
+      console.error(error)
     }
   }
 }
