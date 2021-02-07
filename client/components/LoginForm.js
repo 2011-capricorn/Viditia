@@ -29,35 +29,9 @@ const LoginForm = ({login, oauthLogin, history}) => {
   }
 
   return (
-    <div className="flex jcc aic container">
+    <div className="flex jcb aic container">
       <form onSubmit={handleSubmit}>
-        <button
-          type="button"
-          onClick={() => setError('OAuth is still in the works!')}
-          className="flex aic login-btn"
-        >
-          <img src="/google.jpg" className="login-img" />
-          <Divider />
-          <p className="login-btn-text">Log in with Google</p>
-        </button>
-        <button
-          type="button"
-          onClick={() => setError('OAuth is still in the works!')}
-          className="flex aic login-btn"
-        >
-          <img src="/facebook.png" className="login-img" />
-          <Divider />
-          <p>Log in with Facebook</p>
-        </button>
-        <button
-          type="button"
-          onClick={() => setError('OAuth is still in the works!')}
-          className="flex aic login-btn"
-        >
-          <img src="/github.png" className="login-img" />
-          <Divider />
-          <p>Log in with GitHub</p>
-        </button>
+        <h1 className="tac">Welcome back!</h1>
         <TextField
           label="Email"
           variant="outlined"
@@ -87,14 +61,39 @@ const LoginForm = ({login, oauthLogin, history}) => {
           />
         </FormControl>
         {error !== '' && <p>{error}</p>}
-        <Button variant="contained" color="primary" type="submit">
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          style={{marginTop: '20px'}}
+        >
           Login
         </Button>
-        {/* <button type="submit">Submit</button> */}
       </form>
-      <br />
       <div>
-        New user? <Link to="/signup">Sign up!</Link>
+        <p className="tac">Or sign in with:</p>
+
+        <p>
+          <img
+            src="/google.png"
+            className="login-img"
+            onClick={() => oauthLogin('Google')}
+          />
+          <img
+            src="/facebook.png"
+            className="login-img"
+            onClick={() => oauthLogin('Facebook')}
+          />
+          <img
+            src="/github.png"
+            className="login-img"
+            onClick={() => oauthLogin('Github')}
+          />
+        </p>
+
+        <p style={{textDecoration: 'none'}} className="tac">
+          New user? <Link to="/signup">Sign up!</Link>
+        </p>
       </div>
     </div>
   )

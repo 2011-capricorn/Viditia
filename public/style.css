@@ -51,6 +51,10 @@ form {
   align-items: end;
 }
 
+.tac {
+  text-align: center;
+}
+
 #mgt {
   margin-top: 20px;
 }

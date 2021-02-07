@@ -72,6 +72,7 @@ export const oauthLoginThunk = (type) => {
       const {
         user: {uid},
       } = await firebase.auth().signInWithPopup(provider)
+
       try {
         const user = db.collection('users').doc(uid).get()
         if (user.exists) console.log(user)
