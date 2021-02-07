@@ -29,7 +29,7 @@ const Navbar = ({isLoggedIn, logout}) => {
     if (text === 'Vidits') return '/vidits'
     if (text === 'Profile') return '/profile'
     if (text === 'Create Vidit!') return '/create'
-    if (text === 'Logout') return '/vidits'
+    if (text === 'Logout') return '/login'
   }
 
   return (
