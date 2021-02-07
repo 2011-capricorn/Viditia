@@ -97,7 +97,7 @@ const LoginForm = ({login, oauthLogin, history}) => {
           />
         </p>
 
-        <p style={{textDecoration: 'none'}} className="tac">
+        <p className="tac">
           New user? <Link to="/signup">Sign up!</Link>
         </p>
       </div>

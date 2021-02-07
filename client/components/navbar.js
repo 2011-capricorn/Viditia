@@ -42,11 +42,7 @@ const Navbar = ({isLoggedIn, logout}) => {
           </div>
           <List>
             {['Home', 'Vidits'].map((text, index) => (
-              <Link
-                key={text}
-                to={handleLink(text)}
-                style={{textDecoration: 'none', color: 'black'}}
-              >
+              <Link key={text} to={handleLink(text)} id="no-style-anchor">
                 <ListItem button onClick={() => setOpen(false)}>
                   <ListItemIcon>
                     {index % 2 === 0 ? <HomeIcon /> : <PollIcon />}
@@ -55,10 +51,7 @@ const Navbar = ({isLoggedIn, logout}) => {
                 </ListItem>
               </Link>
             ))}
-            <Link
-              to="/feedback"
-              style={{textDecoration: 'none', color: 'black'}}
-            >
+            <Link to="/feedback" id="no-style-anchor">
               <ListItem button onClick={() => setOpen(false)}>
                 <ListItemIcon>
                   <FeedbackIcon />
@@ -73,11 +66,7 @@ const Navbar = ({isLoggedIn, logout}) => {
           {isLoggedIn ? (
             <List>
               {['Profile', 'Create Vidit!', 'Logout'].map((text) => (
-                <Link
-                  key={text}
-                  to={handleLink(text)}
-                  style={{textDecoration: 'none', color: 'black'}}
-                >
+                <Link key={text} to={handleLink(text)} id="no-style-anchor">
                   <ListItem
                     button
                     onClick={() => {
@@ -96,7 +85,7 @@ const Navbar = ({isLoggedIn, logout}) => {
               ))}
             </List>
           ) : (
-            <Link to="/login" style={{textDecoration: 'none', color: 'black'}}>
+            <Link to="/login" id="no-style-anchor">
               <ListItem button onClick={() => setOpen(false)}>
                 <ListItemIcon>
                   <VpnKeyIcon />
@@ -107,7 +96,7 @@ const Navbar = ({isLoggedIn, logout}) => {
           )}
         </div>
       </Drawer>
-      <Link to="/" style={{textDecoration: 'none', color: 'black'}}>
+      <Link to="/" id="no-style-anchor">
         <p id="logo">Viditia</p>
       </Link>
     </div>

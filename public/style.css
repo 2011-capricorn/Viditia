@@ -55,6 +55,11 @@ form {
   text-align: center;
 }
 
+#no-style-anchor {
+  text-decoration: none;
+  color: black;
+}
+
 #mgt {
   margin-top: 20px;
 }
