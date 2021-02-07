@@ -69,7 +69,8 @@ const SignUpForm = ({register, history}) => {
     }
 
     if (!error) setError(await register(email, password, signUpAnswers))
-    if (!error) history.push('/home')
+
+    if (!error) history.push('/vidits')
   }
 
   return (
