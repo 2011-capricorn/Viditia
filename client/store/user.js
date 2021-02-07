@@ -65,19 +65,26 @@ export const oauthLoginThunk = (type) => {
     try {
       let provider
       if (type === 'Google') provider = new firebase.auth.GoogleAuthProvider()
-      if (type === 'Facebook')
-        provider = new firebase.auth.FacebookAuthProvider()
-      if (type === 'Github') provider = new firebase.auth.GithubAuthProvider()
 
       const {
         user: {uid},
       } = await firebase.auth().signInWithPopup(provider)
 
-      try {
-        const user = db.collection('users').doc(uid).get()
-        if (user.exists) console.log(user)
-        else db.collection('users').doc()
-      } catch (error) {
+      const user = await db.collection('users').doc(uid).get()
+      if (user.exists)
+        dispatch(
+          setUser({
+            userKey: uid,
+            answered: user.answered,
+            created: user.created,
+          })
+        )
+      else {
+        db.collection('users').doc(uid).set({
+          answered: [],
+          created: [],
+          signUpAnswers: {},
+        })
         dispatch(setUser({userKey: uid, answered: [], created: []}))
       }
     } catch (error) {
