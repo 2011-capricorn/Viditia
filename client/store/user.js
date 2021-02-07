@@ -2,7 +2,8 @@ import firebase from 'firebase'
 import myFirebase from '../../public/firebase'
 const db = myFirebase.firestore()
 
-const GET_USER = 'GET_USER'
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+
 const SET_USER = 'SET_USER'
 const REMOVE_USER = 'REMOVE_USER'
 const UPDATE_ANSWERED = 'UPDATE_ANSWERED'
@@ -19,25 +20,17 @@ const removeUser = () => ({type: REMOVE_USER})
 const updateAnswered = (pollKey) => ({type: UPDATE_ANSWERED, pollKey})
 
 export const getUserThunk = () => {
-  return async (dispatch) => {
+  return (dispatch) => {
     try {
-      // console.log('get me thunk current user -->', firebase.auth().currentUser)
-      // const user = firebase.auth().currentUser
-      // if (user) {
-      //   const userKey = user.uid
-      //   const {created, answered} = (
-      //     await db.collection('users').doc(userKey).get()
-      //   ).data()
-      //   dispatch(setUser({userKey, answered, created}))
-      // } else {
-      // const user = await firebase
-      //   .auth()
-      //   .signInAnonymously()
-      // console.log('anonymous user -->', user)
-      //   .then(({user: {uid}}) => {
-      //     return {type: GET_USER, user: uid}
-      //   })
-      //}
+      firebase.auth().onAuthStateChanged(async (user) => {
+        if (user) {
+          const userKey = user.uid
+          const {created, answered} = (
+            await db.collection('users').doc(userKey).get()
+          ).data()
+          dispatch(setUser({userKey, answered, created}))
+        }
+      })
     } catch (error) {
       console.error(error)
     }
