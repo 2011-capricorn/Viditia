@@ -67,6 +67,7 @@ export const oauthLoginThunk = (type) => {
       if (type === 'Google') provider = new firebase.auth.GoogleAuthProvider()
       if (type === 'Facebook')
         provider = new firebase.auth.FacebookAuthProvider()
+      if (type === 'Github') provider = new firebase.auth.GithubAuthProvider()
 
       const {
         user: {uid},
@@ -90,7 +91,7 @@ export const oauthLoginThunk = (type) => {
         dispatch(setUser({userKey: uid, answered: [], created: []}))
       }
     } catch (error) {
-      return error.message
+      return 'Something went wrong'
     }
   }
 }

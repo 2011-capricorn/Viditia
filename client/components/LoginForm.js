@@ -30,7 +30,7 @@ const LoginForm = ({login, oauthLogin, history}) => {
 
   const handleOauth = async (type) => {
     setError(await oauthLogin(type))
-    // if (!error) history.push('/vidits')
+    if (!error) history.push('/vidits')
   }
 
   return (
