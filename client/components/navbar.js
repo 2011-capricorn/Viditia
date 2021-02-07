@@ -19,7 +19,7 @@ import VpnKeyIcon from '@material-ui/icons/VpnKey'
 import FeedbackIcon from '@material-ui/icons/Feedback'
 
 import './styles/navBar.css'
-import {removeUser} from '../store/user'
+import {logoutThunk} from '../store/user'
 
 const Navbar = ({isLoggedIn, logout}) => {
   const [open, setOpen] = useState(false)
@@ -29,7 +29,7 @@ const Navbar = ({isLoggedIn, logout}) => {
     if (text === 'Vidits') return '/vidits'
     if (text === 'Profile') return '/profile'
     if (text === 'Create Vidit!') return '/create'
-    if (text === 'Logout') return '/home'
+    if (text === 'Logout') return '/vidits'
   }
 
   return (
@@ -119,7 +119,7 @@ const mapState = (state) => ({
 })
 
 const mapDispatch = (dispatch) => ({
-  logout: () => dispatch(removeUser()),
+  logout: () => dispatch(logoutThunk()),
 })
 
 export default connect(mapState, mapDispatch)(Navbar)
