@@ -27,11 +27,13 @@ export const getAllViditThunk = () => {
       const polls = (await db.collection('polls').get()).docs
       const result = await Promise.all(
         polls.map((poll) => {
-          const {question, type, answers} = poll.data()
+          const {question, type, answers, dataType, units} = poll.data()
           return {
             pollKey: poll.id,
             question,
             type,
+            dataType,
+            units,
             totalVoteCount: answers.length,
           }
         })

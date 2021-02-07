@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 
 import BarChart from './BarChart'
 import PieChart from './PieChart'
+import LineChart from './LineChart'
 import ChartVoting from './ChartVoting'
 import './styles/SingleVidit.css'
 import firebase from '../../public/firebase'
@@ -18,13 +19,18 @@ const SingleVidit = (props) => {
   const {id} = props.match.params
   const data = props.allVidit.filter((vidit) => vidit.pollKey === id)[0]
   const userAnswered = props.answered.some((key) => key === data.pollKey)
-
   return data ? (
     <div>
-      <h1 id="title">Single Vidit</h1>
-      {!userAnswered && <ChartVoting pollKey={data.pollKey} />}
+      <h1 id="SVTitle">{data.question}</h1>
+      {!userAnswered && data.type === 'Multiple' && (
+        <ChartVoting pollKey={data.pollKey} />
+      )}
 
       {data.type === 'Multiple' && <PieChart size={[500, 500]} pollKey={id} />}
+
+      {data.type === 'Open' && data.dataType === 'Number' && (
+        <LineChart pollKey={id} units={data.units} />
+      )}
 
       {/* userAnswered && data.type !== 'Multiple' && <BarChart data={[2, 4, 6, 8]} size={[500, 500]} /> */}
     </div>

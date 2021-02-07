@@ -1,0 +1,197 @@
+#singleLCViditFull {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#testChartLC {
+  margin-left: 50px;
+  margin-top: 25px;
+  /* background-color: aquamarine; */
+  height: 100vh;
+  width: 1150px;
+  min-width: 1150px;
+  max-width: 1150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(143, 122, 163, 0.034);
+  border-radius: 25px;
+}
+#mainLineChart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#mainLineChartDiv {
+  width: 400px;
+  height: 400px;
+}
+
+#subLineCharts {
+  height: 400px;
+  width: 1150px;
+  min-width: 1150px;
+  max-width: 1150px;
+  /* background-color: rgba(193, 241, 209, 0.322); */
+  display: flex;
+  justify-content: space-evenly;
+}
+
+#VLC {
+  position: absolute;
+  z-index: -1;
+  height: 900px;
+  width: auto;
+  margin-top: 50px;
+  opacity: 0;
+}
+
+.vHiddenLC {
+  opacity: 0;
+}
+
+@keyframes flareLC {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.04;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.vFlareLC {
+  animation-name: flareLC;
+  animation-duration: 1.5s;
+  /* animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); */
+  opacity: 0;
+}
+
+#filterControlsLC {
+  margin: 75px 0px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* #filterA {
+    position: absolute;
+    margin-top: -929px;
+    padding: 0px;
+  } */
+
+.filterStartLC {
+  position: absolute;
+  margin-top: -929px;
+  padding: 0px;
+}
+
+@keyframes LCrideA {
+  0% {
+    margin-top: -929px;
+    opacity: 0;
+  }
+  100% {
+    margin-top: -200px;
+    margin-left: -705px;
+    opacity: 1;
+  }
+}
+
+@keyframes LCrideB {
+  0% {
+    margin-top: -929px;
+    opacity: 0;
+  }
+  100% {
+    margin-top: -200px;
+    margin-right: -705px;
+    opacity: 1;
+  }
+}
+
+.LCfilterRideA {
+  position: absolute;
+  animation-name: LCrideA;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  /* animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); */
+}
+
+.LCfilterRideB {
+  position: absolute;
+  animation-name: LCrideB;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  /* animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); */
+}
+
+#filterChoiceLC {
+  padding: 5px;
+  border-radius: 5px;
+  background-image: linear-gradient(to bottom, #ffffff 0%, #e5e5e5 100%);
+}
+
+#activateFilterLC {
+  cursor: pointer;
+  border-radius: 10px;
+  border: none;
+  background-color: rgba(103, 185, 22, 0.63);
+  padding: 15px;
+  transition-duration: 0.5s;
+}
+
+#activateFilterLC:hover {
+  background-color: rgb(104, 185, 22);
+}
+
+#resetFilterLC {
+  cursor: pointer;
+  border-radius: 10px;
+  border: none;
+  background-color: rgba(238, 53, 53, 0.63);
+  padding: 15px;
+  transition-duration: 0.5s;
+}
+
+#resetFilterLC:hover {
+  background-color: rgb(238, 53, 53);
+}
+
+.centerWord {
+  font-family: 'Caveat', cursive;
+}
+
+.sliceWord {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.line {
+  fill: none;
+  /* stroke: #ffab00; */
+  stroke-width: 3;
+}
+
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+
+/* Style the dots by assigning a fill and stroke */
+.dot {
+  fill: #ffab00;
+  stroke: #fff;
+}
+
+.focus circle {
+  fill: none;
+  stroke: steelblue;
+}

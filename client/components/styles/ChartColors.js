@@ -1,4 +1,4 @@
-const pieChartColors = [
+export const pieChartColors = [
   [226, 138, 138, 116, 176, 228],
   [255, 129, 61, 61, 187, 255],
   [255, 93, 136, 93, 255, 212],
@@ -12,4 +12,17 @@ const pieChartColors = [
   [229, 83, 255, 255, 241, 83],
 ]
 
-export default pieChartColors
+export const lineChartColors = [
+  `#ffab00`,
+  `#2B95EC`,
+  `#F6B92A`,
+  `#F54E2A`,
+  `#89BB21`,
+  `#E1701C`,
+  `#5C415D`,
+  `#4A8C8A`,
+  `#D9A7A7`,
+  `#008F91`,
+  `#D4C34E`,
+  `#204AD4`,
+]

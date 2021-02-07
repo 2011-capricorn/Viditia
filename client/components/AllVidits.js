@@ -34,21 +34,24 @@ class AllVidits extends Component {
                   {vidit.question}
                 </Link>
               ) : (
-                <Link className="viditQuestion" to="/error">
+                <Link className="viditQuestion" to={`/vidit/${vidit.pollKey}`}>
                   {vidit.question}
                 </Link>
               )}
               <h6 className="viditVoteCount">{vidit.totalVoteCount} Votes</h6>
               {vidit.type === 'Multiple' ? (
                 <Link to={`/vidit/${vidit.pollKey}`}>
-                  <img src="dummyPieChart.png" className="pieChartImg" />
+                  <img
+                    src={`dummyPieChart${Math.floor(Math.random() * 3)}.png`}
+                    className="pieChartImg"
+                  />
                 </Link>
               ) : vidit.type === 'Range' ? (
                 <Link to="/error">
                   <img src="dummyBarChart.png" className="barChartImg" />
                 </Link>
               ) : (
-                <Link to="/error">
+                <Link to={`/vidit/${vidit.pollKey}`}>
                   <img src="dummyLineChart.png" className="lineChartImg" />
                 </Link>
               )}
