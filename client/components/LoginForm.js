@@ -28,6 +28,11 @@ const LoginForm = ({login, oauthLogin, history}) => {
     if (!error) history.push('/vidits')
   }
 
+  const handleOauth = async (type) => {
+    setError(await oauthLogin(type))
+    // if (!error) history.push('/vidits')
+  }
+
   return (
     <div className="flex jcb aic container">
       <form onSubmit={handleSubmit}>
@@ -60,7 +65,6 @@ const LoginForm = ({login, oauthLogin, history}) => {
             }
           />
         </FormControl>
-        {error !== '' && <p>{error}</p>}
         <Button
           variant="contained"
           color="primary"
@@ -71,23 +75,24 @@ const LoginForm = ({login, oauthLogin, history}) => {
         </Button>
       </form>
       <div>
+        {error !== '' && <p className="tac">{error}</p>}
         <p className="tac">Or sign in with:</p>
 
         <p>
           <img
             src="/google.png"
             className="login-img"
-            onClick={() => oauthLogin('Google')}
+            onClick={() => handleOauth('Google')}
           />
           <img
             src="/facebook.png"
             className="login-img"
-            onClick={() => oauthLogin('Facebook')}
+            onClick={() => handleOauth('Facebook')}
           />
           <img
             src="/github.png"
             className="login-img"
-            onClick={() => oauthLogin('Github')}
+            onClick={() => handleOauth('Github')}
           />
         </p>
 
