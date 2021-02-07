@@ -94,6 +94,11 @@ const LoginForm = ({login, oauthLogin, history}) => {
             className="login-img"
             onClick={() => handleOauth('Github')}
           />
+          <img
+            src="/twitter.png"
+            className="login-img"
+            onClick={() => handleOauth('Twitter')}
+          />
         </p>
 
         <p style={{textDecoration: 'none'}} className="tac">

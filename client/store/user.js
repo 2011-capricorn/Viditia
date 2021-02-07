@@ -68,6 +68,7 @@ export const oauthLoginThunk = (type) => {
       if (type === 'Facebook')
         provider = new firebase.auth.FacebookAuthProvider()
       if (type === 'Github') provider = new firebase.auth.GithubAuthProvider()
+      if (type === 'Twitter') provider = new firebase.auth.TwitterAuthProvider()
 
       const {
         user: {uid},
