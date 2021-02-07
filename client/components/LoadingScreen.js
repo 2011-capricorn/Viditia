@@ -8,10 +8,10 @@ const LoadingScreen = (props) => {
       <div id="middleloading">
         <h1 id="loadingtitle">Loading...</h1>
         <div id="masterLoading">
-          <img src="/dummyPieChart.png" className="dcredblueloading" />
+          <img src="/dummyPieChart0.png" className="dcredblueloading" />
           <img src="/capitalV.png" className="vloading" />
-          <img src="/donutGreenPurple.png" className="dcgreenpurpleloading" />
-          <img src="/donutYellowPink.png" className="dcyellowpinkloading" />
+          <img src="/dummyPieChart1.png" className="dcgreenpurpleloading" />
+          <img src="/dummyPieChart2.png" className="dcyellowpinkloading" />
         </div>
       </div>
     </div>

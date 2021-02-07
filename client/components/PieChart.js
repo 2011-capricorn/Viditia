@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import * as d3 from 'd3'
 
 import './styles/PieChart.css'
-import pieChartColors from './styles/pieChartColors'
+import {pieChartColors} from './styles/ChartColors'
 import firebase from '../../public/firebase'
 
 const db = firebase.firestore()
@@ -435,8 +435,6 @@ class PieChart extends Component {
           <div id="subCharts">
             <div id="filterA" className="filterStart"></div>
             <div id="filterB" className="filterStart"></div>
-            {/* <svg id="filterA" className="filterCharts" width="400" height="400"></svg>
-          <svg id="filterB" className="filterCharts" width="400" height="400"></svg> */}
           </div>
         </div>
       </div>

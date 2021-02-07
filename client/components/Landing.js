@@ -31,13 +31,10 @@ class Landing extends Component {
               Viditia<div id="blocker"></div>
             </h1>
             <div id="masterLanding">
-              <img src="/dummyPieChart.png" className="dcredbluelanding" />
+              <img src="/dummyPieChart0.png" className="dcredbluelanding" />
               <img src="/capitalV.png" className="vlanding" />
-              <img
-                src="/donutGreenPurple.png"
-                className="dcgreenpurplelanding"
-              />
-              <img src="/donutYellowPink.png" className="dcyellowpinklanding" />
+              <img src="/dummyPieChart1.png" className="dcgreenpurplelanding" />
+              <img src="/dummyPieChart2.png" className="dcyellowpinklanding" />
             </div>
           </div>
         </div>
