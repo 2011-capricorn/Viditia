@@ -16,8 +16,8 @@ import ConfirmPassword from './ConfirmPassword'
 import './styles/UserForm.css'
 
 const UserForm = () => {
-  const [updateEmail, setUpdateEmail] = useState(false)
-  const [updatePassword, setUpdatePassword] = useState(false)
+  const [updateEmail, setUpdateEmail] = useState(true)
+  const [updatePassword, setUpdatePassword] = useState(true)
   const [email, setEmail] = useState(firebase.auth().currentUser.email)
   const [showNewPassword, setShowNewPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -85,7 +85,9 @@ const UserForm = () => {
             )}
           </div>
         )}
-        <Divider className="update-form" />
+
+        <Divider className="update-divider" />
+
         <ListItem id="update-form-item">
           <ListItemText primary="Update Password?" id="update-text" />
           <ListItemIcon>

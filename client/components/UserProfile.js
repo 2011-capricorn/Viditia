@@ -4,17 +4,20 @@ import {connect} from 'react-redux'
 import {Divider} from '@material-ui/core'
 
 import UserForm from './UserForm'
+import UserCreatedList from './UserCreatedList'
 import './styles/UserProfile.css'
 
-export const UserProfile = ({userKey, created, allVidit}) => {
-  const [showUserInformation, setShowUserInformation] = useState(true)
+export const UserProfile = ({created, allVidit}) => {
+  const [showUserInformation, setShowUserInformation] = useState(false)
   const userCreated = allVidit.filter((vidit) =>
     created.includes(vidit.pollKey)
   )
 
   return (
     <div>
-      <h3 className="tac">User Profile</h3>
+      <h1 className="tac">
+        {showUserInformation ? 'User Information' : 'Created Vidits'}
+      </h1>
       <div className="flex profile-container">
         <div className="profile-nav">
           <p onClick={() => setShowUserInformation(true)}>User Information</p>
@@ -23,14 +26,14 @@ export const UserProfile = ({userKey, created, allVidit}) => {
         <Divider orientation="vertical" />
         <div className="profile-content">
           {showUserInformation && <UserForm />}
+          {!showUserInformation && <UserCreatedList polls={userCreated} />}
         </div>
       </div>
     </div>
   )
 }
 
-const mapState = ({user: {userKey, created}, vidit: {allVidit}}) => ({
-  userKey,
+const mapState = ({user: {created}, vidit: {allVidit}}) => ({
   created,
   allVidit,
 })

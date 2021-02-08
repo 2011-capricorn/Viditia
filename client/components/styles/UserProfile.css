@@ -2,6 +2,11 @@
   height: 100vh;
 }
 
+.profile-content {
+  flex: 4;
+  padding: 3%;
+}
+
 .profile-nav {
   flex: 1;
   padding: 3%;
@@ -14,9 +19,5 @@
 
 .profile-nav > p:hover {
   border-bottom: 2px solid black;
-}
-
-.profile-content {
-  flex: 4;
-  padding: 3%;
+  font-weight: bold;
 }
