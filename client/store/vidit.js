@@ -63,6 +63,7 @@ export const addViditThunk = (vidit, userKey) => {
           totalVoteCount: answers.length,
         })
       )
+      return result.id
     } catch (error) {
       console.error(error)
     }

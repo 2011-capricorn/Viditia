@@ -2,11 +2,10 @@ import firebase from 'firebase'
 import myFirebase from '../../public/firebase'
 const db = myFirebase.firestore()
 
-firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
-
 const SET_USER = 'SET_USER'
 const REMOVE_USER = 'REMOVE_USER'
 const UPDATE_ANSWERED = 'UPDATE_ANSWERED'
+const ADD_CREATED = 'ADD_CREATED'
 
 const defaultUser = {
   // userKey: 'bddR4THyLXZh0kw7DEYb2iusoY42',
@@ -18,6 +17,7 @@ const defaultUser = {
 const setUser = (user) => ({type: SET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
 const updateAnswered = (pollKey) => ({type: UPDATE_ANSWERED, pollKey})
+export const addCreated = (pollKey) => ({type: ADD_CREATED, pollKey})
 
 export const getUserThunk = () => {
   return (dispatch) => {
@@ -141,6 +141,10 @@ export default function (state = defaultUser, action) {
     case UPDATE_ANSWERED: {
       const newState = [...state.answered, action.pollKey]
       return {...state, answered: newState}
+    }
+    case ADD_CREATED: {
+      const newState = [...state.created, action.pollKey]
+      return {...state, created: newState}
     }
     default:
       return state

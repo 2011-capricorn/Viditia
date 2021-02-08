@@ -10,8 +10,9 @@ import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
 
 import {addViditThunk} from '../store/vidit'
+import {addCreated} from '../store/user'
 
-const CreateVidit = ({userKey, addNewVidit}) => {
+const CreateVidit = ({userKey, addNewVidit, addUserCreated, history}) => {
   const [question, setQuestion] = useState('')
   const [type, setType] = useState('')
   const [min, setMin] = useState(0)
@@ -56,11 +57,16 @@ const CreateVidit = ({userKey, addNewVidit}) => {
     return false
   }
 
-  const getReturnValue = () => {
+  const getReturnValue = async () => {
     const returnValue = {question, type, answers: []}
-    if (type === 'Open') addNewVidit({...returnValue, dataType}, userKey)
-    else if (type === 'Range') addNewVidit({...returnValue, min, max}, userKey)
-    else addNewVidit({...returnValue, choices}, userKey)
+    let pollKey = ''
+    if (type === 'Open')
+      pollKey = await addNewVidit({...returnValue, dataType}, userKey)
+    else if (type === 'Range')
+      pollKey = await addNewVidit({...returnValue, min, max}, userKey)
+    else pollKey = await addNewVidit({...returnValue, choices}, userKey)
+    addUserCreated(pollKey)
+    history.push('/vidits')
   }
 
   const handleSubmit = () => {
@@ -168,6 +174,7 @@ const mapState = ({user: {userKey}}) => ({
 
 const mapDispatch = (dispatch) => ({
   addNewVidit: (vidit, userKey) => dispatch(addViditThunk(vidit, userKey)),
+  addUserCreated: (pollKey) => dispatch(addCreated(pollKey)),
 })
 
 export default connect(mapState, mapDispatch)(CreateVidit)
