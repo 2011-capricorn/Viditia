@@ -76,7 +76,7 @@ class ChartVoting extends Component {
             <label id="votequestion" htmlFor=" Question at hand">
               {question}
             </label>
-            {type === 'Multiple' &&
+            {type === 'Multiple 2' &&
               Object.keys(choices).map((choice) => (
                 <div key={choice}>
                   <input
