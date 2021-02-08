@@ -25,7 +25,7 @@ class AllVidits extends Component {
         <div id="allViditContainer">
           {allVidit.map((vidit) => (
             <div key={vidit.pollKey} className="singleVidit">
-              {vidit.type === 'Multiple' ? (
+              {vidit.type === 'Multiple 2' ? (
                 <Link className="viditQuestion" to={`/vidit/${vidit.pollKey}`}>
                   {vidit.question}
                 </Link>
@@ -39,7 +39,7 @@ class AllVidits extends Component {
                 </Link>
               )}
               <h6 className="viditVoteCount">{vidit.totalVoteCount} Votes</h6>
-              {vidit.type === 'Multiple' ? (
+              {vidit.type === 'Multiple 2' ? (
                 <Link to={`/vidit/${vidit.pollKey}`}>
                   <img
                     src={`dummyPieChart${Math.floor(Math.random() * 3)}.png`}
