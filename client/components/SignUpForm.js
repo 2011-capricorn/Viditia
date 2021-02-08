@@ -78,7 +78,7 @@ const SignUpForm = ({register, history}) => {
   }, [error])
 
   return (
-    <div className="flex jcc aic signup-container">
+    <div className="flex jcc aic shadow signup-container">
       <h1 className="tac">Welcome to Viditia!</h1>
       <form onSubmit={handleSubmit}>
         <div>

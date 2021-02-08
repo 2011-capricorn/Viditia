@@ -23,10 +23,7 @@ const Feedback = () => {
   }
 
   return (
-    <div
-      className="feedback-container
-    "
-    >
+    <div className="feedback-container shadow">
       {submitted ? (
         <h1>Thank you for the feedback! Feel free to leave another one!</h1>
       ) : (
