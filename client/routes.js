@@ -17,8 +17,6 @@ import {
 } from './components'
 import {getUserThunk} from './store/user'
 import {getAllViditThunk} from './store/vidit'
-import SignUpVidit from './components/SignUpVidit'
-import SurveyInput from './components/SurveyInput'
 
 class Routes extends Component {
   componentDidMount() {
