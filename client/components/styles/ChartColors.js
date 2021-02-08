@@ -26,3 +26,18 @@ export const lineChartColors = [
   `#D4C34E`,
   `#204AD4`,
 ]
+
+export const barChartColors = [
+  `#ffab00`,
+  `#2B95EC`,
+  `#F6B92A`,
+  `#F54E2A`,
+  `#89BB21`,
+  `#E1701C`,
+  `#5C415D`,
+  `#4A8C8A`,
+  `#D9A7A7`,
+  `#008F91`,
+  `#D4C34E`,
+  `#204AD4`,
+]

@@ -1,92 +1,71 @@
 import React, {Component} from 'react'
 import * as d3 from 'd3'
+
+import './styles/BarChart.css'
+import {barChartColors} from './styles/ChartColors'
 import firebase from '../../public/firebase'
+
 const db = firebase.firestore()
 
-// const data = [
-//   {
-//     categorie: "Student",
-//     values: [
-//       {
-//           value: 0,
-//           rate: "Not at all"
-//       },
-//       {
-//           value: 4,
-//           rate: "Not very much"
-//       },
-//       {
-//           value: 12,
-//           rate: "Medium"
-//       },
-//       {
-//           value: 6,
-//           rate: "Very much"
-//       },
-//       {
-//           value: 0,
-//           rate: "Tremendously"
-//       }
-//     ]
-//   },
-//   {
-//     categorie: "Liberal Profession",
-//     values: [
-//       {
-//           value: 1,
-//           rate: "Not at all"
-//       },
-//       {
-//           value: 21,
-//           rate: "Not very much"
-//       },
-//       {
-//           value: 13,
-//           rate: "Medium"
-//       },
-//       {
-//           value: 18,
-//           rate: "Very much"
-//       },
-//       {
-//           value: 6,
-//           rate: "Tremendously"
-//       }
-//     ]
-//   }
-// ]
+const filterAB = {
+  Hand: ['Right', 'Left'],
+  Season: ['Summer', 'Winter'],
+  Animal: ['Cat', 'Dog'],
+  Drink: ['Coffee', 'Tea'],
+  Scenery: ['Beach', 'Mountains'],
+  Travel: ['Yes', 'No'],
+  Food: ['Cheeseburger', 'Hotdog'],
+  Artist: ['Beyonce', 'Black Sabbath'],
+  Boolean: ['Yes', 'No'],
+  Awake: ['Early Bird', 'Night Owl'],
+}
 
 class BarChart extends Component {
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
     this.state = {
-      chartData: [],
+      chartData: ['no data'],
+      chartDataA: [],
+      chartDataB: [],
       reset: [],
-      colors: [d3.rgb(226, 138, 138), d3.rgb(116, 176, 228)],
+      color: '',
+      units: 'units',
       users: [],
       doc: [],
-      filter: '',
+      filter: 'Hand',
+      filterActive: false,
     }
-    this.createBarChart = this.createBarChart.bind(this)
+    this.createMainBarChart = this.createMainBarChart.bind(this)
+    this.createBarChartA = this.createBarChartA.bind(this)
+    this.createBarChartB = this.createBarChartB.bind(this)
+    this.handleClick = this.handleClick.bind(this)
+    this.resetFilter = this.resetFilter.bind(this)
+    this.chooseFilter = this.chooseFilter.bind(this)
+    this.reloadMain = this.reloadMain.bind(this)
   }
 
-  componentDidMount() {
-    db.collection('polls')
-      .doc('Jjxs5iWmny5Ox4cvhZPA')
+  async componentDidMount() {
+    await db
+      .collection('polls')
+      .doc('s2GdZnP781WE0Rde2pve')
       .onSnapshot((doc) => this.formatData(doc.data().answers))
-    if (this.state.chartData.length) {
-      this.createBarChart()
-    }
+    let randomNumber = Math.floor(Math.random() * 13)
+
+    await this.setState({
+      color: barChartColors[randomNumber],
+      // units: this.props.units, //IMPORTANT@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    })
   }
 
   componentDidUpdate() {
-    if (this.state.chartData.length) {
-      this.createBarChart()
-    }
+    this.reloadMain()
+    this.createMainBarChart()
   }
 
   formatData(data) {
     if (data.length) {
+      this.setState({doc: data})
+
       this.setState({
         doc: data.reduce((result, next) => {
           result[next.userKey] = next.answer
@@ -106,141 +85,37 @@ class BarChart extends Component {
 
       let result = []
       for (let key in test) {
-        result.push({name: key, value: test[key]})
+        result.push({name: key.slice(0, 4), value: test[key]})
       }
 
       this.setState({chartData: result, reset: result})
     }
   }
 
-  // createBarChart() {
-  //   var margin = {top: 20, right: 20, bottom: 30, left: 40},
-  //   width = 960 - margin.left - margin.right,
-  //   height = 500 - margin.top - margin.bottom;
+  async chooseFilter(e) {
+    let filter = e.target.value
+    await this.setState({
+      filter: filter,
+    })
+  }
 
-  //   var x0 = d3.scale.ordinal()
-  //       .rangeRoundBands([0, width], .1);
-
-  //   var x1 = d3.scale.ordinal();
-
-  //   var y = d3.scale.linear()
-  //       .range([height, 0]);
-
-  //   var xAxis = d3.svg.axis()
-  //       .scale(x0)
-  //       .tickSize(0)
-  //       .orient("bottom");
-
-  //   var yAxis = d3.svg.axis()
-  //       .scale(y)
-  //       .orient("left");
-
-  //   var color = d3.scale.ordinal()
-  //       .range(["#ca0020","#f4a582","#d5d5d5","#92c5de","#0571b0"]);
-
-  //   var svg = d3.select('body').append("svg")
-  //       .attr("width", width + margin.left + margin.right)
-  //       .attr("height", height + margin.top + margin.bottom)
-  //     .append("g")
-  //       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-  //   d3.json("data.json", function(error, data) {
-
-  //     var categoriesNames = data.map(function(d) { return d.categorie; });
-  //     var rateNames = data[0].values.map(function(d) { return d.rate; });
-
-  //     x0.domain(categoriesNames);
-  //     x1.domain(rateNames).rangeRoundBands([0, x0.rangeBand()]);
-  //     y.domain([0, d3.max(data, function(categorie) { return d3.max(categorie.values, function(d) { return d.value; }); })]);
-
-  //     svg.append("g")
-  //         .attr("class", "x axis")
-  //         .attr("transform", "translate(0," + height + ")")
-  //         .call(xAxis);
-
-  //     svg.append("g")
-  //         .attr("class", "y axis")
-  //         .style('opacity','0')
-  //         .call(yAxis)
-  //     .append("text")
-  //         .attr("transform", "rotate(-90)")
-  //         .attr("y", 6)
-  //         .attr("dy", ".71em")
-  //         .style("text-anchor", "end")
-  //         .style('font-weight','bold')
-  //         .text("Value");
-
-  //     svg.select('.y').transition().duration(500).delay(1300).style('opacity','1');
-
-  //     var slice = svg.selectAll(".slice")
-  //         .data(data)
-  //         .enter().append("g")
-  //         .attr("class", "g")
-  //         .attr("transform",function(d) { return "translate(" + x0(d.categorie) + ",0)"; });
-
-  //     slice.selectAll("rect")
-  //         .data(function(d) { return d.values; })
-  //     .enter().append("rect")
-  //         .attr("width", x1.rangeBand())
-  //         .attr("x", function(d) { return x1(d.rate); })
-  //         .style("fill", function(d) { return color(d.rate) })
-  //         .attr("y", function(d) { return y(0); })
-  //         .attr("height", function(d) { return height - y(0); })
-  //         .on("mouseover", function(d) {
-  //             d3.select(this).style("fill", d3.rgb(color(d.rate)).darker(2));
-  //         })
-  //         .on("mouseout", function(d) {
-  //             d3.select(this).style("fill", color(d.rate));
-  //         });
-
-  //     slice.selectAll("rect")
-  //         .transition()
-  //         .delay(function (d) {return Math.random()*1000;})
-  //         .duration(1000)
-  //         .attr("y", function(d) { return y(d.value); })
-  //         .attr("height", function(d) { return height - y(d.value); });
-
-  //     //Legend
-  //     var legend = svg.selectAll(".legend")
-  //         .data(data[0].values.map(function(d) { return d.rate; }).reverse())
-  //     .enter().append("g")
-  //         .attr("class", "legend")
-  //         .attr("transform", function(d,i) { return "translate(0," + i * 20 + ")"; })
-  //         .style("opacity","0");
-
-  //     legend.append("rect")
-  //         .attr("x", width - 18)
-  //         .attr("width", 18)
-  //         .attr("height", 18)
-  //         .style("fill", function(d) { return color(d); });
-
-  //     legend.append("text")
-  //         .attr("x", width - 24)
-  //         .attr("y", 9)
-  //         .attr("dy", ".35em")
-  //         .style("text-anchor", "end")
-  //         .text(function(d) {return d; });
-
-  //     legend.transition().duration(500).delay(function(d,i){ return 1300 + 100 * i; }).style("opacity","1");
-  // })}
-
-  createBarChart() {
+  createMainBarChart() {
     const data = this.state.chartData
-    const width = 900
-    const height = 450
-    const margin = {top: 50, bottom: 50, left: 50, right: 50}
+    const width = 400
+    const height = 400
+    const margin = {top: 60, bottom: 60, left: 60, right: 60}
 
     const svg = d3
-      .select('#d3-container')
+      .select('#mainMainChartDiv')
       .append('svg')
       .attr('width', width - margin.left - margin.right)
       .attr('height', height - margin.top - margin.bottom)
       .attr('viewBox', [0, 0, width, height])
+      .attr('id', 'BCMain')
 
     const x = d3
       .scaleBand()
       .domain(d3.range(data.length))
-      // .range([50, 00])
       .range([margin.left, width - margin.right])
       .padding(0.1)
 
@@ -257,15 +132,11 @@ class BarChart extends Component {
       ])
       .range([height - margin.bottom, margin.top])
 
-    // const color = d3.scaleOrdinal(this.state.colors)
-    // const color = d3.scaleOrdinal(["#ca0020","#f4a582","#d5d5d5","#92c5de","#0571b0"])
-
     svg
       .append('g')
-      .attr('fill', 'royalblue')
-      // .attr("fill", function(d) { return color(d.rate) })
+      .attr('fill', this.state.color)
       .selectAll('rect')
-      .data(data.sort((a, b) => d3.descending(a.value, b.value)))
+      .data(data)
       .join('rect')
       .attr('x', (d, i) => x(i))
       .attr('y', (d) => y(d.value))
@@ -276,7 +147,7 @@ class BarChart extends Component {
 
     function yAxis(g) {
       g.attr('transform', `translate(${margin.left}, 0)`)
-        .call(d3.axisLeft(y).ticks(null, data.format))
+        .call(d3.axisLeft(y).ticks(5))
         .attr('font-size', '20px')
     }
 
@@ -289,21 +160,370 @@ class BarChart extends Component {
     svg.append('g').call(xAxis)
     svg.append('g').call(yAxis)
     svg.node()
+
+    svg
+      .append('text')
+      .attr('class', 'x label')
+      .attr('text-anchor', 'middle')
+      .attr('x', width / 2)
+      .attr('y', height - 15)
+      .text(this.state.units)
+
+    svg
+      .append('text')
+      .attr('class', 'y label')
+      .attr('text-anchor', 'end')
+      .attr('y', 15)
+      .attr('x', -150)
+      .attr('transform', 'rotate(-90)')
+      .text('Responses')
+  }
+
+  createBarChartA() {
+    const data = this.state.chartDataA
+    const filterWord = filterAB[this.state.filter][0]
+    const dataFiltered = data.map((unit) => {
+      unit.name = unit.name
+        .split(' ')
+        .filter((word) => !filterWord.includes(word))
+        .join(' ')
+      return unit
+    })
+
+    const width = 400
+    const height = 400
+    const margin = {top: 60, bottom: 60, left: 60, right: 60}
+
+    const svg = d3
+      .select('#BCFilterA')
+      .append('svg')
+      .attr('width', width - margin.left - margin.right)
+      .attr('height', height - margin.top - margin.bottom)
+      .attr('viewBox', [0, 0, width, height])
+      .attr('id', 'BCsvgA')
+
+    const x = d3
+      .scaleBand()
+      .domain(d3.range(data.length))
+      .range([margin.left, width - margin.right])
+      .padding(0.1)
+
+    const y = d3
+      .scaleLinear()
+      .domain([
+        0,
+        Math.max.apply(
+          Math,
+          data.map(function (o) {
+            return o.value
+          })
+        ) * 1.25,
+      ])
+      .range([height - margin.bottom, margin.top])
+
+    svg
+      .append('g')
+      .attr('fill', this.state.color)
+      .selectAll('rect')
+      .data(data)
+      .join('rect')
+      .attr('x', (d, i) => x(i))
+      .attr('y', (d) => y(d.value))
+      .attr('title', (d) => d.value)
+      .attr('class', 'rect')
+      .attr('height', (d) => y(0) - y(d.value))
+      .attr('width', x.bandwidth())
+
+    function yAxis(g) {
+      g.attr('transform', `translate(${margin.left}, 0)`)
+        .call(d3.axisLeft(y).ticks(5))
+        .attr('font-size', '20px')
+    }
+
+    function xAxis(g) {
+      g.attr('transform', `translate(0,${height - margin.bottom})`)
+        .call(d3.axisBottom(x).tickFormat((i) => data[i].name.slice(0, 4)))
+        .attr('font-size', '20px')
+    }
+
+    svg.append('g').call(xAxis)
+    svg.append('g').call(yAxis)
+    svg.node()
+
+    svg
+      .append('text')
+      .attr('class', 'x label')
+      .attr('text-anchor', 'middle')
+      .attr('x', width / 2)
+      .attr('y', height - 15)
+      .text(this.state.units)
+
+    svg
+      .append('text')
+      .attr('class', 'y label')
+      .attr('text-anchor', 'end')
+      .attr('y', 15)
+      .attr('x', -150)
+      .attr('transform', 'rotate(-90)')
+      .text('Responses')
+
+    svg
+      .append('text')
+      .attr('class', 'BCSubLabel')
+      .attr('text-anchor', 'middle')
+      .attr('x', width / 2)
+      .attr('y', height - 360)
+      .text(filterWord)
+  }
+
+  createBarChartB() {
+    const data = this.state.chartDataB
+    const filterWord = filterAB[this.state.filter][1]
+
+    const dataFiltered = data.map((unit) => {
+      unit.name = unit.name
+        .split(' ')
+        .filter((word) => !filterWord.includes(word))
+        .join(' ')
+      return unit
+    })
+
+    const width = 400
+    const height = 400
+    const margin = {top: 60, bottom: 60, left: 60, right: 60}
+
+    const svg = d3
+      .select('#BCFilterB')
+      .append('svg')
+      .attr('width', width - margin.left - margin.right)
+      .attr('height', height - margin.top - margin.bottom)
+      .attr('viewBox', [0, 0, width, height])
+      .attr('id', 'BCsvgB')
+
+    const x = d3
+      .scaleBand()
+      .domain(d3.range(data.length))
+      .range([margin.left, width - margin.right])
+      .padding(0.1)
+
+    const y = d3
+      .scaleLinear()
+      .domain([
+        0,
+        Math.max.apply(
+          Math,
+          data.map(function (o) {
+            return o.value
+          })
+        ) * 1.25,
+      ])
+      .range([height - margin.bottom, margin.top])
+
+    svg
+      .append('g')
+      .attr('fill', this.state.color)
+      .selectAll('rect')
+      .data(data)
+      .join('rect')
+      .attr('x', (d, i) => x(i))
+      .attr('y', (d) => y(d.value))
+      .attr('title', (d) => d.value)
+      .attr('class', 'rect')
+      .attr('height', (d) => y(0) - y(d.value))
+      .attr('width', x.bandwidth())
+
+    function yAxis(g) {
+      g.attr('transform', `translate(${margin.left}, 0)`)
+        .call(d3.axisLeft(y).ticks(5))
+        .attr('font-size', '20px')
+    }
+
+    function xAxis(g) {
+      g.attr('transform', `translate(0,${height - margin.bottom})`)
+        .call(d3.axisBottom(x).tickFormat((i) => data[i].name.slice(0, 4)))
+        .attr('font-size', '20px')
+    }
+
+    svg.append('g').call(xAxis)
+    svg.append('g').call(yAxis)
+    svg.node()
+
+    svg
+      .append('text')
+      .attr('class', 'x label')
+      .attr('text-anchor', 'middle')
+      .attr('x', width / 2)
+      .attr('y', height - 15)
+      .text(this.state.units)
+
+    svg
+      .append('text')
+      .attr('class', 'y label')
+      .attr('text-anchor', 'end')
+      .attr('y', 15)
+      .attr('x', -150)
+      .attr('transform', 'rotate(-90)')
+      .text('Responses')
+
+    svg
+      .append('text')
+      .attr('class', 'BCSubLabel')
+      .attr('text-anchor', 'middle')
+      .attr('x', width / 2)
+      .attr('y', height - 360)
+      .text(filterWord)
+  }
+
+  async handleClick() {
+    document.getElementById('activateFilterBC').disabled = true
+    setTimeout(() => {
+      document.getElementById('activateFilterBC').disabled = false
+    }, 3000)
+    if (this.state.filterActive) {
+      this.resetFilter()
+    }
+    const filterChoice = this.state.filter
+    const users = await Promise.all(
+      this.state.users.map(async (user) => {
+        const test = await db.collection('users').doc(user).get()
+        return {
+          userKey: user,
+          [filterChoice]: test.data().signUpAnswers[filterChoice],
+        }
+      })
+    )
+
+    let result = []
+    for (let feature of users) {
+      let unique = true
+      for (let entry of result) {
+        if (
+          entry.name ===
+          `${this.state.doc[feature.userKey]} ${feature[filterChoice]}`
+        ) {
+          unique = false
+          entry.value++
+        }
+      }
+      if (unique) {
+        result.push({
+          name: `${this.state.doc[feature.userKey]} ${feature[filterChoice]}`,
+          value: 1,
+        })
+      }
+    }
+
+    let splitResultA = result.filter((data) =>
+      data.name.includes(filterAB[filterChoice][0])
+    )
+    let splitResultB = result.filter((data) =>
+      data.name.includes(filterAB[filterChoice][1])
+    )
+    const first = this.state.chartData[0].name
+
+    if (!splitResultA[0].name.includes(first)) {
+      splitResultA = splitResultA.reverse()
+    }
+    if (!splitResultB[0].name.includes(first)) {
+      splitResultB = splitResultB.reverse()
+    }
+    console.log(6, splitResultA)
+    await this.setState({
+      chartDataA: splitResultA,
+      chartDataB: splitResultB,
+      filterActive: true,
+    })
+    this.createBarChartA()
+    this.createBarChartB()
+
+    const filterChartA = document.getElementById('BCFilterA')
+    const filterChartB = document.getElementById('BCFilterB')
+    const v = document.getElementById('VBC')
+
+    filterChartA.className = 'BCfilterRideA'
+    filterChartB.className = 'BCfilterRideB'
+    v.className = 'vFlareBC'
+  }
+
+  resetFilter() {
+    const {reset} = this.state
+    this.setState({
+      chartDataA: reset,
+      chartDataB: reset,
+      filterActive: false,
+    })
+    d3.select('#BCsvgA').remove()
+    d3.select('#BCsvgB').remove()
+    const filterChartA = document.getElementById('BCFilterA')
+    const filterChartB = document.getElementById('BCFilterB')
+    const v = document.getElementById('VBC')
+    filterChartA.className = 'filterStartBC'
+    filterChartB.className = 'filterStartBC'
+    v.className = 'vHiddenBC'
+  }
+
+  reloadMain() {
+    d3.select('#BCMain').remove()
   }
 
   render() {
-    console.log('------>', this.state)
     return (
-      <div id="d3-container" />
-      // <svg
-      //   ref={(node) => {
-      //     this.node = node
-      //     return this.node
-      //   }}
-      //   width={this.props.size[0]}
-      //   height={this.props.size[1]}
-      // ></svg>
+      <div id="singleBCViditFull">
+        <div id="testChartBC">
+          <img src="/capitalV.png" id="VBC" className="vHiddenBC" />
+          <div id="mainMainChart">
+            <div id="mainMainChartDiv"></div>
+
+            <br></br>
+            <br></br>
+            <div id="filterControlsBC">
+              <label htmlFor="filter">Choose a filter</label>
+              <br></br>
+              <select
+                name="filter"
+                id="filterChoiceBC"
+                onChange={this.chooseFilter}
+                defaultValue="Hand"
+              >
+                <option value="Hand">Right or left hand</option>
+                <option value="Season">Summer or winter</option>
+                <option value="Animal">Cat or Dog</option>
+                <option value="Drink">Coffee or tea</option>
+                <option value="Scenery">Beach or Mountains</option>
+                <option value="Travel">Do you like to travel</option>
+                <option value="Food">Cheeseburger or hotdog</option>
+                <option value="Artist">Beyonce or Black Sabbath</option>
+                <option value="Boolean">Yes or no</option>
+                <option value="Awake">Early bird or night owl</option>
+              </select>
+              <br></br>
+              <br></br>
+              <button
+                type="button"
+                onClick={this.handleClick}
+                id="activateFilterBC"
+              >
+                Activate Filter
+              </button>
+              <br></br>
+              <br></br>
+              <button
+                type="button"
+                onClick={this.resetFilter}
+                id="resetFilterBC"
+              >
+                Reset Filter
+              </button>
+            </div>
+          </div>
+          <div id="subBarCharts">
+            <div id="BCFilterA" className="BCFilterStart"></div>
+            <div id="BCFilterB" className="BCFilterStart"></div>
+          </div>
+        </div>
+      </div>
     )
   }
 }
+
 export default BarChart

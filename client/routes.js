@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import LineChart from './components/LineChart'
+import BarChart from './components/BarChart'
 
 import {
   LoginForm,
@@ -32,6 +33,7 @@ class Routes extends Component {
     return (
       <Switch>
         <Route exact path="/" component={AllVidits} />
+        <Route exact path="/bar" component={BarChart} />
         <Route exact path="/vidits" component={AllVidits} />
         <Route path="/lc" component={LineChart} />
         <Route path="/loading" component={LoadingScreen} />
