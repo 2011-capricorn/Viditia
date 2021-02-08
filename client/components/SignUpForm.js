@@ -4,16 +4,13 @@ import {
   Button,
   Divider,
   FormControl,
-  IconButton,
-  InputAdornment,
   InputLabel,
   MenuItem,
-  OutlinedInput,
   Select,
   TextField,
 } from '@material-ui/core'
-import {Visibility, VisibilityOff} from '@material-ui/icons'
 
+import ConfirmPassword from './ConfirmPassword'
 import {signUpThunk} from '../store/user'
 import './styles/SignUpForm.css'
 
@@ -38,6 +35,7 @@ const SignUpForm = ({register, history}) => {
     Artist: ['Beyonce or Black Sabbath?', ['Beyonce', 'Black Sabbath']],
     Boolean: ['Yes or no?', ['Yes', 'No']],
   }
+
   const [signUpAnswers, setSignUpAnswers] = useState({
     Season: '',
     Awake: '',
@@ -93,47 +91,18 @@ const SignUpForm = ({register, history}) => {
             onChange={(e) => setEmail(e.target.value)}
           />
 
-          <FormControl variant="outlined" id="mgt" fullWidth={true}>
-            <InputLabel htmlFor="Password">Password</InputLabel>
-            <OutlinedInput
-              id="Password"
-              type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={() => setShowPassword(!showPassword)}
-                    edge="end"
-                  >
-                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </FormControl>
-
-          <FormControl variant="outlined" id="mgt" fullWidth={true}>
-            <InputLabel htmlFor="confirmPassword">Confirm Password</InputLabel>
-            <OutlinedInput
-              id="confirmPassword"
-              type={showConfirmPassword ? 'text' : 'password'}
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    edge="end"
-                  >
-                    {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </FormControl>
+          <ConfirmPassword
+            title1="Password"
+            title2="Confirm Password"
+            password={password}
+            confirmPassword={confirmPassword}
+            showPassword={showPassword}
+            showConfirmPassword={showConfirmPassword}
+            setPassword={setPassword}
+            setConfirmPassword={setConfirmPassword}
+            setShowPassword={setShowPassword}
+            setShowConfirmPassword={setShowConfirmPassword}
+          />
         </div>
 
         <Divider style={{margin: '20px'}} />
