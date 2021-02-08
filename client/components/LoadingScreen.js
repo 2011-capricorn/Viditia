@@ -1,8 +1,8 @@
-import React, {Component} from 'react'
+import React from 'react'
 
 import './styles/LoadingScreen.css'
 
-const LoadingScreen = (props) => {
+const LoadingScreen = () => {
   return (
     <div id="fullloading">
       <div id="middleloading">

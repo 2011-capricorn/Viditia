@@ -1,0 +1,8 @@
+#created-list-item {
+  justify-content: space-between;
+  margin-bottom: 3%;
+}
+
+.created-list-delete {
+  cursor: pointer;
+}

@@ -46,14 +46,3 @@ class Landing extends Component {
 }
 
 export default Landing
-
-// localStorage.setItem('myCat', 'Tom');
-// The syntax for reading the localStorage item is as follows:
-
-// const cat = localStorage.getItem('myCat');
-// The syntax for removing the localStorage item is as follows:
-
-// localStorage.removeItem('myCat');
-// The syntax for removing all the localStorage items is as follows:
-
-// localStorage.clear();

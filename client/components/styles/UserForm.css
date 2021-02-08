@@ -1,0 +1,22 @@
+.update-divider {
+  margin: 3%;
+}
+
+.update-form {
+  flex-direction: column;
+  padding: 3%;
+}
+
+#update-form-icon {
+  cursor: pointer;
+  height: 32px;
+  width: 32px;
+}
+
+#update-form-item {
+  width: 30%;
+}
+
+#update-text > span {
+  font-size: 32px;
+}

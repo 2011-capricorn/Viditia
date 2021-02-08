@@ -386,7 +386,6 @@ class PieChart extends Component {
   }
 
   render() {
-    console.log('id in PieChart -->', this.props.pollKey)
     return (
       <div id="singleViditFull">
         <div id="testChart">

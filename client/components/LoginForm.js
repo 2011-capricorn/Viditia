@@ -35,7 +35,7 @@ const LoginForm = ({login, oauthLogin, history}) => {
   }, [error])
 
   return (
-    <div className="flex jcb aic container">
+    <div className="flex jcb aic shadow container">
       <form onSubmit={handleSubmit}>
         <h1 className="tac">Welcome back!</h1>
         <TextField

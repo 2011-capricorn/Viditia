@@ -20,7 +20,7 @@ form {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  width: 66%;
+  width: 80%;
   height: 60%;
 }
 
@@ -53,6 +53,10 @@ form {
 
 .tac {
   text-align: center;
+}
+
+.shadow {
+  box-shadow: 5px 5px 15px 10px rgb(0 0 0 / 15%);
 }
 
 #no-style-anchor {
