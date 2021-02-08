@@ -1,0 +1,10 @@
+.feedback-container {
+  flex-direction: column;
+  padding: 25px;
+  margin: 5% 20vw 0 20vw;
+  box-shadow: 5px 5px 15px 10px rgb(0 0 0 / 15%);
+}
+
+.feedback-input {
+  width: 100%;
+}

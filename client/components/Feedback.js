@@ -1,6 +1,8 @@
 import React, {useState} from 'react'
 import {Button, TextField} from '@material-ui/core'
 
+import './styles/Feedback.css'
+
 import firebase from '../../public/firebase'
 const db = firebase.firestore()
 
@@ -21,15 +23,18 @@ const Feedback = () => {
   }
 
   return (
-    <div>
+    <div
+      className="feedback-container
+    "
+    >
       {submitted ? (
         <h1>Thank you for the feedback! Feel free to leave another one!</h1>
       ) : (
         <div>
           <h1>Feedback</h1>
           <p>
-            Team Vidita would like to thank you for taking the time to beta test
-            our web application.
+            Team Viditia would like to thank you for taking the time to beta
+            test our web application.
           </p>
           <p>
             We would love to hear any question, comments, or concerns you may
@@ -43,9 +48,8 @@ const Feedback = () => {
         </div>
       )}
       <br />
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="feedback-input">
         <TextField
-          id="outlined-basic"
           label="Name"
           variant="outlined"
           fullWidth={true}
@@ -54,7 +58,6 @@ const Feedback = () => {
         />
         <br />
         <TextField
-          id="outlined-multiline-static"
           label="Feedback"
           multiline
           required
@@ -65,7 +68,7 @@ const Feedback = () => {
           onChange={(e) => setFeedback(e.target.value)}
         />
         <br />
-        <Button type="submit" variant="outlined" color="primary">
+        <Button type="submit" variant="contained" color="primary">
           Submit
         </Button>
       </form>
