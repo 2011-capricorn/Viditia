@@ -19,12 +19,11 @@ const SingleVidit = (props) => {
   const {id} = props.match.params
   const data = props.allVidit.filter((vidit) => vidit.pollKey === id)[0]
   const userAnswered = props.answered.some((key) => key === data.pollKey)
+  console.log('Single Vidit Data --->', data)
   return data ? (
     <div>
       <h1 id="SVTitle">{data.question}</h1>
-      {!userAnswered && data.type === 'Multiple' && (
-        <ChartVoting pollKey={data.pollKey} />
-      )}
+      {!userAnswered && <ChartVoting pollKey={data.pollKey} />}
 
       {data.type === 'Multiple' && <PieChart size={[500, 500]} pollKey={id} />}
 

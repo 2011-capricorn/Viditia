@@ -1,7 +1,17 @@
+#chartVotingFull {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+}
+
 #chartVoting {
   position: absolute;
   margin-left: 50px;
-  /* margin-top: 25px; */
+  margin-top: 25px;
   height: 100vh;
   width: 1150px;
   min-width: 1150px;
@@ -32,7 +42,8 @@
 
 #formDivVote {
   height: 400px;
-  width: 400px;
+  width: 600px;
+  padding: 25px;
   border-radius: 15px;
   background-color: rgb(225, 225, 225);
   display: flex;
@@ -46,10 +57,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
 }
 
 #submitBtnVote {
-  margin: 0px;
+  margin: 25px 0px 0px 0px;
   border-radius: 15px;
   width: 100px;
   height: 36px;
@@ -110,4 +122,71 @@
   animation-name: show;
   animation-duration: 1s;
   animation-fill-mode: forwards;
+}
+
+#openNumberBox {
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#openNumberInput {
+  border: none;
+  border-radius: 15px;
+  width: 50%;
+  margin-right: 15px;
+  padding: 5px;
+}
+
+#openNumberFull {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#minMaxOpenNumber {
+  display: flex;
+  justify-content: center;
+}
+
+#openNumberLabel {
+  margin: 0px;
+}
+
+#openStringInput {
+  border: none;
+  border-radius: 15px;
+  width: 50%;
+  padding: 5px;
+  margin-top: 36px;
+}
+
+#stringOpenContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#rangeFull {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#rangeInput {
+  border: none;
+  border-radius: 15px;
+  width: 30%;
+  padding: 5px;
+}
+
+#rangeInputBox {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
