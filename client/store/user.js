@@ -6,6 +6,7 @@ const SET_USER = 'SET_USER'
 const REMOVE_USER = 'REMOVE_USER'
 const UPDATE_ANSWERED = 'UPDATE_ANSWERED'
 const ADD_CREATED = 'ADD_CREATED'
+const REMOVE_CREATED = 'REMOVE_CREATED'
 
 const defaultUser = {
   // userKey: 'bddR4THyLXZh0kw7DEYb2iusoY42',
@@ -18,6 +19,7 @@ const setUser = (user) => ({type: SET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
 const updateAnswered = (pollKey) => ({type: UPDATE_ANSWERED, pollKey})
 export const addCreated = (pollKey) => ({type: ADD_CREATED, pollKey})
+const removeCreated = (pollKey) => ({type: REMOVE_CREATED, pollKey})
 
 export const getUserThunk = () => {
   return (dispatch) => {
@@ -126,6 +128,16 @@ export const updateAnsweredThunk = (pollKey, userKey) => {
         answered: firebase.firestore.FieldValue.arrayUnion(pollKey),
       })
       dispatch(updateAnswered(pollKey))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
+export const removeCreatedThunk = (pollKey, userKey) => {
+  return async (dispatch) => {
+    try {
+      console.log('pollKey, userKey')
     } catch (error) {
       console.error(error)
     }
