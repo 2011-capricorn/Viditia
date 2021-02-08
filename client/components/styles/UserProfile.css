@@ -1,0 +1,22 @@
+.profile-container {
+  height: 100vh;
+}
+
+.profile-nav {
+  flex: 1;
+  padding: 3%;
+}
+
+.profile-nav > p {
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.profile-nav > p:hover {
+  border-bottom: 2px solid black;
+}
+
+.profile-content {
+  flex: 4;
+  padding: 3%;
+}
