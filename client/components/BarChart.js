@@ -4,21 +4,9 @@ import * as d3 from 'd3'
 import './styles/BarChart.css'
 import {barChartColors} from './styles/ChartColors'
 import firebase from '../../public/firebase'
+import filterAB from '../filterAB'
 
 const db = firebase.firestore()
-
-const filterAB = {
-  Hand: ['Right', 'Left'],
-  Season: ['Summer', 'Winter'],
-  Animal: ['Cat', 'Dog'],
-  Drink: ['Coffee', 'Tea'],
-  Scenery: ['Beach', 'Mountains'],
-  Travel: ['Yes', 'No'],
-  Food: ['Cheeseburger', 'Hotdog'],
-  Artist: ['Beyonce', 'Black Sabbath'],
-  Boolean: ['Yes', 'No'],
-  Awake: ['Early Bird', 'Night Owl'],
-}
 
 class BarChart extends Component {
   constructor() {
@@ -38,8 +26,7 @@ class BarChart extends Component {
       margin: {top: 60, bottom: 60, left: 60, right: 60},
     }
     this.createMainBarChart = this.createMainBarChart.bind(this)
-    this.createBarChartA = this.createBarChartA.bind(this)
-    this.createBarChartB = this.createBarChartB.bind(this)
+    this.createFilterBarChart = this.createFilterBarChart.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.resetFilter = this.resetFilter.bind(this)
     this.chooseFilter = this.chooseFilter.bind(this)
@@ -251,55 +238,24 @@ class BarChart extends Component {
     this.setYLabel(svg)
   }
 
-  createBarChartA() {
-    let data = this.state.chartDataA
-    const filterWord = filterAB[this.state.filter][0]
-
+  createFilterBarChart(chart, selectValue, idValue) {
+    let data = this.state[chart]
+    const filterWord =
+      chart === 'chartDataA'
+        ? filterAB[this.state.filter][0]
+        : filterAB[this.state.filter][1]
     data = data.map((obj) => {
       obj.name = obj.name.slice(0, 4)
       return obj
     })
-
     data = this.chartFormat(data)
-
-    const svg = this.createSVG('#BCFilterA', 'BCsvgA')
-
+    const svg = this.createSVG(selectValue, idValue)
     const x = this.getXValue(data)
     const y = this.getYValue(data)
-
     this.changeGraphStructure(svg, data, x, y)
-
     svg.append('g').call((g) => this.xAxis(g, data, x))
     svg.append('g').call((g) => this.yAxis(g, y))
     svg.node()
-
-    this.setXLabel(svg)
-    this.setYLabel(svg)
-    this.setBCSubLabel(svg, filterWord)
-  }
-
-  createBarChartB() {
-    let data = this.state.chartDataB
-    const filterWord = filterAB[this.state.filter][1]
-
-    data = data.map((obj) => {
-      obj.name = obj.name.slice(0, 4)
-      return obj
-    })
-
-    data = this.chartFormat(data)
-
-    const svg = this.createSVG('#BCFilterB', 'BCsvgB')
-
-    const x = this.getXValue(data)
-    const y = this.getYValue(data)
-
-    this.changeGraphStructure(svg, data, x, y)
-
-    svg.append('g').call((g) => this.xAxis(g, data, x))
-    svg.append('g').call((g) => this.yAxis(g, y))
-    svg.node()
-
     this.setXLabel(svg)
     this.setYLabel(svg)
     this.setBCSubLabel(svg, filterWord)
@@ -356,8 +312,8 @@ class BarChart extends Component {
       chartDataB: splitResultB,
       filterActive: true,
     })
-    this.createBarChartA()
-    this.createBarChartB()
+    this.createFilterBarChart('chartDataA', '#BCFilterA', 'BCsvgA')
+    this.createFilterBarChart('chartDataB', '#BCFilterB', 'BCsvgB')
 
     const filterChartA = document.getElementById('BCFilterA')
     const filterChartB = document.getElementById('BCFilterB')
