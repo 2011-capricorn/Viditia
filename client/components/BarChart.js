@@ -142,7 +142,6 @@ class BarChart extends Component {
       }
       data = finalData
     }
-
     const svg = d3
       .select('#mainMainChartDiv')
       .append('svg')
@@ -219,15 +218,16 @@ class BarChart extends Component {
 
   createBarChartA() {
     let data = this.state.chartDataA
-
-    data = data.map((obj) => {
-      obj.name = obj.name.slice(0, 4)
-      return obj
-    })
-
     const filterWord = filterAB[this.state.filter][0]
 
     if (this.props.type === 'Range') {
+      const dataFiltered = data.map((unit) => {
+        unit.name = unit.name
+          .split(' ')
+          .filter((word) => !filterWord.includes(word))
+          .join(' ')
+        return unit
+      })
       let numRange = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
       let keys = data.map((obj) => Number(obj.name))
 
@@ -245,6 +245,10 @@ class BarChart extends Component {
           return a.name - b.name
         })
     } else {
+      data = data.map((obj) => {
+        obj.name = obj.name.slice(0, 4)
+        return obj
+      })
       let keys = data.map((obj) => obj.name)
       let choicesArr = []
       choicesArr.push(this.props.choices.a.slice(0, 4))
@@ -264,7 +268,6 @@ class BarChart extends Component {
       }
       data = finalData
     }
-
     const width = 400
     const height = 400
     const margin = {top: 60, bottom: 60, left: 60, right: 60}
@@ -317,7 +320,7 @@ class BarChart extends Component {
 
     function xAxis(g) {
       g.attr('transform', `translate(0,${height - margin.bottom})`)
-        .call(d3.axisBottom(x).tickFormat((i) => data[i].name.slice(0, 4)))
+        .call(d3.axisBottom(x).tickFormat((i) => data[i].name))
         .attr('font-size', '20px')
     }
 
@@ -353,15 +356,16 @@ class BarChart extends Component {
 
   createBarChartB() {
     let data = this.state.chartDataB
-
-    data = data.map((obj) => {
-      obj.name = obj.name.slice(0, 4)
-      return obj
-    })
-
     const filterWord = filterAB[this.state.filter][1]
 
     if (this.props.type === 'Range') {
+      const dataFiltered = data.map((unit) => {
+        unit.name = unit.name
+          .split(' ')
+          .filter((word) => !filterWord.includes(word))
+          .join(' ')
+        return unit
+      })
       let numRange = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
       let keys = data.map((obj) => Number(obj.name))
 
@@ -379,6 +383,10 @@ class BarChart extends Component {
           return a.name - b.name
         })
     } else {
+      data = data.map((obj) => {
+        obj.name = obj.name.slice(0, 4)
+        return obj
+      })
       let keys = data.map((obj) => obj.name)
       let choicesArr = []
       choicesArr.push(this.props.choices.a.slice(0, 4))
@@ -398,7 +406,6 @@ class BarChart extends Component {
       }
       data = finalData
     }
-
     const width = 400
     const height = 400
     const margin = {top: 60, bottom: 60, left: 60, right: 60}
@@ -451,7 +458,7 @@ class BarChart extends Component {
 
     function xAxis(g) {
       g.attr('transform', `translate(0,${height - margin.bottom})`)
-        .call(d3.axisBottom(x).tickFormat((i) => data[i].name.slice(0, 4)))
+        .call(d3.axisBottom(x).tickFormat((i) => data[i].name))
         .attr('font-size', '20px')
     }
 
