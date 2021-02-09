@@ -38,6 +38,7 @@ export const getAllViditThunk = () => {
             rangeLabel5,
             rangeLabel10,
             masterLabel,
+            choices,
           } = poll.data()
           return {
             pollKey: poll.id,
@@ -50,6 +51,7 @@ export const getAllViditThunk = () => {
             rangeLabel5,
             rangeLabel10,
             masterLabel,
+            choices,
             totalVoteCount: answers.length,
           }
         })

@@ -47,7 +47,7 @@ class BarChart extends Component {
   async componentDidMount() {
     await db
       .collection('polls')
-      .doc('s2GdZnP781WE0Rde2pve')
+      .doc(this.props.pollKey)
       .onSnapshot((doc) => this.formatData(doc.data().answers))
     let randomNumber = Math.floor(Math.random() * 13)
 
@@ -100,10 +100,48 @@ class BarChart extends Component {
   }
 
   createMainBarChart() {
-    const data = this.state.chartData
+    let data = this.state.chartData
     const width = 400
     const height = 400
     const margin = {top: 60, bottom: 60, left: 60, right: 60}
+
+    if (this.props.type === 'Range') {
+      let numRange = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      let keys = data.map((obj) => Number(obj.name))
+
+      for (let i = 0; i < numRange.length; i++) {
+        if (!keys.includes(numRange[i])) {
+          data.push({name: numRange[i], value: 0})
+        }
+      }
+      data = data
+        .map((obj) => {
+          return {name: Number(obj.name), value: obj.value}
+        })
+        .filter((obj) => obj.name >= 0)
+        .sort((a, b) => {
+          return a.name - b.name
+        })
+    } else {
+      let keys = data.map((obj) => obj.name)
+      let choicesArr = []
+      choicesArr.push(this.props.choices.a.slice(0, 4))
+      choicesArr.push(this.props.choices.b.slice(0, 4))
+      choicesArr.push(this.props.choices.c.slice(0, 4))
+      if (this.props.choices.d) {
+        choicesArr.push(this.props.choices.d.slice(0, 4))
+      }
+
+      let finalData = []
+
+      for (let i = 0; i < choicesArr.length; i++) {
+        if (!keys.includes(choicesArr[i])) {
+          data.push({name: choicesArr[i], value: 0})
+        }
+        finalData.push(data.filter((obj) => obj.name === choicesArr[i])[0])
+      }
+      data = finalData
+    }
 
     const svg = d3
       .select('#mainMainChartDiv')
@@ -167,7 +205,7 @@ class BarChart extends Component {
       .attr('text-anchor', 'middle')
       .attr('x', width / 2)
       .attr('y', height - 15)
-      .text(this.state.units)
+      .text(this.props.masterLabel || this.props.rangeLabel5)
 
     svg
       .append('text')
@@ -180,15 +218,52 @@ class BarChart extends Component {
   }
 
   createBarChartA() {
-    const data = this.state.chartDataA
-    const filterWord = filterAB[this.state.filter][0]
-    const dataFiltered = data.map((unit) => {
-      unit.name = unit.name
-        .split(' ')
-        .filter((word) => !filterWord.includes(word))
-        .join(' ')
-      return unit
+    let data = this.state.chartDataA
+
+    data = data.map((obj) => {
+      obj.name = obj.name.slice(0, 4)
+      return obj
     })
+
+    const filterWord = filterAB[this.state.filter][0]
+
+    if (this.props.type === 'Range') {
+      let numRange = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      let keys = data.map((obj) => Number(obj.name))
+
+      for (let i = 0; i < numRange.length; i++) {
+        if (!keys.includes(numRange[i])) {
+          data.push({name: numRange[i], value: 0})
+        }
+      }
+      data = data
+        .map((obj) => {
+          return {name: Number(obj.name), value: obj.value}
+        })
+        .filter((obj) => obj.name >= 0)
+        .sort((a, b) => {
+          return a.name - b.name
+        })
+    } else {
+      let keys = data.map((obj) => obj.name)
+      let choicesArr = []
+      choicesArr.push(this.props.choices.a.slice(0, 4))
+      choicesArr.push(this.props.choices.b.slice(0, 4))
+      choicesArr.push(this.props.choices.c.slice(0, 4))
+      if (this.props.choices.d) {
+        choicesArr.push(this.props.choices.d.slice(0, 4))
+      }
+
+      let finalData = []
+
+      for (let i = 0; i < choicesArr.length; i++) {
+        if (!keys.includes(choicesArr[i])) {
+          data.push({name: choicesArr[i], value: 0})
+        }
+        finalData.push(data.filter((obj) => obj.name === choicesArr[i])[0])
+      }
+      data = finalData
+    }
 
     const width = 400
     const height = 400
@@ -256,7 +331,7 @@ class BarChart extends Component {
       .attr('text-anchor', 'middle')
       .attr('x', width / 2)
       .attr('y', height - 15)
-      .text(this.state.units)
+      .text(this.props.masterLabel || this.props.rangeLabel5)
 
     svg
       .append('text')
@@ -277,16 +352,52 @@ class BarChart extends Component {
   }
 
   createBarChartB() {
-    const data = this.state.chartDataB
+    let data = this.state.chartDataB
+
+    data = data.map((obj) => {
+      obj.name = obj.name.slice(0, 4)
+      return obj
+    })
+
     const filterWord = filterAB[this.state.filter][1]
 
-    const dataFiltered = data.map((unit) => {
-      unit.name = unit.name
-        .split(' ')
-        .filter((word) => !filterWord.includes(word))
-        .join(' ')
-      return unit
-    })
+    if (this.props.type === 'Range') {
+      let numRange = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      let keys = data.map((obj) => Number(obj.name))
+
+      for (let i = 0; i < numRange.length; i++) {
+        if (!keys.includes(numRange[i])) {
+          data.push({name: numRange[i], value: 0})
+        }
+      }
+      data = data
+        .map((obj) => {
+          return {name: Number(obj.name), value: obj.value}
+        })
+        .filter((obj) => obj.name >= 0)
+        .sort((a, b) => {
+          return a.name - b.name
+        })
+    } else {
+      let keys = data.map((obj) => obj.name)
+      let choicesArr = []
+      choicesArr.push(this.props.choices.a.slice(0, 4))
+      choicesArr.push(this.props.choices.b.slice(0, 4))
+      choicesArr.push(this.props.choices.c.slice(0, 4))
+      if (this.props.choices.d) {
+        choicesArr.push(this.props.choices.d.slice(0, 4))
+      }
+
+      let finalData = []
+
+      for (let i = 0; i < choicesArr.length; i++) {
+        if (!keys.includes(choicesArr[i])) {
+          data.push({name: choicesArr[i], value: 0})
+        }
+        finalData.push(data.filter((obj) => obj.name === choicesArr[i])[0])
+      }
+      data = finalData
+    }
 
     const width = 400
     const height = 400
@@ -354,7 +465,7 @@ class BarChart extends Component {
       .attr('text-anchor', 'middle')
       .attr('x', width / 2)
       .attr('y', height - 15)
-      .text(this.state.units)
+      .text(this.props.masterLabel || this.props.rangeLabel5)
 
     svg
       .append('text')
@@ -427,7 +538,7 @@ class BarChart extends Component {
     if (!splitResultB[0].name.includes(first)) {
       splitResultB = splitResultB.reverse()
     }
-    console.log(6, splitResultA)
+
     await this.setState({
       chartDataA: splitResultA,
       chartDataB: splitResultB,
