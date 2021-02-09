@@ -5,16 +5,13 @@ import {List, ListItem, ListItemIcon} from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete'
 
 import {removeCreatedThunk} from '../store/user'
+import {deleteViditThunk} from '../store/vidit'
 import './styles/UserCreatedList.css'
 
-import myFirebase from '../../public/firebase'
-const db = myFirebase.firestore()
-
-const UserCreatedList = ({userKey, polls, removeVidit}) => {
-  const test = async (pollKey, uid) => {
-    const pollRef = db.collection('polls').doc(pollKey)
-    const {answers} = (await pollRef.get()).data()
-    console.log('answers -->', answers)
+const UserCreatedList = ({userKey, polls, removeVidit, deleteVidit}) => {
+  const update = (pollKey, uid) => {
+    deleteVidit(pollKey)
+    removeVidit(pollKey, uid)
   }
 
   return (
@@ -26,8 +23,7 @@ const UserCreatedList = ({userKey, polls, removeVidit}) => {
           <ListItemIcon>
             <DeleteIcon
               className="created-list-delete"
-              // onClick={() => removeVidit(poll.pollKey, userKey)}
-              onClick={() => test(poll.pollKey, userKey)}
+              onClick={() => update(poll.pollKey, userKey)}
             />
           </ListItemIcon>
         </ListItem>
@@ -43,6 +39,7 @@ const mapState = ({user: {userKey}}) => ({
 const mapDispatch = (dispatch) => ({
   removeVidit: (pollKey, userKey) =>
     dispatch(removeCreatedThunk(pollKey, userKey)),
+  deleteVidit: (pollKey) => dispatch(deleteViditThunk(pollKey)),
 })
 
 export default connect(mapState, mapDispatch)(UserCreatedList)
