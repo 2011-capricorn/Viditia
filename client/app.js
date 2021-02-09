@@ -1,20 +1,28 @@
 import React from 'react'
-import {render} from 'react-dom'
 import {Navbar} from './components'
 import Routes from './routes'
 import Landing from '../client/components/Landing'
+import {createMuiTheme, ThemeProvider} from '@material-ui/core'
 
-// import Header from './components/Header'
-// import SideDrawer from './components/SideDrawer'
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#8F7AA3',
+    },
+    secondary: {
+      main: '#dcdee5',
+    },
+  },
+})
 
 const App = () => {
   return (
     <div>
-      {/* <Header /> */}
-      {/* <SideDrawer /> */}
       <Landing />
-      <Navbar />
-      <Routes />
+      <ThemeProvider theme={theme}>
+        <Navbar />
+        <Routes />
+      </ThemeProvider>
     </div>
   )
 }

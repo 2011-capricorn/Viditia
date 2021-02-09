@@ -19,7 +19,7 @@ const setUser = (user) => ({type: SET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
 const updateAnswered = (pollKey) => ({type: UPDATE_ANSWERED, pollKey})
 export const addCreated = (pollKey) => ({type: ADD_CREATED, pollKey})
-const removeCreated = (pollKey) => ({type: REMOVE_CREATED, pollKey})
+const removeCreated = (created) => ({type: REMOVE_CREATED, created})
 
 export const getUserThunk = () => {
   return (dispatch) => {
@@ -123,7 +123,7 @@ export const logoutThunk = () => {
 export const updateAnsweredThunk = (pollKey, userKey) => {
   return async (dispatch) => {
     try {
-      const userRef = await db.collection('users').doc(userKey)
+      const userRef = db.collection('users').doc(userKey)
       userRef.update({
         answered: firebase.firestore.FieldValue.arrayUnion(pollKey),
       })
@@ -137,7 +137,11 @@ export const updateAnsweredThunk = (pollKey, userKey) => {
 export const removeCreatedThunk = (pollKey, userKey) => {
   return async (dispatch) => {
     try {
-      console.log('pollKey, userKey')
+      const userRef = db.collection('users').doc(userKey)
+      const {created} = (await userRef.get()).data()
+      const newCreated = created.filter((poll) => poll !== pollKey)
+      userRef.update({created: newCreated})
+      dispatch(removeCreated(newCreated))
     } catch (error) {
       console.error(error)
     }
@@ -158,6 +162,8 @@ export default function (state = defaultUser, action) {
       const newState = [...state.created, action.pollKey]
       return {...state, created: newState}
     }
+    case REMOVE_CREATED:
+      return {...state, created: action.created}
     default:
       return state
   }

@@ -12,11 +12,9 @@ const db = myFirebase.firestore()
 
 const UserCreatedList = ({userKey, polls, removeVidit}) => {
   const test = async (pollKey, uid) => {
-    const userRef = db.collection('users').doc(uid)
-    const {created} = (await userRef.get()).data()
-    console.log('created -->', created)
-    const newCreated = created.filter((poll) => poll !== pollKey)
-    console.log('newCreated -->', newCreated)
+    const pollRef = db.collection('polls').doc(pollKey)
+    const {answers} = (await pollRef.get()).data()
+    console.log('answers -->', answers)
   }
 
   return (
