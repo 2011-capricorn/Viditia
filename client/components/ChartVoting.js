@@ -9,16 +9,6 @@ const db = firebase.firestore()
 
 import LoadingScreen from './LoadingScreen'
 
-//FUNCTIONS
-//HandleSubmit
-
-//What we need to Render
-//Poll Question
-//Poll Choices
-//Voting Button
-//Click Handler
-//Visual Graph
-
 class ChartVoting extends Component {
   constructor() {
     super()
@@ -28,8 +18,9 @@ class ChartVoting extends Component {
       type: '',
       loading: true,
       multiple: '',
-      numberOpen: 0,
+      numberOpen: -1,
       stringOpen: '',
+      range: -1,
       units: '',
       max: 0,
       dataType: '',
@@ -37,7 +28,6 @@ class ChartVoting extends Component {
       rangeLabel5: '',
       rangeLabel10: '',
       masterLabel: '',
-      range: 1,
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -71,7 +61,7 @@ class ChartVoting extends Component {
       masterLabel,
     })
     const voteBtn = document.getElementById('submitBtnVote')
-    voteBtn.disabled = false
+    voteBtn.disabled = true
   }
 
   handleSubmit(e) {
@@ -103,6 +93,23 @@ class ChartVoting extends Component {
     await this.setState({
       [e.target.name]: e.target.value,
     })
+    const voteBtn = document.getElementById('submitBtnVote')
+    if (
+      this.state.multiple === '' &&
+      (Number(this.state.numberOpen) < 0 ||
+        this.state.numberOpen === '' ||
+        Number(this.state.numberOpen) > Number(this.state.max)) &&
+      this.state.stringOpen === '' &&
+      (Number(this.state.range) < 1 ||
+        this.state.range === '' ||
+        Number(this.state.range) > Number(this.state.max))
+    ) {
+      voteBtn.disabled = true
+      voteBtn.className = 'submitBtnVoteDisabled'
+    } else {
+      voteBtn.disabled = false
+      voteBtn.className = 'submitBtnVoteEnabled'
+    }
   }
 
   render() {
@@ -148,7 +155,11 @@ class ChartVoting extends Component {
                 ))}
               {type === 'Range' && (
                 <div id="rangeFull">
-                  {masterLabel !== undefined && <p>{masterLabel}</p>}
+                  {masterLabel !== undefined ? (
+                    <p>{masterLabel}</p>
+                  ) : (
+                    <p>1 - 10</p>
+                  )}
                   <div id="rangeInputBox">
                     {rangeLabel1 !== undefined && <p>{rangeLabel1}</p>}
                     <input
@@ -162,6 +173,7 @@ class ChartVoting extends Component {
                     />
                     {rangeLabel10 !== undefined && <p>{rangeLabel10}</p>}
                   </div>
+                  {masterLabel !== undefined && <p>1 - 10</p>}
                   {rangeLabel5 !== undefined && <p>{rangeLabel5}</p>}
                 </div>
               )}
@@ -197,7 +209,11 @@ class ChartVoting extends Component {
                   />
                 </div>
               )}
-              <button id="submitBtnVote" type="submit">
+              <button
+                id="submitBtnVote"
+                type="submit"
+                className="submitBtnVoteDisabled"
+              >
                 VOTE
               </button>
               <h3 id="thankYou" className="tyHidden">
