@@ -5,6 +5,7 @@ const db = myFirebase.firestore()
 const ADD_VIDIT = 'ADD_VIDIT'
 const GET_ALL_VIDIT = 'GET_ALL_VIDIT'
 const UPDATE_VIDIT = 'UPDATE_VIDIT'
+const DELETE_VIDIT = 'DELETE_VIDIT'
 
 const getAllVidit = (vidits) => ({
   type: GET_ALL_VIDIT,
@@ -18,6 +19,11 @@ const addVidit = (vidit) => ({
 
 const updateVidit = (pollKey) => ({
   type: UPDATE_VIDIT,
+  pollKey,
+})
+
+const deleteVidit = (pollKey) => ({
+  type: DELETE_VIDIT,
   pollKey,
 })
 
@@ -105,6 +111,25 @@ export const updateVoteThunk = (pollKey, answer, userKey) => {
   }
 }
 
+export const deleteViditThunk = (pollKey) => {
+  return async (dispatch) => {
+    try {
+      const pollRef = db.collection('polls').doc(pollKey)
+      const {answers} = (await pollRef.get()).data()
+      answers.forEach(async (answer) => {
+        const userRef = db.collection('users').doc(answer.userKey)
+        const {answered} = (await userRef.get()).data()
+        const newAnswered = answered.filter((item) => item !== pollKey)
+        userRef.update({answered: newAnswered})
+      })
+      pollRef.delete()
+      dispatch(deleteVidit(pollKey))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
 const defaultState = {
   allVidit: [],
   singleVidit: {pollKey: '', results: []},
@@ -123,6 +148,12 @@ export default (state = defaultState, action) => {
         }
         return vidit
       })
+      return {...state, allVidit: newState}
+    }
+    case DELETE_VIDIT: {
+      const newState = state.allVidit.filter(
+        (vidit) => vidit.pollKey !== action.pollKey
+      )
       return {...state, allVidit: newState}
     }
     default:
