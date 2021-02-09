@@ -20,8 +20,21 @@ const SingleVidit = (props) => {
   return data ? (
     <div>
       <h1 id="SVTitle">{data.question}</h1>
-      {!userAnswered && <ChartVoting pollKey={data.pollKey} />}
-      {data.type === 'Multiple' && <PieChart size={[500, 500]} pollKey={id} />}
+      {!userAnswered && <ChartVoting pollKey={id} />}
+      {data.type === 'Multiple 2' && (
+        <PieChart size={[500, 500]} pollKey={id} />
+      )}
+      {(data.type === 'Multiple +' || data.type === 'Range') && (
+        <BarChart
+          pollKey={id}
+          rangeLabel1={data.rangeLabel1}
+          rangeLabel5={data.rangeLabel5}
+          rangeLabel10={data.rangeLabel10}
+          masterLabel={data.masterLabel}
+          type={data.type}
+          choices={data.choices}
+        />
+      )}
       {data.type === 'Open' && data.dataType === 'Number' && (
         <LineChart pollKey={id} units={data.units} />
       )}

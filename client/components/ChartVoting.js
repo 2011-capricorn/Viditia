@@ -111,7 +111,7 @@ class ChartVoting extends Component {
       choices,
       type,
       loading,
-      answer,
+      multiple,
       dataType,
       units,
       max,
@@ -138,7 +138,7 @@ class ChartVoting extends Component {
                       name="multiple"
                       value={choices[choice]}
                       onChange={this.handleChange}
-                      checked={answer === choices[choice]}
+                      checked={multiple === choices[choice]}
                       className="radioButtonVote"
                     />
                     <label htmlFor={pollKey} className="radioLabelVote">
