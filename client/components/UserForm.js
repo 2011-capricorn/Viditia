@@ -16,8 +16,8 @@ import ConfirmPassword from './ConfirmPassword'
 import './styles/UserForm.css'
 
 const UserForm = () => {
-  const [updateEmail, setUpdateEmail] = useState(true)
-  const [updatePassword, setUpdatePassword] = useState(true)
+  const [updateEmail, setUpdateEmail] = useState(false)
+  const [updatePassword, setUpdatePassword] = useState(false)
   const [email, setEmail] = useState(firebase.auth().currentUser.email)
   const [showNewPassword, setShowNewPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)

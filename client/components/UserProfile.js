@@ -8,7 +8,7 @@ import UserCreatedList from './UserCreatedList'
 import './styles/UserProfile.css'
 
 export const UserProfile = ({created, allVidit}) => {
-  const [showUserInformation, setShowUserInformation] = useState(false)
+  const [showUserInformation, setShowUserInformation] = useState(true)
   const userCreated = allVidit.filter((vidit) =>
     created.includes(vidit.pollKey)
   )
