@@ -4,21 +4,9 @@ import * as d3 from 'd3'
 import './styles/LineChart.css'
 import {lineChartColors} from './styles/ChartColors'
 import firebase from '../../public/firebase'
+import filterAB from '../filterAB'
 
 const db = firebase.firestore()
-
-const filterAB = {
-  Hand: ['Right', 'Left'],
-  Season: ['Summer', 'Winter'],
-  Animal: ['Cat', 'Dog'],
-  Drink: ['Coffee', 'Tea'],
-  Scenery: ['Beach', 'Mountains'],
-  Travel: ['Yes', 'No'],
-  Food: ['Cheeseburger', 'Hotdog'],
-  Artist: ['Beyonce', 'Black Sabbath'],
-  Boolean: ['Yes', 'No'],
-  Awake: ['Early Bird', 'Night Owl'],
-}
 
 class LineChart extends Component {
   constructor() {
@@ -34,75 +22,65 @@ class LineChart extends Component {
       doc: [],
       filter: 'Hand',
       filterActive: false,
+      margin: {top: 50, right: 50, bottom: 50, left: 50},
     }
-    this.createMainLineChart = this.createMainLineChart.bind(this)
-    this.createLineChartA = this.createLineChartA.bind(this)
-    this.createLineChartB = this.createLineChartB.bind(this)
+    this.createLineChart = this.createLineChart.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.resetFilter = this.resetFilter.bind(this)
     this.chooseFilter = this.chooseFilter.bind(this)
     this.reloadMain = this.reloadMain.bind(this)
   }
 
-  async componentDidMount() {
-    await db
-      .collection('polls')
+  componentDidMount() {
+    db.collection('polls')
       .doc(this.props.pollKey)
       .onSnapshot((doc) => this.formatData(doc.data().answers))
     let randomNumber = Math.floor(Math.random() * 13)
 
-    await this.setState({
+    this.setState({
       color: lineChartColors[randomNumber],
       units: this.props.units,
     })
-    // this.createMainLineChart()
   }
 
   componentDidUpdate() {
     this.reloadMain()
-    this.createMainLineChart()
+    this.createLineChart('#mainLineChartDiv', 'LCMain', false)
   }
 
-  async formatData(data) {
+  formatData(data) {
     if (data.length) {
-      this.setState({doc: data})
-      this.setState({
-        doc: data.reduce((result, next) => {
-          result[next.userKey] = next.answer
-          return result
-        }, {}),
-      })
+      const doc = data.reduce((result, next) => {
+        result[next.userKey] = next.answer
+        return result
+      }, {})
 
-      const test = data.reduce((result, next) => {
+      const preProcess = data.reduce((result, next) => {
         if (result[next.answer]) result[next.answer]++
         else result[next.answer] = 1
         return result
       }, {})
 
-      this.setState({
-        users: data.map((entry) => entry.userKey),
-      })
+      const users = data.map((entry) => entry.userKey)
 
-      let result = []
-      for (let key in test) {
-        result.push({name: key, value: test[key]})
-      }
+      let result = Object.keys(preProcess).map((key) => ({
+        name: key,
+        value: preProcess[key],
+      }))
 
-      await this.setState({chartData: result, reset: result})
+      this.setState({doc, chartData: result, reset: result, users})
     }
   }
 
-  async chooseFilter(e) {
+  chooseFilter(e) {
     let filter = e.target.value
-    await this.setState({
+    this.setState({
       filter: filter,
     })
   }
 
-  createMainLineChart() {
-    const data = this.state.chartData
-
-    const toXY = data
+  convertDataToXY(data) {
+    return data
       .map((obj) => {
         return {x: Number(obj.name), y: obj.value}
       })
@@ -110,134 +88,28 @@ class LineChart extends Component {
       .sort((a, b) => {
         return a.x - b.x
       })
-
-    const rangeOfX = toXY.map((obj) => obj.x).sort((a, b) => a - b)
-    const rangeOfY = toXY.map((obj) => obj.y).sort((a, b) => a - b)
-
-    var margin = {top: 50, right: 50, bottom: 50, left: 50},
-      width = 400 - margin.left - margin.right,
-      height = 400 - margin.top - margin.bottom
-
-    var xScale = d3
-      .scaleLinear()
-      .domain([rangeOfX[0], rangeOfX[rangeOfX.length - 1]])
-      .range([0, width])
-
-    var yScale = d3
-      .scaleLinear()
-      .domain([rangeOfY[0], rangeOfY[rangeOfY.length - 1]])
-      .range([height, 0])
-
-    var line = d3
-      .line()
-      .x(function (d) {
-        return xScale(d.x)
-      })
-      .y(function (d) {
-        return yScale(d.y)
-      })
-      .curve(d3.curveMonotoneX)
-
-    var svg = d3
-      .select('#mainLineChartDiv')
-      .append('svg')
-      .attr('width', width + margin.left + margin.right)
-      .attr('height', height + margin.top + margin.bottom)
-      .attr('id', 'LCMain')
-      .append('g')
-      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
-
-    svg
-      .append('g')
-      .attr('class', 'x axis')
-      .attr('transform', 'translate(0,' + height + ')')
-      .call(d3.axisBottom(xScale).ticks(5))
-
-    svg.append('g').attr('class', 'y axis').call(d3.axisLeft(yScale))
-
-    svg
-      .append('path')
-      .datum(toXY)
-      .attr('class', 'line')
-      .attr('stroke', this.state.color)
-      .attr('d', line)
-
-    svg
-      .append('text')
-      .attr('class', 'x label')
-      .attr('text-anchor', 'middle')
-      .attr('x', width / 2)
-      .attr('y', height + 40)
-      .text(this.state.units)
-
-    svg
-      .append('text')
-      .attr('class', 'y label')
-      .attr('text-anchor', 'end')
-      .attr('y', -45)
-      .attr('dy', '.75em')
-      .attr('transform', 'rotate(-90)')
-      .text('Responses')
-
-    // 12. Appends a circle for each datapoint
-    // svg
-    //   .selectAll('.dot')
-    //   .data(dataset)
-    //   .enter()
-    //   .append('circle') // Uses the enter().append() method
-    //   .attr('class', 'dot') // Assign a class for styling
-    //   .attr('cx', function (d, i) {
-    //     return xScale(i)
-    //   })
-    //   .attr('cy', function (d) {
-    //     return yScale(d.y)
-    //   })
-    //   .attr('r', 5)
-    //   .on('mouseover', function (a, b, c) {
-    //     console.log(a)
-    //     this.attr('class', 'focus')
-    //   })
   }
 
-  createLineChartA() {
-    const data = this.state.chartDataA
-    const filterWord = filterAB[this.state.filter][0]
+  getAxisRange(data, axis) {
+    return data.map((obj) => obj[axis]).sort((a, b) => a - b)
+  }
 
-    const dataFiltered = data.map((unit) => {
-      unit.name = unit.name
-        .split(' ')
-        .filter((word) => !filterWord.includes(word))
-        .join(' ')
-      return unit
-    })
-
-    const toXY = dataFiltered
-      .map((obj) => {
-        return {x: Number(obj.name), y: obj.value}
-      })
-      .filter((obj) => obj.x >= 0)
-      .sort((a, b) => {
-        return a.x - b.x
-      })
-
-    const rangeOfX = toXY.map((obj) => obj.x).sort((a, b) => a - b)
-    const rangeOfY = toXY.map((obj) => obj.y).sort((a, b) => a - b)
-
-    var margin = {top: 50, right: 50, bottom: 50, left: 50},
-      width = 400 - margin.left - margin.right,
-      height = 400 - margin.top - margin.bottom
-
-    var xScale = d3
+  setXScale(rangeData, range) {
+    return d3
       .scaleLinear()
-      .domain([rangeOfX[0], rangeOfX[rangeOfX.length - 1]])
-      .range([0, width])
+      .domain([rangeData[0], rangeData[rangeData.length - 1]])
+      .range([0, range])
+  }
 
-    var yScale = d3
+  setYScale(rangeData, range) {
+    return d3
       .scaleLinear()
-      .domain([rangeOfY[0], rangeOfY[rangeOfY.length - 1]])
-      .range([height, 0])
+      .domain([rangeData[0], rangeData[rangeData.length - 1]])
+      .range([range, 0])
+  }
 
-    var line = d3
+  createLine(xScale, yScale) {
+    return d3
       .line()
       .x(function (d) {
         return xScale(d.x)
@@ -246,31 +118,41 @@ class LineChart extends Component {
         return yScale(d.y)
       })
       .curve(d3.curveMonotoneX)
+  }
 
-    var svg = d3
-      .select('#LCFilterA')
+  createSVG(selectValue, idValue, width, height, margin) {
+    return d3
+      .select(selectValue)
       .append('svg')
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
-      .attr('id', 'LCsvgA')
+      .attr('id', idValue)
       .append('g')
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+  }
 
+  appendXAxis(svg, xScale, height) {
     svg
       .append('g')
       .attr('class', 'x axis')
       .attr('transform', 'translate(0,' + height + ')')
       .call(d3.axisBottom(xScale).ticks(5))
+  }
 
+  appendYAxis(svg, yScale) {
     svg.append('g').attr('class', 'y axis').call(d3.axisLeft(yScale))
+  }
 
+  appendPath(svg, line, rangeData) {
     svg
       .append('path')
-      .datum(toXY)
+      .datum(rangeData)
       .attr('class', 'line')
       .attr('stroke', this.state.color)
       .attr('d', line)
+  }
 
+  appendXLabel(svg, width, height) {
     svg
       .append('text')
       .attr('class', 'x label')
@@ -278,7 +160,9 @@ class LineChart extends Component {
       .attr('x', width / 2)
       .attr('y', height + 40)
       .text(this.state.units)
+  }
 
+  appendYLabel(svg) {
     svg
       .append('text')
       .attr('class', 'y label')
@@ -287,7 +171,9 @@ class LineChart extends Component {
       .attr('dy', '.75em')
       .attr('transform', 'rotate(-90)')
       .text('Responses')
+  }
 
+  appendSubLabel(svg, width, filterWord) {
     svg
       .append('text')
       .attr('class', 'LCSubLabel')
@@ -296,102 +182,50 @@ class LineChart extends Component {
       .text(filterWord)
   }
 
-  createLineChartB() {
-    const data = this.state.chartDataB
+  createLineChart(selectValue, idValue, filtering, filterChart) {
+    const data = filtering ? this.state[filterChart] : this.state.chartData
+    let filterWord = null
+    let dataFiltered = null
+    if (filtering) {
+      filterWord =
+        filterChart === 'chartDataA'
+          ? filterAB[this.state.filter][0]
+          : filterAB[this.state.filter][1]
 
-    const filterWord = filterAB[this.state.filter][1]
-
-    const dataFiltered = data.map((unit) => {
-      unit.name = unit.name
-        .split(' ')
-        .filter((word) => !filterWord.includes(word))
-        .join(' ')
-      return unit
-    })
-
-    const toXY = dataFiltered
-      .map((obj) => {
-        return {x: Number(obj.name), y: obj.value}
+      dataFiltered = data.map((unit) => {
+        unit.name = unit.name
+          .split(' ')
+          .filter((word) => !filterWord.includes(word))
+          .join(' ')
+        return unit
       })
-      .filter((obj) => obj.x >= 0)
-      .sort((a, b) => {
-        return a.x - b.x
-      })
+    }
 
-    const rangeOfX = toXY.map((obj) => obj.x).sort((a, b) => a - b)
-    const rangeOfY = toXY.map((obj) => obj.y).sort((a, b) => a - b)
+    const toXY = filtering
+      ? this.convertDataToXY(dataFiltered)
+      : this.convertDataToXY(data)
 
-    var margin = {top: 50, right: 50, bottom: 50, left: 50},
-      width = 400 - margin.left - margin.right,
+    const rangeOfX = this.getAxisRange(toXY, 'x')
+    const rangeOfY = this.getAxisRange(toXY, 'y')
+
+    const {margin} = this.state
+
+    const width = 400 - margin.left - margin.right,
       height = 400 - margin.top - margin.bottom
 
-    var xScale = d3
-      .scaleLinear()
-      .domain([rangeOfX[0], rangeOfX[rangeOfX.length - 1]])
-      .range([0, width])
+    const xScale = this.setXScale(rangeOfX, width)
+    const yScale = this.setYScale(rangeOfY, height)
 
-    var yScale = d3
-      .scaleLinear()
-      .domain([rangeOfY[0], rangeOfY[rangeOfY.length - 1]])
-      .range([height, 0])
+    const line = this.createLine(xScale, yScale)
 
-    var line = d3
-      .line()
-      .x(function (d) {
-        return xScale(d.x)
-      })
-      .y(function (d) {
-        return yScale(d.y)
-      })
-      .curve(d3.curveMonotoneX)
+    const svg = this.createSVG(selectValue, idValue, width, height, margin)
 
-    var svg = d3
-      .select('#LCFilterB')
-      .append('svg')
-      .attr('width', width + margin.left + margin.right)
-      .attr('height', height + margin.top + margin.bottom)
-      .attr('id', 'LCsvgB')
-      .append('g')
-      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
-
-    svg
-      .append('g')
-      .attr('class', 'x axis')
-      .attr('transform', 'translate(0,' + height + ')')
-      .call(d3.axisBottom(xScale).ticks(5))
-
-    svg.append('g').attr('class', 'y axis').call(d3.axisLeft(yScale))
-
-    svg
-      .append('path')
-      .datum(toXY)
-      .attr('class', 'line')
-      .attr('stroke', this.state.color)
-      .attr('d', line)
-
-    svg
-      .append('text')
-      .attr('class', 'x label')
-      .attr('text-anchor', 'middle')
-      .attr('x', width / 2)
-      .attr('y', height + 40)
-      .text(this.state.units)
-
-    svg
-      .append('text')
-      .attr('class', 'y label')
-      .attr('text-anchor', 'end')
-      .attr('y', -45)
-      .attr('dy', '.75em')
-      .attr('transform', 'rotate(-90)')
-      .text('Responses')
-
-    svg
-      .append('text')
-      .attr('class', 'LCSubLabel')
-      .attr('text-anchor', 'middle')
-      .attr('x', width / 2)
-      .text(filterWord)
+    this.appendXAxis(svg, xScale, height)
+    this.appendYAxis(svg, yScale)
+    this.appendPath(svg, line, toXY)
+    this.appendXLabel(svg, width, height)
+    this.appendYLabel(svg)
+    if (filtering) this.appendSubLabel(svg, width, filterWord)
   }
 
   async handleClick() {
@@ -444,13 +278,13 @@ class LineChart extends Component {
       splitResultB = splitResultB.reverse()
     }
 
-    await this.setState({
+    this.setState({
       chartDataA: splitResultA,
       chartDataB: splitResultB,
       filterActive: true,
     })
-    this.createLineChartA()
-    this.createLineChartB()
+    this.createLineChart('#LCFilterA', 'LCsvgA', true, 'chartDataA')
+    this.createLineChart('#LCFilterB', 'LCsvgB', true, 'chartDataB')
 
     const filterChartA = document.getElementById('LCFilterA')
     const filterChartB = document.getElementById('LCFilterB')
