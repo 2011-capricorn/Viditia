@@ -37,7 +37,7 @@ class AllVidits extends Component {
                   />
                 </Link>
               ) : vidit.type === 'Range' || vidit.type === 'Multiple +' ? (
-                <Link to="/error">
+                <Link to={`/vidit/${vidit.pollKey}`}>
                   <img src="dummyBarChart.png" className="barChartImg" />
                 </Link>
               ) : (
