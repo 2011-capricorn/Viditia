@@ -21,6 +21,7 @@ class PieChart extends Component {
       doc: [],
       filter: 'Hand',
       filterActive: false,
+      unsubscribe: null,
     }
     this.createMainPieChart = this.createMainPieChart.bind(this)
     this.createFilterPieChart = this.createFilterPieChart.bind(this)
@@ -30,9 +31,12 @@ class PieChart extends Component {
   }
 
   componentDidMount() {
-    db.collection('polls')
-      .doc(this.props.pollKey)
-      .onSnapshot((doc) => this.formatData(doc.data().answers))
+    this.setState({
+      unsubscribe: db
+        .collection('polls')
+        .doc(this.props.pollKey)
+        .onSnapshot((doc) => this.formatData(doc.data().answers)),
+    })
     let randomNumber = Math.floor(Math.random() * 12)
     const one = pieChartColors[randomNumber][0]
     const two = pieChartColors[randomNumber][1]
@@ -48,6 +52,10 @@ class PieChart extends Component {
 
   componentDidUpdate() {
     this.createMainPieChart()
+  }
+
+  componentWillUnmount() {
+    this.state.unsubscribe()
   }
 
   formatData(data) {

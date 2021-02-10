@@ -24,6 +24,7 @@ class BarChart extends Component {
       width: 400,
       height: 400,
       margin: {top: 60, bottom: 60, left: 60, right: 60},
+      unsubscribe: null,
     }
     this.createBarChart = this.createBarChart.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -33,9 +34,12 @@ class BarChart extends Component {
   }
 
   componentDidMount() {
-    db.collection('polls')
-      .doc(this.props.pollKey)
-      .onSnapshot((doc) => this.formatData(doc.data().answers))
+    this.setState({
+      unsubscribe: db
+        .collection('polls')
+        .doc(this.props.pollKey)
+        .onSnapshot((doc) => this.formatData(doc.data().answers)),
+    })
     let randomNumber = Math.floor(Math.random() * 13)
 
     this.setState({
@@ -46,6 +50,10 @@ class BarChart extends Component {
   componentDidUpdate() {
     this.reloadMain()
     this.createBarChart('#mainMainChartDiv', 'BCMain')
+  }
+
+  componentWillUnmount() {
+    this.state.unsubscribe()
   }
 
   formatData(data) {

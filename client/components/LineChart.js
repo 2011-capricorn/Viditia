@@ -23,6 +23,7 @@ class LineChart extends Component {
       filter: 'Hand',
       filterActive: false,
       margin: {top: 50, right: 50, bottom: 50, left: 50},
+      unsubscribe: null,
     }
     this.createLineChart = this.createLineChart.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -32,9 +33,12 @@ class LineChart extends Component {
   }
 
   componentDidMount() {
-    db.collection('polls')
-      .doc(this.props.pollKey)
-      .onSnapshot((doc) => this.formatData(doc.data().answers))
+    this.setState({
+      unsubscribe: db
+        .collection('polls')
+        .doc(this.props.pollKey)
+        .onSnapshot((doc) => this.formatData(doc.data().answers)),
+    })
     let randomNumber = Math.floor(Math.random() * 13)
 
     this.setState({
@@ -46,6 +50,10 @@ class LineChart extends Component {
   componentDidUpdate() {
     this.reloadMain()
     this.createLineChart('#mainLineChartDiv', 'LCMain', false)
+  }
+
+  componentWillUnmount() {
+    this.state.unsubscribe()
   }
 
   formatData(data) {
