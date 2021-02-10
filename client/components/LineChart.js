@@ -156,7 +156,7 @@ class LineChart extends Component {
       .append('path')
       .datum(rangeData)
       .attr('class', 'line')
-      .attr('stroke', this.state.color)
+      .attr('stroke', this.state.color || '#ffab00')
       .attr('d', line)
   }
 

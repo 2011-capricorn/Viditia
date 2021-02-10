@@ -110,8 +110,6 @@ class TreeMap extends Component {
     const root = d3.hierarchy(dataFromState).sum((d) => d.value)
     treemap(root)
 
-    let color = this.state.color || '#ffab00'
-
     const cell = svg
       .selectAll('g')
       .data(root.leaves())
@@ -127,7 +125,7 @@ class TreeMap extends Component {
       .attr('id', (d) => d.data.id)
       .attr('width', (d) => d.x1 - d.x0)
       .attr('height', (d) => d.y1 - d.y0)
-      .attr('fill', color)
+      .attr('fill', this.state.color || '#ffab00')
     cell
       .append('text')
       .selectAll('tspan')

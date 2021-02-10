@@ -12,6 +12,7 @@ import {
   AllVidits,
   Feedback,
   ErrorPage,
+  LoadingScreen,
 } from './components'
 import {getUserThunk} from './store/user'
 import {getAllViditThunk} from './store/vidit'
