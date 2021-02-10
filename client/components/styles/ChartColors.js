@@ -41,3 +41,18 @@ export const barChartColors = [
   `#D4C34E`,
   `#204AD4`,
 ]
+
+export const treeMapColors = [
+  `#ffab00`,
+  `#2B95EC`,
+  `#F6B92A`,
+  `#f2876f`,
+  `#89BB21`,
+  `#eba571`,
+  `#ac8ead`,
+  `#4A8C8A`,
+  `#D9A7A7`,
+  `#6bd0d1`,
+  `#D4C34E`,
+  `#7995f2`,
+]

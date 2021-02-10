@@ -38,11 +38,24 @@ class AllVidits extends Component {
                 </Link>
               ) : vidit.type === 'Range' || vidit.type === 'Multiple +' ? (
                 <Link to="/error">
-                  <img src="dummyBarChart.png" className="barChartImg" />
+                  <img
+                    src={`dummyBarChart${Math.floor(Math.random() * 3)}.png`}
+                    className="barChartImg"
+                  />
+                </Link>
+              ) : vidit.type === 'Open' && vidit.dataType === 'Number' ? (
+                <Link to={`/vidit/${vidit.pollKey}`}>
+                  <img
+                    src={`dummyLineChart${Math.floor(Math.random() * 3)}.png`}
+                    className="lineChartImg"
+                  />
                 </Link>
               ) : (
                 <Link to={`/vidit/${vidit.pollKey}`}>
-                  <img src="dummyLineChart.png" className="lineChartImg" />
+                  <img
+                    src={`dummyTreeMap${Math.floor(Math.random() * 3)}.png`}
+                    className="treeMapImg"
+                  />
                 </Link>
               )}
             </div>

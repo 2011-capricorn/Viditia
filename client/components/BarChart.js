@@ -142,6 +142,7 @@ class BarChart extends Component {
       }
       data = finalData
     }
+
     const svg = d3
       .select('#mainMainChartDiv')
       .append('svg')
@@ -174,7 +175,9 @@ class BarChart extends Component {
       .attr('fill', this.state.color)
       .selectAll('rect')
       .data(data)
-      .join('rect')
+      // .join('rect')
+      .enter()
+      .append('rect')
       .attr('x', (d, i) => x(i))
       .attr('y', (d) => y(d.value))
       .attr('title', (d) => d.value)
@@ -220,14 +223,15 @@ class BarChart extends Component {
     let data = this.state.chartDataA
     const filterWord = filterAB[this.state.filter][0]
 
+    const dataFiltered = data.map((unit) => {
+      unit.name = unit.name
+        .split(' ')
+        .filter((word) => !filterWord.includes(word))
+        .join(' ')
+      return unit
+    })
+
     if (this.props.type === 'Range') {
-      const dataFiltered = data.map((unit) => {
-        unit.name = unit.name
-          .split(' ')
-          .filter((word) => !filterWord.includes(word))
-          .join(' ')
-        return unit
-      })
       let numRange = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
       let keys = data.map((obj) => Number(obj.name))
 
@@ -268,6 +272,7 @@ class BarChart extends Component {
       }
       data = finalData
     }
+
     const width = 400
     const height = 400
     const margin = {top: 60, bottom: 60, left: 60, right: 60}
@@ -304,7 +309,8 @@ class BarChart extends Component {
       .attr('fill', this.state.color)
       .selectAll('rect')
       .data(data)
-      .join('rect')
+      .enter()
+      .append('rect')
       .attr('x', (d, i) => x(i))
       .attr('y', (d) => y(d.value))
       .attr('title', (d) => d.value)
@@ -358,14 +364,15 @@ class BarChart extends Component {
     let data = this.state.chartDataB
     const filterWord = filterAB[this.state.filter][1]
 
+    const dataFiltered = data.map((unit) => {
+      unit.name = unit.name
+        .split(' ')
+        .filter((word) => !filterWord.includes(word))
+        .join(' ')
+      return unit
+    })
+
     if (this.props.type === 'Range') {
-      const dataFiltered = data.map((unit) => {
-        unit.name = unit.name
-          .split(' ')
-          .filter((word) => !filterWord.includes(word))
-          .join(' ')
-        return unit
-      })
       let numRange = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
       let keys = data.map((obj) => Number(obj.name))
 
@@ -406,6 +413,7 @@ class BarChart extends Component {
       }
       data = finalData
     }
+
     const width = 400
     const height = 400
     const margin = {top: 60, bottom: 60, left: 60, right: 60}
@@ -442,7 +450,8 @@ class BarChart extends Component {
       .attr('fill', this.state.color)
       .selectAll('rect')
       .data(data)
-      .join('rect')
+      .enter()
+      .append('rect')
       .attr('x', (d, i) => x(i))
       .attr('y', (d) => y(d.value))
       .attr('title', (d) => d.value)
