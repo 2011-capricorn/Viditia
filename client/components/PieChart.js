@@ -4,21 +4,9 @@ import * as d3 from 'd3'
 import './styles/PieChart.css'
 import {pieChartColors} from './styles/ChartColors'
 import firebase from '../../public/firebase'
+import filterAB from '../filterAB'
 
 const db = firebase.firestore()
-
-const filterAB = {
-  Hand: ['Right', 'Left'],
-  Season: ['Summer', 'Winter'],
-  Animal: ['Cat', 'Dog'],
-  Drink: ['Coffee', 'Tea'],
-  Scenery: ['Beach', 'Mountains'],
-  Travel: ['Yes', 'No'],
-  Food: ['Cheeseburger', 'Hotdog'],
-  Artist: ['Beyonce', 'Black Sabbath'],
-  Boolean: ['Yes', 'No'],
-  Awake: ['Early Bird', 'Night Owl'],
-}
 
 class PieChart extends Component {
   constructor() {

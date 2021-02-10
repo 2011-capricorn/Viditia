@@ -6,18 +6,13 @@ import LineChart from './LineChart'
 import TreeMap from './TreeMap'
 import ChartVoting from './ChartVoting'
 import './styles/SingleVidit.css'
-import firebase from '../../public/firebase'
 import LoadingScreen from './LoadingScreen'
-const db = firebase.firestore()
-// db.collection('users')
-//   .doc('Qcnh71oMAUn89QMyLq28')
-//   .onSnapshot((doc) => console.log('Current data: ', doc.data()))
+
 const SingleVidit = (props) => {
-  // console.log(1111, props.match.params)
   const {id} = props.match.params
   const data = props.allVidit.filter((vidit) => vidit.pollKey === id)[0]
   const userAnswered = props.answered.some((key) => key === data.pollKey)
-  console.log('Single Vidit Data --->', data)
+
   return data ? (
     <div>
       <h1 id="SVTitle">{data.question}</h1>

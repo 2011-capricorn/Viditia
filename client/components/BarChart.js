@@ -4,21 +4,9 @@ import * as d3 from 'd3'
 import './styles/BarChart.css'
 import {barChartColors} from './styles/ChartColors'
 import firebase from '../../public/firebase'
+import filterAB from '../filterAB'
 
 const db = firebase.firestore()
-
-const filterAB = {
-  Hand: ['Right', 'Left'],
-  Season: ['Summer', 'Winter'],
-  Animal: ['Cat', 'Dog'],
-  Drink: ['Coffee', 'Tea'],
-  Scenery: ['Beach', 'Mountains'],
-  Travel: ['Yes', 'No'],
-  Food: ['Cheeseburger', 'Hotdog'],
-  Artist: ['Beyonce', 'Black Sabbath'],
-  Boolean: ['Yes', 'No'],
-  Awake: ['Early Bird', 'Night Owl'],
-}
 
 class BarChart extends Component {
   constructor() {
@@ -37,9 +25,7 @@ class BarChart extends Component {
       height: 400,
       margin: {top: 60, bottom: 60, left: 60, right: 60},
     }
-    this.createMainBarChart = this.createMainBarChart.bind(this)
-    this.createBarChartA = this.createBarChartA.bind(this)
-    this.createBarChartB = this.createBarChartB.bind(this)
+    this.createBarChart = this.createBarChart.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.resetFilter = this.resetFilter.bind(this)
     this.chooseFilter = this.chooseFilter.bind(this)
@@ -59,7 +45,7 @@ class BarChart extends Component {
 
   componentDidUpdate() {
     this.reloadMain()
-    this.createMainBarChart()
+    this.createBarChart('#mainMainChartDiv', 'BCMain')
   }
 
   formatData(data) {
@@ -103,8 +89,17 @@ class BarChart extends Component {
       .attr('id', idValue)
   }
 
-  chartFormat(data) {
+  chartFormat(data, filterWord, filtering) {
     if (this.props.type === 'Range') {
+      if (filtering) {
+        const dataFiltered = data.map((unit) => {
+          unit.name = unit.name
+            .split(' ')
+            .filter((word) => !filterWord.includes(word))
+            .join(' ')
+          return unit
+        })
+      }
       let numRange = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
       let keys = data.map((obj) => Number(obj.name))
 
@@ -231,38 +226,25 @@ class BarChart extends Component {
       .text(filterWord)
   }
 
-  createMainBarChart() {
-    let data = this.state.chartData
+  createBarChart(selectValue, idValue, filtering, filterChart) {
+    let data = filtering ? this.state[filterChart] : this.state.chartData
+    let filterWord = null
+    if (filtering) {
+      filterWord =
+        filterChart === 'chartDataA'
+          ? filterAB[this.state.filter][0]
+          : filterAB[this.state.filter][1]
+      data = data.map((obj) => {
+        obj.name = obj.name.slice(0, 4)
+        return obj
+      })
+    }
 
-    data = this.chartFormat(data)
+    data = filtering
+      ? this.chartFormat(data, filterWord, true)
+      : this.chartFormat(data, filterWord)
 
-    const svg = this.createSVG('#mainMainChartDiv', 'BCMain')
-
-    const x = this.getXValue(data)
-    const y = this.getYValue(data)
-
-    this.changeGraphStructure(svg, data, x, y)
-
-    svg.append('g').call((g) => this.xAxis(g, data, x))
-    svg.append('g').call((g) => this.yAxis(g, y))
-    svg.node()
-
-    this.setXLabel(svg)
-    this.setYLabel(svg)
-  }
-
-  createBarChartA() {
-    let data = this.state.chartDataA
-    const filterWord = filterAB[this.state.filter][0]
-
-    data = data.map((obj) => {
-      obj.name = obj.name.slice(0, 4)
-      return obj
-    })
-
-    data = this.chartFormat(data)
-
-    const svg = this.createSVG('#BCFilterA', 'BCsvgA')
+    const svg = this.createSVG(selectValue, idValue)
 
     const x = this.getXValue(data)
     const y = this.getYValue(data)
@@ -275,34 +257,7 @@ class BarChart extends Component {
 
     this.setXLabel(svg)
     this.setYLabel(svg)
-    this.setBCSubLabel(svg, filterWord)
-  }
-
-  createBarChartB() {
-    let data = this.state.chartDataB
-    const filterWord = filterAB[this.state.filter][1]
-
-    data = data.map((obj) => {
-      obj.name = obj.name.slice(0, 4)
-      return obj
-    })
-
-    data = this.chartFormat(data)
-
-    const svg = this.createSVG('#BCFilterB', 'BCsvgB')
-
-    const x = this.getXValue(data)
-    const y = this.getYValue(data)
-
-    this.changeGraphStructure(svg, data, x, y)
-
-    svg.append('g').call((g) => this.xAxis(g, data, x))
-    svg.append('g').call((g) => this.yAxis(g, y))
-    svg.node()
-
-    this.setXLabel(svg)
-    this.setYLabel(svg)
-    this.setBCSubLabel(svg, filterWord)
+    if (filtering) this.setBCSubLabel(svg, filterWord)
   }
 
   async handleClick() {
@@ -356,8 +311,8 @@ class BarChart extends Component {
       chartDataB: splitResultB,
       filterActive: true,
     })
-    this.createBarChartA()
-    this.createBarChartB()
+    this.createBarChart('#BCFilterA', 'BCsvgA', true, 'chartDataA')
+    this.createBarChart('#BCFilterB', 'BCsvgB', true, 'chartDataB')
 
     const filterChartA = document.getElementById('BCFilterA')
     const filterChartB = document.getElementById('BCFilterB')
