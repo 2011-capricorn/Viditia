@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 
 import {
+  HomePage,
   LoginForm,
   SignUpForm,
   UserProfile,
@@ -10,7 +11,6 @@ import {
   SingleVidit,
   AllVidits,
   Feedback,
-  LoadingScreen,
   ErrorPage,
 } from './components'
 import {getUserThunk} from './store/user'
@@ -29,23 +29,19 @@ class Routes extends Component {
       <Switch>
         <Route exact path="/" component={AllVidits} />
         <Route exact path="/vidits" component={AllVidits} />
+        <Route path="/home" component={HomePage} />
+        <Route path="/login" component={LoginForm} />
+        <Route path="/signup" component={SignUpForm} />
         <Route path="/loading" component={LoadingScreen} />
         <Route path="/feedback" component={Feedback} />
-        <Route path="/error" component={ErrorPage} />
-        {/* <Route path="/test" component={SignUpVidit} /> */}
-        {/* <Route path="/seed" component={SurveyInput} /> */}
-        {isLoggedIn ? (
+        {isLoggedIn && (
           <Switch>
             <Route path="/vidit/:id" component={SingleVidit} />
             <Route path="/create" component={CreateVidit} />
             <Route path="/profile" component={UserProfile} />
           </Switch>
-        ) : (
-          <Switch>
-            <Route path="/login" component={LoginForm} />
-            <Route path="/signup" component={SignUpForm} />
-          </Switch>
         )}
+        <Route component={ErrorPage} />
       </Switch>
     )
   }
@@ -60,6 +56,4 @@ const mapDispatch = (dispatch) => ({
   getVidits: () => dispatch(getAllViditThunk()),
 })
 
-// The `withRouter` wrapper makes sure that updates are not blocked
-// when the url changes
 export default withRouter(connect(mapState, mapDispatch)(Routes))
