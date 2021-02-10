@@ -1,4 +1,5 @@
 export {default as Navbar} from './navbar'
+export {default as HomePage} from './HomePage'
 export {default as UserProfile} from './UserProfile'
 export {default as SignUpForm} from './SignUpForm'
 export {default as LoginForm} from './LoginForm'
