@@ -99,7 +99,6 @@ class TreeMap extends Component {
 
   createMainTreeMap() {
     const dataFromState = {children: this.state.chartData}
-    console.log('color--->', this.state.color)
     const svg = d3
       .select('#mainTreeMapDiv')
       .append('svg')
