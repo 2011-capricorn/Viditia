@@ -102,7 +102,7 @@ class ChartVoting extends Component {
       this.state.stringOpen === '' &&
       (Number(this.state.range) < 1 ||
         this.state.range === '' ||
-        Number(this.state.range) > Number(this.state.max))
+        Number(this.state.range) > 10)
     ) {
       voteBtn.disabled = true
       voteBtn.className = 'submitBtnVoteDisabled'

@@ -78,13 +78,33 @@ export const addViditThunk = (vidit, userKey) => {
       const data = (await userRef.get()).data()
       userRef.update({created: [...data.created, result.id]})
 
-      const {question, type, answers} = vidit
+      const {
+        question,
+        type,
+        answers,
+        dataType,
+        units,
+        max,
+        rangeLabel1,
+        rangeLabel5,
+        rangeLabel10,
+        masterLabel,
+        choices,
+      } = vidit
       dispatch(
         addVidit({
-          pollkey: result.id,
+          pollKey: result.id,
           question,
           type,
           totalVoteCount: answers.length,
+          dataType,
+          units,
+          max,
+          rangeLabel1,
+          rangeLabel5,
+          rangeLabel10,
+          masterLabel,
+          choices,
         })
       )
       return result.id
