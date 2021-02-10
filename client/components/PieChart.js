@@ -35,14 +35,13 @@ class PieChart extends Component {
       filterActive: false,
     }
     this.createMainPieChart = this.createMainPieChart.bind(this)
-    this.createPieChartA = this.createPieChartA.bind(this)
-    this.createPieChartB = this.createPieChartB.bind(this)
+    this.createFilterPieChart = this.createFilterPieChart.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.resetFilter = this.resetFilter.bind(this)
     this.chooseFilter = this.chooseFilter.bind(this)
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     db.collection('polls')
       .doc(this.props.pollKey)
       .onSnapshot((doc) => this.formatData(doc.data().answers))
@@ -53,7 +52,7 @@ class PieChart extends Component {
     const four = pieChartColors[randomNumber][3]
     const five = pieChartColors[randomNumber][4]
     const six = pieChartColors[randomNumber][5]
-    await this.setState({
+    this.setState({
       colors: [d3.rgb(one, two, three), d3.rgb(four, five, six)],
     })
     this.createMainPieChart()
@@ -65,95 +64,131 @@ class PieChart extends Component {
 
   formatData(data) {
     if (data.length) {
-      this.setState({doc: data})
+      const doc = data.reduce((result, next) => {
+        result[next.userKey] = next.answer
+        return result
+      }, {})
 
-      this.setState({
-        doc: data.reduce((result, next) => {
-          result[next.userKey] = next.answer
-          return result
-        }, {}),
-      })
-
-      const test = data.reduce((result, next) => {
+      const preProcess = data.reduce((result, next) => {
         if (result[next.answer]) result[next.answer]++
         else result[next.answer] = 1
         return result
       }, {})
 
-      this.setState({
-        users: data.map((entry) => entry.userKey),
-      })
+      const users = data.map((entry) => entry.userKey)
 
-      let result = []
-      for (let key in test) {
-        result.push({name: key, value: test[key]})
-      }
+      let result = Object.keys(preProcess).map((key) => ({
+        name: key,
+        value: preProcess[key],
+      }))
 
-      this.setState({chartData: result, reset: result})
+      this.setState({doc, chartData: result, reset: result, users})
     }
   }
 
-  async chooseFilter(e) {
+  chooseFilter(e) {
     let filter = e.target.value
-    await this.setState({
+    this.setState({
       filter: filter,
     })
   }
 
+  createSVG(selectValue, width, height, idValue) {
+    return d3
+      .select(selectValue)
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height)
+      .attr('id', idValue)
+  }
+
+  setColors() {
+    return d3.scaleOrdinal(this.state.colors)
+  }
+
+  createGroup(svg) {
+    const width = svg.attr('width'),
+      height = svg.attr('height')
+    return svg
+      .append('g')
+      .attr('transform', `translate(${width / 2}, ${height / 2})`)
+  }
+
+  createPie() {
+    return d3
+      .pie()
+      .sort(null)
+      .value((d) => d.value)
+  }
+
+  createPies(g, pie, data) {
+    return g
+      .selectAll('.arc')
+      .data(pie(data))
+      .enter()
+      .append('g')
+      .attr('class', 'arc')
+  }
+
+  createPath(radius) {
+    return d3.arc().outerRadius(radius).innerRadius(110)
+  }
+
+  createLabel(radius) {
+    return d3
+      .arc()
+      .outerRadius(radius)
+      .innerRadius(radius - 90)
+  }
+
+  appendPath(pies, path, color) {
+    pies
+      .append('path')
+      .attr('d', path)
+      .attr('fill', (d, i) => color(i))
+  }
+
+  appendText(pies, radius, label) {
+    pies
+      .append('text')
+      .attr('transform', function (d) {
+        d.innerRadius = 0
+        d.outerRadius = radius
+        return `translate(${label.centroid(d)})`
+      })
+      .attr('text-anchor', 'middle')
+      .attr('class', `sliceWord`)
+      .text((d) => d.data.name)
+  }
+
+  appendFilterText(g, filterWord) {
+    g.append('text')
+      .attr('text-anchor', 'middle')
+      .attr('font-size', '30px')
+      .attr('class', `centerWord`)
+      .text(filterWord)
+  }
+
   createMainPieChart() {
     const data = this.state.chartData
-
-    const svg = d3.select('#mainChartSVG'),
-      width = svg.attr('width'),
-      height = svg.attr('height')
-
+    const svg = d3.select('#mainChartSVG')
     const radius = 200
-    const g = svg
-      .append('g')
-      .attr('transform', `translate(${width / 2}, ${height / 2})`)
-
-    const color = d3.scaleOrdinal(this.state.colors)
-
-    const pie = d3
-      .pie()
-      .sort(null)
-      .value((d) => d.value)
-
-    const path = d3.arc().outerRadius(radius).innerRadius(110)
-
-    const label = d3
-      .arc()
-      .outerRadius(radius)
-      .innerRadius(radius - 90)
-
-    const pies = g
-      .selectAll('.arc')
-      .data(pie(data))
-      .enter()
-      .append('g')
-      .attr('class', 'arc')
-
-    pies
-      .append('path')
-      .attr('d', path)
-      .attr('fill', (d, i) => color(i))
-
-    pies
-      .append('text')
-      .attr('transform', function (d) {
-        d.innerRadius = 0
-        d.outerRadius = radius
-        return `translate(${label.centroid(d)})`
-      })
-      .attr('text-anchor', 'middle')
-      .attr('class', `sliceWord`)
-      .text((d) => d.data.name)
+    const g = this.createGroup(svg)
+    const color = this.setColors()
+    const pie = this.createPie()
+    const path = this.createPath(radius)
+    const label = this.createLabel(radius)
+    const pies = this.createPies(g, pie, data)
+    this.appendPath(pies, path, color)
+    this.appendText(pies, radius, label)
   }
 
-  createPieChartA() {
-    const data = this.state.chartDataA
-    const filterWord = filterAB[this.state.filter][0]
-
+  createFilterPieChart(selectValue, idValue, chart) {
+    const data = this.state[chart]
+    const filterWord =
+      chart === 'chartDataA'
+        ? filterAB[this.state.filter][0]
+        : filterAB[this.state.filter][1]
     data[0].name = data[0].name
       .split(' ')
       .filter((word) => !filterWord.includes(word))
@@ -162,143 +197,17 @@ class PieChart extends Component {
       .split(' ')
       .filter((word) => !filterWord.includes(word))
       .join(' ')
-
-    const svgWidth = 400
-    const svgHeight = 400
-
-    const svg = d3
-      .select('#filterA')
-      .append('svg')
-      .attr('width', svgWidth)
-      .attr('height', svgHeight)
-      .attr('id', 'svgA')
-
-    const width = svg.attr('width')
-    const height = svg.attr('height')
-
+    const svg = this.createSVG(selectValue, 400, 400, idValue)
     const radius = 200
-    const g = svg
-      .append('g')
-      .attr('transform', `translate(${width / 2}, ${height / 2})`)
-
-    const color = d3.scaleOrdinal(this.state.colors)
-
-    const pie = d3
-      .pie()
-      .sort(null)
-      .value((d) => d.value)
-
-    const path = d3.arc().outerRadius(radius).innerRadius(110)
-
-    const label = d3
-      .arc()
-      .outerRadius(radius)
-      .innerRadius(radius - 90)
-
-    const pies = g
-      .selectAll('.arc')
-      .data(pie(data))
-      .enter()
-      .append('g')
-      .attr('class', 'arc')
-
-    pies
-      .append('path')
-      .attr('d', path)
-      .attr('fill', (d, i) => color(i))
-
-    pies
-      .append('text')
-      .attr('transform', function (d) {
-        d.innerRadius = 0
-        d.outerRadius = radius
-        return `translate(${label.centroid(d)})`
-      })
-      .attr('text-anchor', 'middle')
-      .attr('class', `sliceWord`)
-      .text((d) => d.data.name)
-
-    g.append('text')
-      .attr('text-anchor', 'middle')
-      .attr('font-size', '30px')
-      .attr('class', `centerWord`)
-      .text(filterWord)
-  }
-
-  createPieChartB() {
-    const data = this.state.chartDataB
-
-    const filterWord = filterAB[this.state.filter][1]
-
-    data[0].name = data[0].name
-      .split(' ')
-      .filter((word) => !filterWord.includes(word))
-      .join(' ')
-    data[1].name = data[1].name
-      .split(' ')
-      .filter((word) => !filterWord.includes(word))
-      .join(' ')
-
-    const svgWidth = 400
-    const svgHeight = 400
-
-    const svg = d3
-      .select('#filterB')
-      .append('svg')
-      .attr('width', svgWidth)
-      .attr('height', svgHeight)
-      .attr('id', 'svgB')
-
-    const width = svg.attr('width')
-    const height = svg.attr('height')
-
-    const radius = 200
-    const g = svg
-      .append('g')
-      .attr('transform', `translate(${width / 2}, ${height / 2})`)
-
-    const color = d3.scaleOrdinal(this.state.colors)
-
-    const pie = d3
-      .pie()
-      .sort(null)
-      .value((d) => d.value)
-
-    const path = d3.arc().outerRadius(radius).innerRadius(110)
-
-    const label = d3
-      .arc()
-      .outerRadius(radius)
-      .innerRadius(radius - 90)
-
-    const pies = g
-      .selectAll('.arc')
-      .data(pie(data))
-      .enter()
-      .append('g')
-      .attr('class', 'arc')
-
-    pies
-      .append('path')
-      .attr('d', path)
-      .attr('fill', (d, i) => color(i))
-
-    pies
-      .append('text')
-      .attr('transform', function (d) {
-        d.innerRadius = 0
-        d.outerRadius = radius
-        return `translate(${label.centroid(d)})`
-      })
-      .attr('text-anchor', 'middle')
-      .attr('class', `sliceWord`)
-      .text((d) => d.data.name)
-
-    g.append('text')
-      .attr('text-anchor', 'middle')
-      .attr('font-size', '30px')
-      .attr('class', `centerWord`)
-      .text(filterWord)
+    const g = this.createGroup(svg)
+    const color = this.setColors()
+    const pie = this.createPie()
+    const path = this.createPath(radius)
+    const label = this.createLabel(radius)
+    const pies = this.createPies(g, pie, data)
+    this.appendPath(pies, path, color)
+    this.appendText(pies, radius, label)
+    this.appendFilterText(g, filterWord)
   }
 
   async handleClick() {
@@ -351,13 +260,13 @@ class PieChart extends Component {
       splitResultB = splitResultB.reverse()
     }
 
-    await this.setState({
+    this.setState({
       chartDataA: splitResultA,
       chartDataB: splitResultB,
       filterActive: true,
     })
-    this.createPieChartA()
-    this.createPieChartB()
+    this.createFilterPieChart('#filterA', 'svgA', 'chartDataA')
+    this.createFilterPieChart('#filterB', 'svgB', 'chartDataB')
 
     const filterChartA = document.getElementById('filterA')
     const filterChartB = document.getElementById('filterB')

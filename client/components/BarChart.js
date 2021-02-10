@@ -29,11 +29,13 @@ class BarChart extends Component {
       chartDataB: [],
       reset: [],
       color: '',
-      units: 'units',
       users: [],
       doc: [],
       filter: 'Hand',
       filterActive: false,
+      width: 400,
+      height: 400,
+      margin: {top: 60, bottom: 60, left: 60, right: 60},
     }
     this.createMainBarChart = this.createMainBarChart.bind(this)
     this.createBarChartA = this.createBarChartA.bind(this)
@@ -44,16 +46,14 @@ class BarChart extends Component {
     this.reloadMain = this.reloadMain.bind(this)
   }
 
-  async componentDidMount() {
-    await db
-      .collection('polls')
+  componentDidMount() {
+    db.collection('polls')
       .doc(this.props.pollKey)
       .onSnapshot((doc) => this.formatData(doc.data().answers))
     let randomNumber = Math.floor(Math.random() * 13)
 
-    await this.setState({
+    this.setState({
       color: barChartColors[randomNumber],
-      // units: this.props.units, //IMPORTANT@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     })
   }
 
@@ -64,47 +64,46 @@ class BarChart extends Component {
 
   formatData(data) {
     if (data.length) {
-      this.setState({doc: data})
+      const users = data.map((entry) => entry.userKey)
 
-      this.setState({
-        doc: data.reduce((result, next) => {
-          result[next.userKey] = next.answer
-          return result
-        }, {}),
-      })
+      const doc = data.reduce((result, next) => {
+        result[next.userKey] = next.answer
+        return result
+      }, {})
 
-      const test = data.reduce((result, next) => {
+      const preProcess = data.reduce((result, next) => {
         if (result[next.answer]) result[next.answer]++
         else result[next.answer] = 1
         return result
       }, {})
 
-      this.setState({
-        users: data.map((entry) => entry.userKey),
-      })
+      let result = Object.keys(preProcess).map((key) => ({
+        name: key.slice(0, 4),
+        value: preProcess[key],
+      }))
 
-      let result = []
-      for (let key in test) {
-        result.push({name: key.slice(0, 4), value: test[key]})
-      }
-
-      this.setState({chartData: result, reset: result})
+      this.setState({doc, chartData: result, reset: result, users})
     }
   }
 
-  async chooseFilter(e) {
+  chooseFilter(e) {
     let filter = e.target.value
-    await this.setState({
+    this.setState({
       filter: filter,
     })
   }
+  createSVG(selectValue, idValue) {
+    const {height, width, margin} = this.state
+    return d3
+      .select(selectValue)
+      .append('svg')
+      .attr('width', width - margin.left - margin.right)
+      .attr('height', height - margin.top - margin.bottom)
+      .attr('viewBox', [0, 0, width, height])
+      .attr('id', idValue)
+  }
 
-  createMainBarChart() {
-    let data = this.state.chartData
-    const width = 400
-    const height = 400
-    const margin = {top: 60, bottom: 60, left: 60, right: 60}
-
+  chartFormat(data) {
     if (this.props.type === 'Range') {
       let numRange = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
       let keys = data.map((obj) => Number(obj.name))
@@ -114,7 +113,7 @@ class BarChart extends Component {
           data.push({name: numRange[i], value: 0})
         }
       }
-      data = data
+      return data
         .map((obj) => {
           return {name: Number(obj.name), value: obj.value}
         })
@@ -140,24 +139,36 @@ class BarChart extends Component {
         }
         finalData.push(data.filter((obj) => obj.name === choicesArr[i])[0])
       }
-      data = finalData
+      return finalData
     }
+  }
 
-    const svg = d3
-      .select('#mainMainChartDiv')
-      .append('svg')
-      .attr('width', width - margin.left - margin.right)
-      .attr('height', height - margin.top - margin.bottom)
-      .attr('viewBox', [0, 0, width, height])
-      .attr('id', 'BCMain')
+  yAxis(g, y) {
+    const {margin} = this.state
+    g.attr('transform', `translate(${margin.left}, 0)`)
+      .call(d3.axisLeft(y).ticks(5))
+      .attr('font-size', '20px')
+  }
 
-    const x = d3
+  xAxis(g, data, x) {
+    const {margin, height} = this.state
+    g.attr('transform', `translate(0,${height - margin.bottom})`)
+      .call(d3.axisBottom(x).tickFormat((i) => data[i].name))
+      .attr('font-size', '20px')
+  }
+
+  getXValue(data) {
+    const {margin, width} = this.state
+    return d3
       .scaleBand()
       .domain(d3.range(data.length))
       .range([margin.left, width - margin.right])
       .padding(0.1)
+  }
 
-    const y = d3
+  getYValue(data) {
+    const {height, margin} = this.state
+    return d3
       .scaleLinear()
       .domain([
         0,
@@ -169,13 +180,14 @@ class BarChart extends Component {
         ) * 1.25,
       ])
       .range([height - margin.bottom, margin.top])
+  }
 
+  changeGraphStructure(svg, data, x, y) {
     svg
       .append('g')
       .attr('fill', this.state.color)
       .selectAll('rect')
       .data(data)
-      // .join('rect')
       .enter()
       .append('rect')
       .attr('x', (d, i) => x(i))
@@ -184,23 +196,10 @@ class BarChart extends Component {
       .attr('class', 'rect')
       .attr('height', (d) => y(0) - y(d.value))
       .attr('width', x.bandwidth())
+  }
 
-    function yAxis(g) {
-      g.attr('transform', `translate(${margin.left}, 0)`)
-        .call(d3.axisLeft(y).ticks(5))
-        .attr('font-size', '20px')
-    }
-
-    function xAxis(g) {
-      g.attr('transform', `translate(0,${height - margin.bottom})`)
-        .call(d3.axisBottom(x).tickFormat((i) => data[i].name))
-        .attr('font-size', '20px')
-    }
-
-    svg.append('g').call(xAxis)
-    svg.append('g').call(yAxis)
-    svg.node()
-
+  setXLabel(svg) {
+    const {width, height} = this.state
     svg
       .append('text')
       .attr('class', 'x label')
@@ -208,7 +207,9 @@ class BarChart extends Component {
       .attr('x', width / 2)
       .attr('y', height - 15)
       .text(this.props.masterLabel || this.props.rangeLabel5)
+  }
 
+  setYLabel(svg) {
     svg
       .append('text')
       .attr('class', 'y label')
@@ -217,288 +218,91 @@ class BarChart extends Component {
       .attr('x', -150)
       .attr('transform', 'rotate(-90)')
       .text('Responses')
+  }
+
+  setBCSubLabel(svg, filterWord) {
+    const {width, height} = this.state
+    svg
+      .append('text')
+      .attr('class', 'BCSubLabel')
+      .attr('text-anchor', 'middle')
+      .attr('x', width / 2)
+      .attr('y', height - 360)
+      .text(filterWord)
+  }
+
+  createMainBarChart() {
+    let data = this.state.chartData
+
+    data = this.chartFormat(data)
+
+    const svg = this.createSVG('#mainMainChartDiv', 'BCMain')
+
+    const x = this.getXValue(data)
+    const y = this.getYValue(data)
+
+    this.changeGraphStructure(svg, data, x, y)
+
+    svg.append('g').call((g) => this.xAxis(g, data, x))
+    svg.append('g').call((g) => this.yAxis(g, y))
+    svg.node()
+
+    this.setXLabel(svg)
+    this.setYLabel(svg)
   }
 
   createBarChartA() {
     let data = this.state.chartDataA
     const filterWord = filterAB[this.state.filter][0]
 
-    const dataFiltered = data.map((unit) => {
-      unit.name = unit.name
-        .split(' ')
-        .filter((word) => !filterWord.includes(word))
-        .join(' ')
-      return unit
+    data = data.map((obj) => {
+      obj.name = obj.name.slice(0, 4)
+      return obj
     })
 
-    if (this.props.type === 'Range') {
-      let numRange = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-      let keys = data.map((obj) => Number(obj.name))
+    data = this.chartFormat(data)
 
-      for (let i = 0; i < numRange.length; i++) {
-        if (!keys.includes(numRange[i])) {
-          data.push({name: numRange[i], value: 0})
-        }
-      }
-      data = data
-        .map((obj) => {
-          return {name: Number(obj.name), value: obj.value}
-        })
-        .filter((obj) => obj.name >= 0)
-        .sort((a, b) => {
-          return a.name - b.name
-        })
-    } else {
-      data = data.map((obj) => {
-        obj.name = obj.name.slice(0, 4)
-        return obj
-      })
-      let keys = data.map((obj) => obj.name)
-      let choicesArr = []
-      choicesArr.push(this.props.choices.a.slice(0, 4))
-      choicesArr.push(this.props.choices.b.slice(0, 4))
-      choicesArr.push(this.props.choices.c.slice(0, 4))
-      if (this.props.choices.d) {
-        choicesArr.push(this.props.choices.d.slice(0, 4))
-      }
+    const svg = this.createSVG('#BCFilterA', 'BCsvgA')
 
-      let finalData = []
+    const x = this.getXValue(data)
+    const y = this.getYValue(data)
 
-      for (let i = 0; i < choicesArr.length; i++) {
-        if (!keys.includes(choicesArr[i])) {
-          data.push({name: choicesArr[i], value: 0})
-        }
-        finalData.push(data.filter((obj) => obj.name === choicesArr[i])[0])
-      }
-      data = finalData
-    }
+    this.changeGraphStructure(svg, data, x, y)
 
-    const width = 400
-    const height = 400
-    const margin = {top: 60, bottom: 60, left: 60, right: 60}
-
-    const svg = d3
-      .select('#BCFilterA')
-      .append('svg')
-      .attr('width', width - margin.left - margin.right)
-      .attr('height', height - margin.top - margin.bottom)
-      .attr('viewBox', [0, 0, width, height])
-      .attr('id', 'BCsvgA')
-
-    const x = d3
-      .scaleBand()
-      .domain(d3.range(data.length))
-      .range([margin.left, width - margin.right])
-      .padding(0.1)
-
-    const y = d3
-      .scaleLinear()
-      .domain([
-        0,
-        Math.max.apply(
-          Math,
-          data.map(function (o) {
-            return o.value
-          })
-        ) * 1.25,
-      ])
-      .range([height - margin.bottom, margin.top])
-
-    svg
-      .append('g')
-      .attr('fill', this.state.color)
-      .selectAll('rect')
-      .data(data)
-      .enter()
-      .append('rect')
-      .attr('x', (d, i) => x(i))
-      .attr('y', (d) => y(d.value))
-      .attr('title', (d) => d.value)
-      .attr('class', 'rect')
-      .attr('height', (d) => y(0) - y(d.value))
-      .attr('width', x.bandwidth())
-
-    function yAxis(g) {
-      g.attr('transform', `translate(${margin.left}, 0)`)
-        .call(d3.axisLeft(y).ticks(5))
-        .attr('font-size', '20px')
-    }
-
-    function xAxis(g) {
-      g.attr('transform', `translate(0,${height - margin.bottom})`)
-        .call(d3.axisBottom(x).tickFormat((i) => data[i].name))
-        .attr('font-size', '20px')
-    }
-
-    svg.append('g').call(xAxis)
-    svg.append('g').call(yAxis)
+    svg.append('g').call((g) => this.xAxis(g, data, x))
+    svg.append('g').call((g) => this.yAxis(g, y))
     svg.node()
 
-    svg
-      .append('text')
-      .attr('class', 'x label')
-      .attr('text-anchor', 'middle')
-      .attr('x', width / 2)
-      .attr('y', height - 15)
-      .text(this.props.masterLabel || this.props.rangeLabel5)
-
-    svg
-      .append('text')
-      .attr('class', 'y label')
-      .attr('text-anchor', 'end')
-      .attr('y', 15)
-      .attr('x', -150)
-      .attr('transform', 'rotate(-90)')
-      .text('Responses')
-
-    svg
-      .append('text')
-      .attr('class', 'BCSubLabel')
-      .attr('text-anchor', 'middle')
-      .attr('x', width / 2)
-      .attr('y', height - 360)
-      .text(filterWord)
+    this.setXLabel(svg)
+    this.setYLabel(svg)
+    this.setBCSubLabel(svg, filterWord)
   }
 
   createBarChartB() {
     let data = this.state.chartDataB
     const filterWord = filterAB[this.state.filter][1]
 
-    const dataFiltered = data.map((unit) => {
-      unit.name = unit.name
-        .split(' ')
-        .filter((word) => !filterWord.includes(word))
-        .join(' ')
-      return unit
+    data = data.map((obj) => {
+      obj.name = obj.name.slice(0, 4)
+      return obj
     })
 
-    if (this.props.type === 'Range') {
-      let numRange = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-      let keys = data.map((obj) => Number(obj.name))
+    data = this.chartFormat(data)
 
-      for (let i = 0; i < numRange.length; i++) {
-        if (!keys.includes(numRange[i])) {
-          data.push({name: numRange[i], value: 0})
-        }
-      }
-      data = data
-        .map((obj) => {
-          return {name: Number(obj.name), value: obj.value}
-        })
-        .filter((obj) => obj.name >= 0)
-        .sort((a, b) => {
-          return a.name - b.name
-        })
-    } else {
-      data = data.map((obj) => {
-        obj.name = obj.name.slice(0, 4)
-        return obj
-      })
-      let keys = data.map((obj) => obj.name)
-      let choicesArr = []
-      choicesArr.push(this.props.choices.a.slice(0, 4))
-      choicesArr.push(this.props.choices.b.slice(0, 4))
-      choicesArr.push(this.props.choices.c.slice(0, 4))
-      if (this.props.choices.d) {
-        choicesArr.push(this.props.choices.d.slice(0, 4))
-      }
+    const svg = this.createSVG('#BCFilterB', 'BCsvgB')
 
-      let finalData = []
+    const x = this.getXValue(data)
+    const y = this.getYValue(data)
 
-      for (let i = 0; i < choicesArr.length; i++) {
-        if (!keys.includes(choicesArr[i])) {
-          data.push({name: choicesArr[i], value: 0})
-        }
-        finalData.push(data.filter((obj) => obj.name === choicesArr[i])[0])
-      }
-      data = finalData
-    }
+    this.changeGraphStructure(svg, data, x, y)
 
-    const width = 400
-    const height = 400
-    const margin = {top: 60, bottom: 60, left: 60, right: 60}
-
-    const svg = d3
-      .select('#BCFilterB')
-      .append('svg')
-      .attr('width', width - margin.left - margin.right)
-      .attr('height', height - margin.top - margin.bottom)
-      .attr('viewBox', [0, 0, width, height])
-      .attr('id', 'BCsvgB')
-
-    const x = d3
-      .scaleBand()
-      .domain(d3.range(data.length))
-      .range([margin.left, width - margin.right])
-      .padding(0.1)
-
-    const y = d3
-      .scaleLinear()
-      .domain([
-        0,
-        Math.max.apply(
-          Math,
-          data.map(function (o) {
-            return o.value
-          })
-        ) * 1.25,
-      ])
-      .range([height - margin.bottom, margin.top])
-
-    svg
-      .append('g')
-      .attr('fill', this.state.color)
-      .selectAll('rect')
-      .data(data)
-      .enter()
-      .append('rect')
-      .attr('x', (d, i) => x(i))
-      .attr('y', (d) => y(d.value))
-      .attr('title', (d) => d.value)
-      .attr('class', 'rect')
-      .attr('height', (d) => y(0) - y(d.value))
-      .attr('width', x.bandwidth())
-
-    function yAxis(g) {
-      g.attr('transform', `translate(${margin.left}, 0)`)
-        .call(d3.axisLeft(y).ticks(5))
-        .attr('font-size', '20px')
-    }
-
-    function xAxis(g) {
-      g.attr('transform', `translate(0,${height - margin.bottom})`)
-        .call(d3.axisBottom(x).tickFormat((i) => data[i].name))
-        .attr('font-size', '20px')
-    }
-
-    svg.append('g').call(xAxis)
-    svg.append('g').call(yAxis)
+    svg.append('g').call((g) => this.xAxis(g, data, x))
+    svg.append('g').call((g) => this.yAxis(g, y))
     svg.node()
 
-    svg
-      .append('text')
-      .attr('class', 'x label')
-      .attr('text-anchor', 'middle')
-      .attr('x', width / 2)
-      .attr('y', height - 15)
-      .text(this.props.masterLabel || this.props.rangeLabel5)
-
-    svg
-      .append('text')
-      .attr('class', 'y label')
-      .attr('text-anchor', 'end')
-      .attr('y', 15)
-      .attr('x', -150)
-      .attr('transform', 'rotate(-90)')
-      .text('Responses')
-
-    svg
-      .append('text')
-      .attr('class', 'BCSubLabel')
-      .attr('text-anchor', 'middle')
-      .attr('x', width / 2)
-      .attr('y', height - 360)
-      .text(filterWord)
+    this.setXLabel(svg)
+    this.setYLabel(svg)
+    this.setBCSubLabel(svg, filterWord)
   }
 
   async handleClick() {
@@ -509,24 +313,24 @@ class BarChart extends Component {
     if (this.state.filterActive) {
       this.resetFilter()
     }
-    const filterChoice = this.state.filter
-    const users = await Promise.all(
-      this.state.users.map(async (user) => {
-        const test = await db.collection('users').doc(user).get()
+
+    const {users, filter} = this.state
+    const usersAnswerFilter = await Promise.all(
+      users.map(async (key) => {
+        const userRef = await db.collection('users').doc(key).get()
         return {
-          userKey: user,
-          [filterChoice]: test.data().signUpAnswers[filterChoice],
+          userKey: key,
+          [filter]: userRef.data().signUpAnswers[filter],
         }
       })
     )
 
     let result = []
-    for (let feature of users) {
+    for (let feature of usersAnswerFilter) {
       let unique = true
       for (let entry of result) {
         if (
-          entry.name ===
-          `${this.state.doc[feature.userKey]} ${feature[filterChoice]}`
+          entry.name === `${this.state.doc[feature.userKey]} ${feature[filter]}`
         ) {
           unique = false
           entry.value++
@@ -534,28 +338,20 @@ class BarChart extends Component {
       }
       if (unique) {
         result.push({
-          name: `${this.state.doc[feature.userKey]} ${feature[filterChoice]}`,
+          name: `${this.state.doc[feature.userKey]} ${feature[filter]}`,
           value: 1,
         })
       }
     }
 
     let splitResultA = result.filter((data) =>
-      data.name.includes(filterAB[filterChoice][0])
+      data.name.includes(filterAB[filter][0])
     )
     let splitResultB = result.filter((data) =>
-      data.name.includes(filterAB[filterChoice][1])
+      data.name.includes(filterAB[filter][1])
     )
-    const first = this.state.chartData[0].name
 
-    if (!splitResultA[0].name.includes(first)) {
-      splitResultA = splitResultA.reverse()
-    }
-    if (!splitResultB[0].name.includes(first)) {
-      splitResultB = splitResultB.reverse()
-    }
-
-    await this.setState({
+    this.setState({
       chartDataA: splitResultA,
       chartDataB: splitResultB,
       filterActive: true,
