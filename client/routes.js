@@ -32,6 +32,7 @@ class Routes extends Component {
         <Route path="/home" component={HomePage} />
         <Route path="/login" component={LoginForm} />
         <Route path="/signup" component={SignUpForm} />
+        <Route path="/loading" component={LoadingScreen} />
         <Route path="/feedback" component={Feedback} />
         {isLoggedIn && (
           <Switch>

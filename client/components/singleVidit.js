@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import BarChart from './BarChart'
 import PieChart from './PieChart'
 import LineChart from './LineChart'
+import TreeMap from './TreeMap'
 import ChartVoting from './ChartVoting'
 import './styles/SingleVidit.css'
 import LoadingScreen from './LoadingScreen'
@@ -33,7 +34,9 @@ const SingleVidit = (props) => {
       {data.type === 'Open' && data.dataType === 'Number' && (
         <LineChart pollKey={id} units={data.units} />
       )}
-      {/* userAnswered && data.type !== 'Multiple' && <BarChart data={[2, 4, 6, 8]} size={[500, 500]} /> */}
+      {data.type === 'Open' && data.dataType === 'String' && (
+        <TreeMap pollKey={id} />
+      )}
     </div>
   ) : (
     <LoadingScreen />
