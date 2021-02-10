@@ -83,7 +83,7 @@ class ChartVoting extends Component {
     } else if (this.state.type === 'Open' && this.state.dataType === 'Number') {
       answer = this.state.numberOpen
     } else if (this.state.type === 'Open' && this.state.dataType === 'String') {
-      answer = this.state.numberOpen
+      answer = this.state.stringOpen
     }
     setTimeout(() => updateViditStore(pollKey, answer, userKey), 3100)
     setTimeout(() => updateUserStore(pollKey, userKey), 3100)
