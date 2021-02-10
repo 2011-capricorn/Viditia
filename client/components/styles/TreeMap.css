@@ -1,0 +1,222 @@
+#singleTMViditFull {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#testChartTM {
+  margin-left: 50px;
+  margin-top: 25px;
+  /* background-color: aquamarine; */
+  height: 100vh;
+  width: 1150px;
+  min-width: 1150px;
+  max-width: 1150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(143, 122, 163, 0.034);
+  border-radius: 25px;
+}
+#mainTreeMap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#mainTreeMapDiv {
+  width: 400px;
+  height: 400px;
+}
+
+#subTreeMaps {
+  height: 400px;
+  width: 1150px;
+  min-width: 1150px;
+  max-width: 1150px;
+  /* background-color: rgba(193, 241, 209, 0.322); */
+  display: flex;
+  justify-content: space-evenly;
+}
+
+#VTM {
+  position: absolute;
+  z-index: -1;
+  height: 900px;
+  width: auto;
+  margin-top: 50px;
+  opacity: 0;
+}
+
+.vHiddenTM {
+  opacity: 0;
+}
+
+@keyframes flareTM {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.04;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.vFlareTM {
+  animation-name: flareTM;
+  animation-duration: 1.5s;
+  opacity: 0;
+}
+
+#filterControlsTM {
+  margin: 75px 0px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.filterStartTM {
+  position: absolute;
+  margin-top: -929px;
+  padding: 0px;
+}
+
+@keyframes TMrideA {
+  0% {
+    margin-top: -929px;
+    opacity: 0;
+  }
+  100% {
+    margin-top: -200px;
+    margin-left: -705px;
+    opacity: 1;
+  }
+}
+
+@keyframes TMrideB {
+  0% {
+    margin-top: -929px;
+    opacity: 0;
+  }
+  100% {
+    margin-top: -200px;
+    margin-right: -705px;
+    opacity: 1;
+  }
+}
+
+.TMfilterRideA {
+  position: absolute;
+  animation-name: TMrideA;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  /* animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); */
+}
+
+.TMfilterRideB {
+  position: absolute;
+  animation-name: TMrideB;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  /* animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); */
+}
+
+#filterChoiceTM {
+  padding: 5px;
+  border-radius: 5px;
+  background-image: linear-gradient(to bottom, #ffffff 0%, #e5e5e5 100%);
+}
+
+#activateFilterTM {
+  cursor: pointer;
+  border-radius: 10px;
+  border: none;
+  background-color: rgba(103, 185, 22, 0.63);
+  padding: 15px;
+  transition-duration: 0.5s;
+}
+
+#activateFilterTM:hover {
+  background-color: rgb(104, 185, 22);
+}
+
+#resetFilterTM {
+  cursor: pointer;
+  border-radius: 10px;
+  border: none;
+  background-color: rgba(238, 53, 53, 0.63);
+  padding: 15px;
+  transition-duration: 0.5s;
+}
+
+#resetFilterTM:hover {
+  background-color: rgb(238, 53, 53);
+}
+
+#subTMLabelA {
+  position: absolute;
+  margin-left: -700px;
+  margin-top: -240px;
+  font-family: 'Caveat', cursive;
+  font-size: 24px;
+}
+
+@keyframes subTMLabelAReveal {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.subTMLabelAVisible {
+  animation-name: subTMLabelBReveal;
+  animation-duration: 4s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: 1;
+}
+
+.subTMLabelAHidden {
+  opacity: 0;
+}
+
+#subTMLabelB {
+  position: absolute;
+  margin-left: 700px;
+  margin-top: -240px;
+  font-family: 'Caveat', cursive;
+  font-size: 24px;
+}
+
+@keyframes subTMLabelBReveal {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.subTMLabelBVisible {
+  animation-name: subTMLabelBReveal;
+  animation-duration: 4s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: 1;
+}
+
+.subTMLabelBHidden {
+  opacity: 0;
+}

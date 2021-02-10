@@ -92,7 +92,6 @@ class BarChart extends Component {
       filter: filter,
     })
   }
-
   createSVG(selectValue, idValue) {
     const {height, width, margin} = this.state
     return d3
@@ -189,7 +188,8 @@ class BarChart extends Component {
       .attr('fill', this.state.color)
       .selectAll('rect')
       .data(data)
-      .join('rect')
+      .enter()
+      .append('rect')
       .attr('x', (d, i) => x(i))
       .attr('y', (d) => y(d.value))
       .attr('title', (d) => d.value)
