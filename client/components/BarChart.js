@@ -188,7 +188,7 @@ class BarChart extends Component {
   changeGraphStructure(svg, data, x, y) {
     svg
       .append('g')
-      .attr('fill', this.state.color)
+      .attr('fill', this.state.color || '#ffab00')
       .selectAll('rect')
       .data(data)
       .enter()
@@ -210,6 +210,28 @@ class BarChart extends Component {
       .attr('x', width / 2)
       .attr('y', height - 15)
       .text(this.props.masterLabel || this.props.rangeLabel5)
+  }
+
+  setXRightLabel(svg) {
+    const {height} = this.state
+    svg
+      .append('text')
+      .attr('class', 'x label')
+      .attr('text-anchor', 'middle')
+      .attr('x', 327)
+      .attr('y', height - 15)
+      .text(this.props.rangeLabel10)
+  }
+
+  setXLeftLabel(svg) {
+    const {height} = this.state
+    svg
+      .append('text')
+      .attr('class', 'x label')
+      .attr('text-anchor', 'middle')
+      .attr('x', 73)
+      .attr('y', height - 15)
+      .text(this.props.rangeLabel1)
   }
 
   setYLabel(svg) {
@@ -264,6 +286,8 @@ class BarChart extends Component {
     svg.node()
 
     this.setXLabel(svg)
+    this.setXRightLabel(svg)
+    this.setXLeftLabel(svg)
     this.setYLabel(svg)
     if (filtering) this.setBCSubLabel(svg, filterWord)
   }
