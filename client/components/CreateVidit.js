@@ -2,7 +2,6 @@ import {
   Button,
   FormControl,
   FormControlLabel,
-  FormLabel,
   InputLabel,
   MenuItem,
   Radio,
@@ -21,12 +20,12 @@ const CreateVidit = ({userKey, addNewVidit, addUserCreated, history}) => {
   const [question, setQuestion] = useState('')
   const [type, setType] = useState('')
   const [masterLabel, setMasterLabel] = useState('')
-  const [openMaxValue, setOpenMaxValue] = useState(0)
+  const [openMaxValue, setOpenMaxValue] = useState(1)
   const [units, setUnits] = useState('')
   const [rangeDescription, setRangeDescription] = useState(false)
-  const [rangeLabel1, setRangeLabel1] = useState('') // rangeLabel1
-  const [rangeLabel5, setRangeLabel5] = useState('') // rangeLabel10
-  const [rangeLabel10, setRangeLabel10] = useState('') // rangeLabel5
+  const [rangeLabel1, setRangeLabel1] = useState('')
+  const [rangeLabel5, setRangeLabel5] = useState('')
+  const [rangeLabel10, setRangeLabel10] = useState('')
   const [dataType, setDataType] = useState('String')
   const [error, setError] = useState('')
 
@@ -50,9 +49,30 @@ const CreateVidit = ({userKey, addNewVidit, addUserCreated, history}) => {
   }
 
   const checkRange = () => {
-    if (max <= min) {
-      setError('Max cannot be less than min!')
+    if (rangeDescription) {
+      if (!rangeLabel1.length || !rangeLabel10.length) {
+        setError('Spectrum descriptions cannot be empty')
+        return true
+      }
+    } else if (!masterLabel.length) {
+      setError('Label should not be empty')
       return true
+    }
+    return false
+  }
+
+  const checkOpen = () => {
+    if (dataType === 'Number') {
+      if (openMaxValue === '') {
+        setError('Max value should not be empty')
+        return true
+      } else if (!units.length) {
+        setError('Units should not be empty')
+        return true
+      } else if (openMaxValue < 1) {
+        setError('Max value should not be less than 1')
+        return true
+      }
     }
     return false
   }
@@ -67,11 +87,21 @@ const CreateVidit = ({userKey, addNewVidit, addUserCreated, history}) => {
     return false
   }
 
+  const checkMasterLabel = () => {
+    if (!masterLabel.length) {
+      setError('Describing word cannot be empty')
+      return true
+    }
+    return false
+  }
+
+  // eslint-disable-next-line complexity
   const getReturnValue = async () => {
     const split = type.split(' ')
     const returnType =
       split[0] === 'Multiple' && split[1] > 2 ? 'Multiple +' : type
     const returnValue = {question, type: returnType, answers: []}
+
     let pollKey = ''
     if (type === 'Open') {
       pollKey =
@@ -81,29 +111,47 @@ const CreateVidit = ({userKey, addNewVidit, addUserCreated, history}) => {
               {...returnValue, dataType, max: openMaxValue, units},
               userKey
             )
-    } else if (type === 'Range')
-      pollKey = await addNewVidit({...returnValue}, userKey)
-    else if (returnType === 'Multiple +')
+    } else if (type === 'Range') {
+      if (rangeDescription) {
+        if (!rangeLabel5.length)
+          pollKey = await addNewVidit(
+            {...returnValue, rangeLabel1, rangeLabel10},
+            userKey
+          )
+        else
+          pollKey = await addNewVidit(
+            {...returnValue, rangeLabel1, rangeLabel5, rangeLabel10},
+            userKey
+          )
+      } else {
+        pollKey = await addNewVidit({...returnValue, masterLabel}, userKey)
+      }
+    } else if (returnType === 'Multiple +')
       pollKey = await addNewVidit(
         {...returnValue, choices, masterLabel},
         userKey
       )
     else pollKey = await addNewVidit({...returnValue, choices}, userKey)
     addUserCreated(pollKey)
-    history.push('/vidits')
+    history.push(`/vidit/${pollKey}`)
   }
 
+  // eslint-disable-next-line complexity
   const handleSubmit = () => {
     setError('')
     let errorExists =
       checkField(question, 'Question') || checkField(type, 'Format')
     if (type === 'Range') errorExists = checkRange() || errorExists
-    if (type.split(' ')[0] === 'Multiple')
+    if (type === 'Open') errorExists = checkOpen() || errorExists
+    if (type.split(' ')[0] === 'Multiple') {
       errorExists = checkChoices() || errorExists
+      if (type.split(' ')[1] > 2)
+        errorExists = checkMasterLabel() || errorExists
+    }
     if (!errorExists) getReturnValue()
   }
 
-  console.log(1111, rangeLabel1, rangeLabel10, rangeLabel5)
+  console.log(1111, openMaxValue)
 
   return (
     <div>
@@ -221,13 +269,15 @@ const CreateVidit = ({userKey, addNewVidit, addUserCreated, history}) => {
 
       {dataType === 'Number' && (
         <div>
-          <p>*Graphs are better with a thoughtful max!*</p>
+          <p style={{color: 'DarkOliveGreen', fontStyle: 'italic'}}>
+            *Graphs are better with a thoughtful max!*
+          </p>
           <TextField
             fullWidth={true}
             required
             label="What is the maximum value?"
             value={openMaxValue}
-            min={0}
+            min={1}
             type="number"
             onChange={(e) => setOpenMaxValue(e.target.value)}
           />
@@ -241,7 +291,9 @@ const CreateVidit = ({userKey, addNewVidit, addUserCreated, history}) => {
         </div>
       )}
 
-      {(type === 'Multiple 3' || type === 'Multiple 4') && (
+      {(type === 'Multiple 3' ||
+        type === 'Multiple 4' ||
+        (type === 'Range' && !rangeDescription)) && (
         <div>
           <TextField
             fullWidth={true}
@@ -252,7 +304,7 @@ const CreateVidit = ({userKey, addNewVidit, addUserCreated, history}) => {
           />
         </div>
       )}
-      {error.length > 0 && <p>{error}</p>}
+      {error.length > 0 && <p className="error">{error}</p>}
       <Button onClick={handleSubmit} variant="outlined" color="primary">
         Submit
       </Button>

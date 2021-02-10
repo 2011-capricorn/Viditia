@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 import BarChart from './BarChart'
 import PieChart from './PieChart'
@@ -8,12 +8,26 @@ import ChartVoting from './ChartVoting'
 import './styles/SingleVidit.css'
 import LoadingScreen from './LoadingScreen'
 
+// eslint-disable-next-line complexity
 const SingleVidit = (props) => {
+  const [loading, setLoading] = useState(true)
   const {id} = props.match.params
-  const data = props.allVidit.filter((vidit) => vidit.pollKey === id)[0]
-  const userAnswered = props.answered.some((key) => key === data.pollKey)
+  let data
+  let userAnswered
 
-  return data ? (
+  useEffect(() => {
+    try {
+      data = props.allVidit.filter((vidit) => vidit.pollKey === id)[0]
+      userAnswered = props.answered.some((key) => key === data.pollKey)
+      setLoading(false)
+    } catch (error) {
+      setLoading(true)
+    }
+  }, [])
+
+  console.log('singleVidit loading -->', loading)
+
+  return !loading ? (
     <div>
       <h1 id="SVTitle">{data.question}</h1>
       {!userAnswered && <ChartVoting pollKey={id} />}

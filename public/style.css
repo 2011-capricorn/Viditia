@@ -59,6 +59,11 @@ form {
   box-shadow: 5px 5px 15px 10px rgb(0 0 0 / 15%);
 }
 
+.error {
+  color: red;
+  font-weight: bold;
+}
+
 #no-style-anchor {
   text-decoration: none;
   color: black;
