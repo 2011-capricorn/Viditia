@@ -8,11 +8,9 @@ import ChartVoting from './ChartVoting'
 import './styles/SingleVidit.css'
 import LoadingScreen from './LoadingScreen'
 
-// eslint-disable-next-line complexity
 class SingleVidit extends Component {
   constructor() {
     super()
-
     this.state = {
       pollKey: '',
       loading: true,
@@ -36,32 +34,38 @@ class SingleVidit extends Component {
     })
   }
 
+  renderChart(data, id) {
+    if (data.type === 'Multiple 2') {
+      return <PieChart size={[500, 500]} pollKey={id} />
+    }
+    if (data.type === 'Multiple +' || data.type === 'Range') {
+      return (
+        <BarChart
+          pollKey={id}
+          rangeLabel1={data.rangeLabel1}
+          rangeLabel5={data.rangeLabel5}
+          rangeLabel10={data.rangeLabel10}
+          masterLabel={data.masterLabel}
+          type={data.type}
+          choices={data.choices}
+        />
+      )
+    }
+    if (data.type === 'Open' && data.dataType === 'Number') {
+      return <LineChart pollKey={id} units={data.units} />
+    }
+    if (data.type === 'Open' && data.dataType === 'String') {
+      return <TreeMap pollKey={id} />
+    }
+  }
+
   render() {
     let {pollKey: id, data, userAnswered, loading} = this.state
     return !loading ? (
       <div>
         <h1 id="SVTitle">{data.question}</h1>
         {!userAnswered && <ChartVoting pollKey={id} />}
-        {data.type === 'Multiple 2' && (
-          <PieChart size={[500, 500]} pollKey={id} />
-        )}
-        {(data.type === 'Multiple +' || data.type === 'Range') && (
-          <BarChart
-            pollKey={id}
-            rangeLabel1={data.rangeLabel1}
-            rangeLabel5={data.rangeLabel5}
-            rangeLabel10={data.rangeLabel10}
-            masterLabel={data.masterLabel}
-            type={data.type}
-            choices={data.choices}
-          />
-        )}
-        {data.type === 'Open' && data.dataType === 'Number' && (
-          <LineChart pollKey={id} units={data.units} />
-        )}
-        {data.type === 'Open' && data.dataType === 'String' && (
-          <TreeMap pollKey={id} />
-        )}
+        {this.renderChart(data, id)}
       </div>
     ) : (
       <LoadingScreen />
