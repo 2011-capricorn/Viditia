@@ -151,8 +151,6 @@ const CreateVidit = ({userKey, addNewVidit, addUserCreated, history}) => {
     if (!errorExists) getReturnValue()
   }
 
-  console.log(1111, openMaxValue)
-
   return (
     <div>
       <h1>Create Vidit!</h1>
