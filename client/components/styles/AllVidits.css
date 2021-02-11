@@ -9,9 +9,10 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  background-color: rgb(240, 240, 240);
+  background-color: #dcdee5;
   border-radius: 15px;
-  margin: 15px;
+  margin: 3%;
+  padding: 2%;
 }
 
 .singleVidit {
@@ -26,7 +27,7 @@
 }
 
 .pieChartImg {
-  width: 150px;
+  width: 25%;
   height: auto;
 }
 
