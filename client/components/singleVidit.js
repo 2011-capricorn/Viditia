@@ -62,7 +62,7 @@ class SingleVidit extends Component {
   render() {
     let {pollKey: id, data, userAnswered, loading} = this.state
     return !loading ? (
-      <div>
+      <div id="singleViditContainer">
         <h1 id="SVTitle">{data.question}</h1>
         {!userAnswered && <ChartVoting pollKey={id} />}
         {this.renderChart(data, id)}

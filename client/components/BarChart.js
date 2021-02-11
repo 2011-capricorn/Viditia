@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import * as d3 from 'd3'
 
 import './styles/BarChart.css'
-import {barChartColors} from './styles/ChartColors'
 import firebase from '../../public/firebase'
 import filterAB from '../filterAB'
 
@@ -16,14 +15,14 @@ class BarChart extends Component {
       chartDataA: [],
       chartDataB: [],
       reset: [],
-      color: '',
+      color: '#8F7AA3',
       users: [],
       doc: [],
       filter: 'Hand',
       filterActive: false,
-      width: 400,
-      height: 400,
-      margin: {top: 60, bottom: 60, left: 60, right: 60},
+      width: 550,
+      height: 550,
+      margin: {top: 70, bottom: 70, left: 70, right: 70},
       unsubscribe: null,
     }
     this.createBarChart = this.createBarChart.bind(this)
@@ -39,11 +38,6 @@ class BarChart extends Component {
         .collection('polls')
         .doc(this.props.pollKey)
         .onSnapshot((doc) => this.formatData(doc.data().answers)),
-    })
-    let randomNumber = Math.floor(Math.random() * 13)
-
-    this.setState({
-      color: barChartColors[randomNumber],
     })
   }
 
@@ -207,8 +201,9 @@ class BarChart extends Component {
       .append('text')
       .attr('class', 'x label')
       .attr('text-anchor', 'middle')
+      .attr('font-size', 24)
       .attr('x', width / 2)
-      .attr('y', height - 15)
+      .attr('y', height - 20)
       .text(this.props.masterLabel || this.props.rangeLabel5)
   }
 
@@ -218,8 +213,9 @@ class BarChart extends Component {
       .append('text')
       .attr('class', 'x label')
       .attr('text-anchor', 'middle')
-      .attr('x', 327)
-      .attr('y', height - 15)
+      .attr('font-size', 24)
+      .attr('x', 462)
+      .attr('y', height - 20)
       .text(this.props.rangeLabel10)
   }
 
@@ -229,8 +225,9 @@ class BarChart extends Component {
       .append('text')
       .attr('class', 'x label')
       .attr('text-anchor', 'middle')
-      .attr('x', 73)
-      .attr('y', height - 15)
+      .attr('font-size', 24)
+      .attr('x', 91)
+      .attr('y', height - 20)
       .text(this.props.rangeLabel1)
   }
 
@@ -239,8 +236,9 @@ class BarChart extends Component {
       .append('text')
       .attr('class', 'y label')
       .attr('text-anchor', 'end')
-      .attr('y', 15)
-      .attr('x', -150)
+      .attr('y', 23)
+      .attr('x', -225)
+      .attr('font-size', 20)
       .attr('transform', 'rotate(-90)')
       .text('Responses')
   }
@@ -251,8 +249,9 @@ class BarChart extends Component {
       .append('text')
       .attr('class', 'BCSubLabel')
       .attr('text-anchor', 'middle')
+      .attr('font-size', 32)
       .attr('x', width / 2)
-      .attr('y', height - 360)
+      .attr('y', height - 515)
       .text(filterWord)
   }
 

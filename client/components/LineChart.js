@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import * as d3 from 'd3'
 
 import './styles/LineChart.css'
-import {lineChartColors} from './styles/ChartColors'
 import firebase from '../../public/firebase'
 import filterAB from '../filterAB'
 
@@ -16,7 +15,7 @@ class LineChart extends Component {
       chartDataA: [],
       chartDataB: [],
       reset: [],
-      color: '',
+      color: '#8F7AA3',
       units: 'units',
       users: [],
       doc: [],
@@ -38,12 +37,6 @@ class LineChart extends Component {
         .collection('polls')
         .doc(this.props.pollKey)
         .onSnapshot((doc) => this.formatData(doc.data().answers)),
-    })
-    let randomNumber = Math.floor(Math.random() * 13)
-
-    this.setState({
-      color: lineChartColors[randomNumber],
-      units: this.props.units,
     })
   }
 

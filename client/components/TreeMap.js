@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import * as d3 from 'd3'
 
 import './styles/TreeMap.css'
-import {treeMapColors} from './styles/ChartColors'
 import firebase from '../../public/firebase'
 
 const db = firebase.firestore()
@@ -28,7 +27,7 @@ class TreeMap extends Component {
       chartDataA: [{name: 'loading...', value: '50'}],
       chartDataB: [{name: 'loading...', value: '50'}],
       reset: [],
-      color: '#ffab00',
+      color: '#8F7AA3',
       users: [],
       doc: [],
       filter: 'Hand',
@@ -49,11 +48,6 @@ class TreeMap extends Component {
       .collection('polls')
       .doc(this.props.pollKey)
       .onSnapshot((doc) => this.formatData(doc.data().answers))
-    let randomNumber = Math.floor(Math.random() * 13)
-
-    await this.setState({
-      color: treeMapColors[randomNumber],
-    })
   }
 
   componentDidUpdate() {
@@ -124,7 +118,7 @@ class TreeMap extends Component {
       .attr('id', (d) => d.data.id)
       .attr('width', (d) => d.x1 - d.x0)
       .attr('height', (d) => d.y1 - d.y0)
-      .attr('fill', this.state.color || '#ffab00')
+      .attr('fill', '#8F7AA3')
     cell
       .append('text')
       .selectAll('tspan')
@@ -161,8 +155,6 @@ class TreeMap extends Component {
     const root = d3.hierarchy(dataFromState).sum((d) => d.value)
     treemap(root)
 
-    let color = this.state.color || '#ffab00'
-
     const cell = svg
       .selectAll('g')
       .data(root.leaves())
@@ -178,7 +170,7 @@ class TreeMap extends Component {
       .attr('id', (d) => d.data.id)
       .attr('width', (d) => d.x1 - d.x0)
       .attr('height', (d) => d.y1 - d.y0)
-      .attr('fill', color)
+      .attr('fill', '#8F7AA3')
     cell
       .append('text')
       .selectAll('tspan')
@@ -216,8 +208,6 @@ class TreeMap extends Component {
     const root = d3.hierarchy(dataFromState).sum((d) => d.value)
     treemap(root)
 
-    let color = this.state.color || '#ffab00'
-
     const cell = svg
       .selectAll('g')
       .data(root.leaves())
@@ -233,7 +223,7 @@ class TreeMap extends Component {
       .attr('id', (d) => d.data.id)
       .attr('width', (d) => d.x1 - d.x0)
       .attr('height', (d) => d.y1 - d.y0)
-      .attr('fill', color)
+      .attr('fill', '#8F7AA3')
     cell
       .append('text')
       .selectAll('tspan')
