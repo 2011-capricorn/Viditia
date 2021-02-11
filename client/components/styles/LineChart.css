@@ -4,14 +4,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  margin: 0px;
 }
 
 #testChartLC {
-  margin-left: 50px;
-  margin-top: 25px;
-  /* background-color: aquamarine; */
-  height: 100vh;
+  margin-left: 0px;
+  margin-top: 0px;
+  margin-top: 15px;
+  height: 1150px;
   width: 1150px;
   min-width: 1150px;
   max-width: 1150px;
@@ -38,7 +39,6 @@
   width: 1150px;
   min-width: 1150px;
   max-width: 1150px;
-  /* background-color: rgba(193, 241, 209, 0.322); */
   display: flex;
   justify-content: space-evenly;
 }
@@ -46,9 +46,9 @@
 #VLC {
   position: absolute;
   z-index: -1;
-  height: 900px;
+  height: 700px;
   width: auto;
-  margin-top: 50px;
+  margin-top: 220px;
   opacity: 0;
 }
 
@@ -71,7 +71,6 @@
 .vFlareLC {
   animation-name: flareLC;
   animation-duration: 1.5s;
-  /* animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); */
   opacity: 0;
 }
 
@@ -82,12 +81,6 @@
   align-items: center;
 }
 
-/* #filterA {
-    position: absolute;
-    margin-top: -929px;
-    padding: 0px;
-  } */
-
 .filterStartLC {
   position: absolute;
   margin-top: -929px;
@@ -96,24 +89,24 @@
 
 @keyframes LCrideA {
   0% {
-    margin-top: -929px;
+    margin-top: -752px;
     opacity: 0;
   }
   100% {
-    margin-top: -200px;
-    margin-left: -705px;
+    margin-top: -55px;
+    margin-left: -540px;
     opacity: 1;
   }
 }
 
 @keyframes LCrideB {
   0% {
-    margin-top: -929px;
+    margin-top: -752px;
     opacity: 0;
   }
   100% {
-    margin-top: -200px;
-    margin-right: -705px;
+    margin-top: -55px;
+    margin-right: -540px;
     opacity: 1;
   }
 }
@@ -123,7 +116,6 @@
   animation-name: LCrideA;
   animation-duration: 2s;
   animation-fill-mode: forwards;
-  /* animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); */
 }
 
 .LCfilterRideB {
@@ -131,39 +123,44 @@
   animation-name: LCrideB;
   animation-duration: 2s;
   animation-fill-mode: forwards;
-  /* animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); */
 }
 
 #filterChoiceLC {
   padding: 5px;
   border-radius: 5px;
-  background-image: linear-gradient(to bottom, #ffffff 0%, #e5e5e5 100%);
+  background-color: rgba(255, 255, 255, 0);
+  text-align: center;
+  border: 2px solid #806d92;
+  outline: none;
+  cursor: pointer;
 }
 
 #activateFilterLC {
   cursor: pointer;
   border-radius: 10px;
-  border: none;
-  background-color: rgba(103, 185, 22, 0.63);
+  background-color: rgba(255, 255, 255, 0);
+  border: 3px solid #8f7aa3;
+  outline: none;
   padding: 15px;
-  transition-duration: 0.5s;
+  transition-duration: 0.25s;
 }
 
 #activateFilterLC:hover {
-  background-color: rgb(104, 185, 22);
+  transform: scale(1.05);
 }
 
 #resetFilterLC {
   cursor: pointer;
   border-radius: 10px;
-  border: none;
-  background-color: rgba(238, 53, 53, 0.63);
+  background-color: rgba(255, 255, 255, 0);
   padding: 15px;
-  transition-duration: 0.5s;
+  transition-duration: 0.25s;
+  border: 3px solid #c7bcd1;
+  outline: none;
 }
 
 #resetFilterLC:hover {
-  background-color: rgb(238, 53, 53);
+  transform: scale(1.05);
 }
 
 .centerWord {
@@ -194,4 +191,32 @@
 .focus circle {
   fill: none;
   stroke: steelblue;
+}
+
+@media (max-width: 2555px) {
+  #testChartLC {
+    transform: scale(0.85);
+    margin-top: -55px;
+  }
+}
+
+@media (max-width: 1440px) {
+  #testChartLC {
+    transform: scale(0.65);
+    margin-top: -185px;
+  }
+}
+
+@media (max-width: 768px) {
+  #testChartLC {
+    transform: scale(0.5);
+    margin-top: -265px;
+  }
+}
+
+@media (max-width: 375px) {
+  #testChartLC {
+    transform: scale(0.3);
+    margin-top: -380px;
+  }
 }
