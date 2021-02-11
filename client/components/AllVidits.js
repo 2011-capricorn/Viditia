@@ -1,12 +1,9 @@
 import React, {Component} from 'react'
-import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 
 import './styles/AllVidits.css'
-import firebase from '../../public/firebase'
 import {getAllViditThunk} from '../store/vidit.js'
-
-const db = firebase.firestore()
+import ViditCard from './ViditCard'
 
 class AllVidits extends Component {
   constructor() {
@@ -24,39 +21,45 @@ class AllVidits extends Component {
       <div id="allViditFull">
         <div id="allViditContainer">
           {allVidit.map((vidit) => (
-            <div key={vidit.pollKey} className="singleVidit">
-              <Link className="viditQuestion" to={`/vidit/${vidit.pollKey}`}>
-                {vidit.question}
-              </Link>
-              <h6 className="viditVoteCount">{vidit.totalVoteCount} Votes</h6>
+            <div key={vidit.pollKey} style={{width: '25%', margin: '2%'}}>
               {vidit.type === 'Multiple 2' ? (
-                <Link to={`/vidit/${vidit.pollKey}`}>
-                  <img
-                    src={`dummyPieChart${Math.floor(Math.random() * 3)}.png`}
-                    className="pieChartImg"
-                  />
-                </Link>
+                <ViditCard
+                  question={vidit.question}
+                  votes={vidit.totalVoteCount}
+                  imageUrl={`/dummyPieChart${Math.floor(
+                    Math.random() * 3
+                  )}.png`}
+                  pollKey={vidit.pollKey}
+                  history={this.props.history}
+                />
               ) : vidit.type === 'Range' || vidit.type === 'Multiple +' ? (
-                <Link to={`/vidit/${vidit.pollKey}`}>
-                  <img
-                    src={`dummyBarChart${Math.floor(Math.random() * 3)}.png`}
-                    className="barChartImg"
-                  />
-                </Link>
+                <ViditCard
+                  question={vidit.question}
+                  votes={vidit.totalVoteCount}
+                  imageUrl={`/dummyBarChart${Math.floor(
+                    Math.random() * 3
+                  )}.png`}
+                  pollKey={vidit.pollKey}
+                  history={this.props.history}
+                />
               ) : vidit.type === 'Open' && vidit.dataType === 'Number' ? (
-                <Link to={`/vidit/${vidit.pollKey}`}>
-                  <img
-                    src={`dummyLineChart${Math.floor(Math.random() * 3)}.png`}
-                    className="lineChartImg"
-                  />
-                </Link>
+                <ViditCard
+                  question={vidit.question}
+                  votes={vidit.totalVoteCount}
+                  imageUrl={`/dummyLineChart${Math.floor(
+                    Math.random() * 3
+                  )}.png`}
+                  pollKey={vidit.pollKey}
+                  history={this.props.history}
+                />
               ) : (
-                <Link to={`/vidit/${vidit.pollKey}`}>
-                  <img
-                    src={`dummyTreeMap${Math.floor(Math.random() * 3)}.png`}
-                    className="treeMapImg"
-                  />
-                </Link>
+                <ViditCard
+                  question={vidit.question}
+                  votes={vidit.totalVoteCount}
+                  imageUrl={`/dummyTreeMap${Math.floor(Math.random() * 3)}.png`}
+                  pollKey={vidit.pollKey}
+                  history={this.props.history}
+                />
               )}
             </div>
           ))}
