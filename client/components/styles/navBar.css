@@ -9,6 +9,10 @@
 .navBar {
   padding: 0 30px 0 30px;
   border-bottom: 1px solid black;
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  background-color: white;
 }
 
 #nav {
