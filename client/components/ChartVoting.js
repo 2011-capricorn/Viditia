@@ -68,10 +68,12 @@ class ChartVoting extends Component {
     e.preventDefault()
 
     const thankYou = document.getElementById('thankYou')
+    const fullDiv = document.getElementById('chartVotingFull')
     const mainDiv = document.getElementById('chartVoting')
     const voteBtn = document.getElementById('submitBtnVote')
     thankYou.className = 'tyReveal'
     mainDiv.className = 'chartVotingFade'
+    fullDiv.className = 'chartVotingFade'
     voteBtn.className = 'submitBtnVoteHidden'
     voteBtn.disabled = true
     const {pollKey, userKey, updateViditStore, updateUserStore} = this.props
@@ -85,6 +87,13 @@ class ChartVoting extends Component {
     } else if (this.state.type === 'Open' && this.state.dataType === 'String') {
       answer = this.state.stringOpen
     }
+
+    function clearDivs() {
+      mainDiv.remove()
+      fullDiv.remove()
+    }
+
+    setTimeout(() => clearDivs(), 2150)
     setTimeout(() => updateViditStore(pollKey, answer, userKey), 3100)
     setTimeout(() => updateUserStore(pollKey, userKey), 3100)
   }
@@ -130,7 +139,7 @@ class ChartVoting extends Component {
     const {pollKey} = this.props
 
     return !loading ? (
-      <div id="chartVotingFull">
+      <div id="chartVotingFull" className="visable">
         <div id="chartVoting" className="visable">
           <div id="formDivVote">
             <form id="formVote" onSubmit={this.handleSubmit}>
