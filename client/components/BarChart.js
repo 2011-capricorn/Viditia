@@ -33,6 +33,7 @@ class BarChart extends Component {
   }
 
   componentDidMount() {
+    window.scrollTo(0, 0)
     this.setState({
       unsubscribe: db
         .collection('polls')

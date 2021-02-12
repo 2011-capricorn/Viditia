@@ -44,6 +44,7 @@ class TreeMap extends Component {
   }
 
   async componentDidMount() {
+    window.scrollTo(0, 0)
     await db
       .collection('polls')
       .doc(this.props.pollKey)
