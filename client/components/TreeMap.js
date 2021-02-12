@@ -27,12 +27,12 @@ class TreeMap extends Component {
       chartDataA: [{name: 'loading...', value: '50'}],
       chartDataB: [{name: 'loading...', value: '50'}],
       reset: [],
-      color: '#8F7AA3',
       users: [],
       doc: [],
       filter: 'Hand',
       labelFilter: 'Hand',
       filterActive: false,
+      unsubscribe: null,
     }
     this.createMainTreeMap = this.createMainTreeMap.bind(this)
     this.createTreeMapA = this.createTreeMapA.bind(this)
@@ -43,17 +43,23 @@ class TreeMap extends Component {
     this.reloadMain = this.reloadMain.bind(this)
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     window.scrollTo(0, 0)
-    await db
-      .collection('polls')
-      .doc(this.props.pollKey)
-      .onSnapshot((doc) => this.formatData(doc.data().answers))
+    this.setState({
+      unsubscribe: db
+        .collection('polls')
+        .doc(this.props.pollKey)
+        .onSnapshot((doc) => this.formatData(doc.data().answers)),
+    })
   }
 
   componentDidUpdate() {
     this.reloadMain()
     this.createMainTreeMap()
+  }
+
+  componentWillUnmount() {
+    this.state.unsubscribe()
   }
 
   async formatData(data) {
