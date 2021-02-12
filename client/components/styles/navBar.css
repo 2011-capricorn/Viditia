@@ -6,6 +6,10 @@
   margin-top: 132px;
 }
 
+.hamburger {
+  cursor: pointer;
+}
+
 .navBar {
   padding: 0 30px 0 30px;
   border-bottom: 1px solid black;
@@ -94,11 +98,6 @@ form {
 
 .shadow {
   box-shadow: 5px 5px 15px 10px rgb(0 0 0 / 15%);
-}
-
-.error {
-  color: red;
-  font-weight: bold;
 }
 
 #mgt {

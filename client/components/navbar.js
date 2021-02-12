@@ -34,7 +34,7 @@ const Navbar = ({isLoggedIn, logout}) => {
 
   return (
     <div className="navBar flex jcb aic">
-      <MenuIcon onClick={() => setOpen(true)} />
+      <MenuIcon className="hamburger" onClick={() => setOpen(true)} />
       <Drawer anchor="left" open={open} onClose={() => setOpen(false)}>
         <div id="drawer">
           <div id="drawer-header">

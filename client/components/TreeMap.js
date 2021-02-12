@@ -3,21 +3,9 @@ import * as d3 from 'd3'
 
 import './styles/TreeMap.css'
 import firebase from '../../public/firebase'
+import filterAB from '../filterAB'
 
 const db = firebase.firestore()
-
-const filterAB = {
-  Hand: ['Right', 'Left'],
-  Season: ['Summer', 'Winter'],
-  Animal: ['Cat', 'Dog'],
-  Drink: ['Coffee', 'Tea'],
-  Scenery: ['Beach', 'Mountains'],
-  Travel: ['Yes', 'No'],
-  Food: ['Cheeseburger', 'Hotdog'],
-  Artist: ['Beyonce', 'Black Sabbath'],
-  Boolean: ['Yes', 'No'],
-  Awake: ['Early Bird', 'Night Owl'],
-}
 
 class TreeMap extends Component {
   constructor() {
@@ -27,36 +15,40 @@ class TreeMap extends Component {
       chartDataA: [{name: 'loading...', value: '50'}],
       chartDataB: [{name: 'loading...', value: '50'}],
       reset: [],
-      color: '#8F7AA3',
       users: [],
       doc: [],
       filter: 'Hand',
       labelFilter: 'Hand',
       filterActive: false,
+      unsubscribe: null,
     }
-    this.createMainTreeMap = this.createMainTreeMap.bind(this)
-    this.createTreeMapA = this.createTreeMapA.bind(this)
-    this.createTreeMapB = this.createTreeMapB.bind(this)
+    this.createGraph = this.createGraph.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.resetFilter = this.resetFilter.bind(this)
     this.chooseFilter = this.chooseFilter.bind(this)
     this.reloadMain = this.reloadMain.bind(this)
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     window.scrollTo(0, 0)
-    await db
-      .collection('polls')
-      .doc(this.props.pollKey)
-      .onSnapshot((doc) => this.formatData(doc.data().answers))
+    this.setState({
+      unsubscribe: db
+        .collection('polls')
+        .doc(this.props.pollKey)
+        .onSnapshot((doc) => this.formatData(doc.data().answers)),
+    })
   }
 
   componentDidUpdate() {
     this.reloadMain()
-    this.createMainTreeMap()
+    this.createGraph('#mainTreeMapDiv', 'MTM', 'chartData')
   }
 
-  async formatData(data) {
+  componentWillUnmount() {
+    this.state.unsubscribe()
+  }
+
+  formatData(data) {
     if (data.length) {
       this.setState({doc: data})
       this.setState({
@@ -66,7 +58,7 @@ class TreeMap extends Component {
         }, {}),
       })
 
-      const test = data.reduce((result, next) => {
+      const preProcess = data.reduce((result, next) => {
         if (result[next.answer]) result[next.answer]++
         else result[next.answer] = 1
         return result
@@ -76,41 +68,50 @@ class TreeMap extends Component {
         users: data.map((entry) => entry.userKey),
       })
 
-      let result = []
-      for (let key in test) {
-        result.push({name: key, value: test[key]})
-      }
+      let result = Object.keys(preProcess).map((key) => ({
+        name: key.slice(0, 4),
+        value: preProcess[key],
+      }))
 
-      await this.setState({chartData: result, reset: result})
+      this.setState({chartData: result, reset: result})
     }
   }
 
-  async chooseFilter(e) {
+  chooseFilter(e) {
     let filter = e.target.value
-    await this.setState({
+    this.setState({
       filter: filter,
     })
   }
 
-  createMainTreeMap() {
-    const dataFromState = {children: this.state.chartData}
-    const svg = d3
-      .select('#mainTreeMapDiv')
+  createSVG(selectValue, idValue) {
+    return d3
+      .select(selectValue)
       .append('svg')
-      .attr('id', 'MTM')
+      .attr('id', idValue)
       .attr('width', 400)
       .attr('height', 400)
-    const treemap = d3.treemap().size([400, 400]).padding(2)
-    const root = d3.hierarchy(dataFromState).sum((d) => d.value)
-    treemap(root)
+  }
 
-    const cell = svg
+  createTreeMap() {
+    return d3.treemap().size([400, 400]).padding(2)
+  }
+
+  createRoot(dataFromState) {
+    return d3.hierarchy(dataFromState).sum((d) => d.value)
+  }
+
+  createCell(svg, root) {
+    return svg
       .selectAll('g')
       .data(root.leaves())
       .enter()
       .append('g')
       .attr('transform', (d) => `translate(${d.x0},${d.y0})`)
-    const tile = cell
+  }
+
+  createTile(cell) {
+    return cell
       .append('rect')
       .attr('class', 'tile')
       .attr('data-name', (d) => d.data.name)
@@ -120,6 +121,9 @@ class TreeMap extends Component {
       .attr('width', (d) => d.x1 - d.x0)
       .attr('height', (d) => d.y1 - d.y0)
       .attr('fill', '#8F7AA3')
+  }
+
+  appendText(cell) {
     cell
       .append('text')
       .selectAll('tspan')
@@ -132,109 +136,32 @@ class TreeMap extends Component {
       .text((d) => d)
   }
 
-  createTreeMapA() {
-    let dataFromState = this.state.chartDataA
-    const filterWord = filterAB[this.state.filter][0]
+  createGraph(selectValue, idValue, chartData, filtering) {
+    let dataFromState = !filtering
+      ? {children: this.state[chartData]}
+      : this.state[chartData]
+    if (filtering) {
+      const filterWord = filterAB[this.state.filter][0]
 
-    const dataFiltered = dataFromState.map((unit) => {
-      unit.name = unit.name
-        .split(' ')
-        .filter((word) => !filterWord.includes(word))
-        .join(' ')
-      return unit
-    })
+      const dataFiltered = dataFromState.map((unit) => {
+        unit.name = unit.name
+          .split(' ')
+          .filter((word) => !filterWord.includes(word))
+          .join(' ')
+        return unit
+      })
 
-    dataFromState = {children: dataFromState}
+      dataFromState = {children: dataFromState}
+    }
 
-    const svg = d3
-      .select('#TMFilterA')
-      .append('svg')
-      .attr('id', 'TMsvgA')
-      .attr('width', 400)
-      .attr('height', 400)
-    const treemap = d3.treemap().size([400, 400]).padding(2)
-    const root = d3.hierarchy(dataFromState).sum((d) => d.value)
+    const svg = this.createSVG(selectValue, idValue)
+    const treemap = this.createTreeMap()
+    const root = this.createRoot(dataFromState)
     treemap(root)
 
-    const cell = svg
-      .selectAll('g')
-      .data(root.leaves())
-      .enter()
-      .append('g')
-      .attr('transform', (d) => `translate(${d.x0},${d.y0})`)
-    const tile = cell
-      .append('rect')
-      .attr('class', 'tile')
-      .attr('data-name', (d) => d.data.name)
-      .attr('data-category', (d) => d.data.category)
-      .attr('data-value', (d) => d.data.value)
-      .attr('id', (d) => d.data.id)
-      .attr('width', (d) => d.x1 - d.x0)
-      .attr('height', (d) => d.y1 - d.y0)
-      .attr('fill', '#8F7AA3')
-    cell
-      .append('text')
-      .selectAll('tspan')
-      .data((d) => d.data.name.split(/(?=[A-Z][^A-Z])/g)) //Regex
-      .enter()
-      .append('tspan')
-      .attr('style', 'font-size: 13px')
-      .attr('x', 4)
-      .attr('y', (d, i) => 15 + i * 15)
-      .text((d) => d)
-  }
-
-  createTreeMapB() {
-    let dataFromState = this.state.chartDataB
-
-    const filterWord = filterAB[this.state.filter][1]
-
-    const dataFiltered = dataFromState.map((unit) => {
-      unit.name = unit.name
-        .split(' ')
-        .filter((word) => !filterWord.includes(word))
-        .join(' ')
-      return unit
-    })
-
-    dataFromState = {children: dataFromState}
-
-    const svg = d3
-      .select('#TMFilterB')
-      .append('svg')
-      .attr('id', 'TMsvgB')
-      .attr('width', 400)
-      .attr('height', 400)
-    const treemap = d3.treemap().size([400, 400]).padding(2)
-    const root = d3.hierarchy(dataFromState).sum((d) => d.value)
-    treemap(root)
-
-    const cell = svg
-      .selectAll('g')
-      .data(root.leaves())
-      .enter()
-      .append('g')
-      .attr('transform', (d) => `translate(${d.x0},${d.y0})`)
-    const tile = cell
-      .append('rect')
-      .attr('class', 'tile')
-      .attr('data-name', (d) => d.data.name)
-      .attr('data-category', (d) => d.data.category)
-      .attr('data-value', (d) => d.data.value)
-      .attr('id', (d) => d.data.id)
-      .attr('width', (d) => d.x1 - d.x0)
-      .attr('height', (d) => d.y1 - d.y0)
-      .attr('fill', '#8F7AA3')
-    cell
-      .append('text')
-      .selectAll('tspan')
-      .data((d) => d.data.name.split(/(?=[A-Z][^A-Z])/g)) //Regex
-      .enter()
-      .append('tspan')
-      .attr('style', 'font-size: 13px')
-      .attr('x', 4)
-      .attr('y', (d, i) => 15 + i * 15)
-      .text((d) => d)
+    const cell = this.createCell(svg, root)
+    const tile = this.createTile(cell)
+    this.appendText(cell)
   }
 
   async handleClick() {
@@ -278,25 +205,17 @@ class TreeMap extends Component {
     let splitResultB = result.filter((data) =>
       data.name.includes(filterAB[filterChoice][1])
     )
-    const first = this.state.chartData[0].name
 
-    if (!splitResultA[0].name.includes(first)) {
-      splitResultA = splitResultA.reverse()
-    }
-    if (!splitResultB[0].name.includes(first)) {
-      splitResultB = splitResultB.reverse()
-    }
+    const {filter} = this.state
 
-    const currentFilter = this.state.filter
-
-    await this.setState({
+    this.setState({
       chartDataA: splitResultA,
       chartDataB: splitResultB,
-      labelFilter: currentFilter,
+      labelFilter: filter,
       filterActive: true,
     })
-    this.createTreeMapA()
-    this.createTreeMapB()
+    this.createGraph('#TMFilterA', 'TMsvgA', 'chartDataA', true)
+    this.createGraph('#TMFilterB', 'TMsvgB', 'chartDataB', true)
 
     const filterChartA = document.getElementById('TMFilterA')
     const filterChartB = document.getElementById('TMFilterB')

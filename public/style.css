@@ -51,12 +51,7 @@ form {
 }
 
 .shadow {
-  box-shadow: 5px 5px 15px 10px rgb(0 0 0 / 15%);
-}
-
-.error {
-  color: red;
-  font-weight: bold;
+  box-shadow: 5px 5px 15px 10px rgb(0 0 0 / 5%);
 }
 
 #no-style-anchor {
@@ -71,8 +66,3 @@ form {
 body {
   margin: 0px;
 }
-
-/* font-family: 'Caveat', cursive;
-font-family: 'Montserrat', sans-serif;
-font-family: 'Oswald', sans-serif;
-font-family: 'Sacramento', cursive; */

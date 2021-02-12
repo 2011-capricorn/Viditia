@@ -8,6 +8,7 @@ import {
   TextField,
 } from '@material-ui/core'
 import {Visibility, VisibilityOff} from '@material-ui/icons'
+import Alert from '@material-ui/lab/Alert'
 import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
@@ -15,11 +16,19 @@ import {loginThunk, oauthLoginThunk} from '../store/user'
 
 import './styles/LoginForm.css'
 
-const LoginForm = ({login, oauthLogin, history}) => {
+const LoginForm = ({isLoggedIn, login, oauthLogin, history}) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState(null)
+
+  useEffect(() => {
+    if (isLoggedIn) history.push('/home')
+  }, [isLoggedIn])
+
+  useEffect(() => {
+    if (error === undefined) history.push('/vidits')
+  }, [error])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -30,12 +39,8 @@ const LoginForm = ({login, oauthLogin, history}) => {
     setError(await oauthLogin(type))
   }
 
-  useEffect(() => {
-    if (error === undefined) history.push('/vidits')
-  }, [error])
-
   return (
-    <div className="flex jcb aic shadow container">
+    <div className="flex aic shadow container">
       <form onSubmit={handleSubmit}>
         <h1 className="tac">Welcome back!</h1>
         <TextField
@@ -66,12 +71,17 @@ const LoginForm = ({login, oauthLogin, history}) => {
             }
           />
         </FormControl>
-        <Button variant="contained" color="primary" type="submit" id="mgt">
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          id="login-btn"
+        >
           Login
         </Button>
       </form>
       <div>
-        {error !== '' && <p className="tac">{error}</p>}
+        {error && <Alert severity="error">{error}</Alert>}
         <p className="tac">Or sign in with:</p>
 
         <p>
@@ -105,9 +115,13 @@ const LoginForm = ({login, oauthLogin, history}) => {
   )
 }
 
+const mapState = ({user: {userKey}}) => ({
+  isLoggedIn: !!userKey,
+})
+
 const mapDispatch = (dispatch) => ({
   login: (email, password) => dispatch(loginThunk(email, password)),
   oauthLogin: (type) => dispatch(oauthLoginThunk(type)),
 })
 
-export default connect(null, mapDispatch)(LoginForm)
+export default connect(mapState, mapDispatch)(LoginForm)

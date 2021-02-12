@@ -12,7 +12,6 @@ import {
   AllVidits,
   Feedback,
   ErrorPage,
-  LoadingScreen,
 } from './components'
 import {getUserThunk} from './store/user'
 import {getAllViditThunk} from './store/vidit'
@@ -24,37 +23,26 @@ class Routes extends Component {
   }
 
   render() {
-    const {isLoggedIn} = this.props
-
     return (
       <Switch>
-        <Route exact path="/" component={AllVidits} />
+        <Route exact path="/" component={HomePage} />
         <Route exact path="/vidits" component={AllVidits} />
         <Route path="/home" component={HomePage} />
         <Route path="/login" component={LoginForm} />
         <Route path="/signup" component={SignUpForm} />
         <Route path="/feedback" component={Feedback} />
-        {!isLoggedIn && <Route path="/vidit/:id" component={LoginForm} />}
-        {isLoggedIn && (
-          <Switch>
-            <Route path="/vidit/:id" component={SingleVidit} />
-            <Route path="/create" component={CreateVidit} />
-            <Route path="/profile" component={UserProfile} />
-          </Switch>
-        )}
+        <Route path="/vidit/:id" component={SingleVidit} />
+        <Route path="/create" component={CreateVidit} />
+        <Route path="/profile" component={UserProfile} />
         <Route component={ErrorPage} />
       </Switch>
     )
   }
 }
 
-const mapState = (state) => ({
-  isLoggedIn: !!state.user.userKey,
-})
-
 const mapDispatch = (dispatch) => ({
   getUser: () => dispatch(getUserThunk()),
   getVidits: () => dispatch(getAllViditThunk()),
 })
 
-export default withRouter(connect(mapState, mapDispatch)(Routes))
+export default withRouter(connect(null, mapDispatch)(Routes))

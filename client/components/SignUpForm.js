@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
+
 import {
   Button,
   Divider,
@@ -9,17 +10,19 @@ import {
   Select,
   TextField,
 } from '@material-ui/core'
+import Alert from '@material-ui/lab/Alert'
 
 import ConfirmPassword from './ConfirmPassword'
 import {signUpThunk} from '../store/user'
 import './styles/SignUpForm.css'
 
-const SignUpForm = ({register, history}) => {
+const SignUpForm = ({isLoggedIn, register, history}) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [error, setError] = useState(null)
   const signUpQuestions = {
     Season: ['Summer or winter?', ['Summer', 'Winter']],
     Awake: [
@@ -35,7 +38,6 @@ const SignUpForm = ({register, history}) => {
     Artist: ['Beyonce or Black Sabbath?', ['Beyonce', 'Black Sabbath']],
     Boolean: ['Yes or no?', ['Yes', 'No']],
   }
-
   const [signUpAnswers, setSignUpAnswers] = useState({
     Season: '',
     Awake: '',
@@ -48,7 +50,6 @@ const SignUpForm = ({register, history}) => {
     Artist: '',
     Boolean: '',
   })
-  const [error, setError] = useState('')
 
   const checkAnswers = () => {
     return Object.keys(signUpAnswers).some(
@@ -72,6 +73,10 @@ const SignUpForm = ({register, history}) => {
 
     proceedRegister()
   }
+
+  useEffect(() => {
+    if (isLoggedIn) history.push('/home')
+  }, [isLoggedIn])
 
   useEffect(() => {
     if (error === undefined) history.push('/vidits')
@@ -137,10 +142,10 @@ const SignUpForm = ({register, history}) => {
             )
           })}
         </div>
-        {error !== '' && (
-          <p className="tac" style={{marginBottom: 0}}>
+        {error && (
+          <Alert severity="error" style={{marginTop: '3%'}}>
             {error}
-          </p>
+          </Alert>
         )}
         <Button variant="contained" color="primary" type="submit" id="mgt">
           Sign up!
@@ -150,9 +155,13 @@ const SignUpForm = ({register, history}) => {
   )
 }
 
+const mapState = ({user: {userKey}}) => ({
+  isLoggedIn: !!userKey,
+})
+
 const mapDispatch = (dispatch) => ({
   register: (email, password, answers) =>
     dispatch(signUpThunk(email, password, answers)),
 })
 
-export default connect(null, mapDispatch)(SignUpForm)
+export default connect(mapState, mapDispatch)(SignUpForm)

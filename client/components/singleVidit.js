@@ -20,6 +20,7 @@ class SingleVidit extends Component {
   }
 
   componentDidMount() {
+    if (!this.props.isLoggedIn) this.props.history.push('/login')
     const pollKey = this.props.match.params.id
     const data = this.props.allVidit.filter(
       (vidit) => vidit.pollKey === pollKey
@@ -72,7 +73,9 @@ class SingleVidit extends Component {
     )
   }
 }
-const mapState = ({user: {answered}, vidit: {allVidit}}) => ({
+
+const mapState = ({user: {userKey, answered}, vidit: {allVidit}}) => ({
+  isLoggedIn: !!userKey,
   allVidit,
   answered,
 })
