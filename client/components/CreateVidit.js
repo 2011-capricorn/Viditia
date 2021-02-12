@@ -16,7 +16,13 @@ import {addViditThunk} from '../store/vidit'
 import {addCreated} from '../store/user'
 
 // eslint-disable-next-line complexity
-const CreateVidit = ({userKey, addNewVidit, addUserCreated, history}) => {
+const CreateVidit = ({
+  isLoggedIn,
+  userKey,
+  addNewVidit,
+  addUserCreated,
+  history,
+}) => {
   const [question, setQuestion] = useState('')
   const [type, setType] = useState('')
   const [masterLabel, setMasterLabel] = useState('')
@@ -28,8 +34,12 @@ const CreateVidit = ({userKey, addNewVidit, addUserCreated, history}) => {
   const [rangeLabel10, setRangeLabel10] = useState('')
   const [dataType, setDataType] = useState('String')
   const [error, setError] = useState('')
-
   const [choices, setChoices] = useState({})
+
+  useEffect(() => {
+    if (!isLoggedIn) history.push('/login')
+  }, [isLoggedIn])
+
   useEffect(() => {
     const splitType = type.split(' ')
     const isMultiple = splitType[0] === 'Multiple'
@@ -311,6 +321,7 @@ const CreateVidit = ({userKey, addNewVidit, addUserCreated, history}) => {
 }
 
 const mapState = ({user: {userKey}}) => ({
+  isLoggedIn: !!userKey,
   userKey,
 })
 
