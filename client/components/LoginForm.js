@@ -71,7 +71,12 @@ const LoginForm = ({isLoggedIn, login, oauthLogin, history}) => {
             }
           />
         </FormControl>
-        <Button variant="contained" color="primary" type="submit" id="mgt">
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          id="login-btn"
+        >
           Login
         </Button>
       </form>

@@ -1,26 +1,11 @@
 .container {
   flex-direction: column;
-  height: 50vh;
   padding: 20px 0 25px 0;
   margin: 5% 20vw 0 20vw;
 }
 
-.login-btn {
-  justify-content: flex-start;
-  font-size: 16px;
-  background-color: #dcdee5;
-  border-radius: 8px;
-  border: 1px solid grey;
-  transition: 1s all ease;
-  cursor: pointer;
-}
-
-.login-btn > p {
-  padding-left: 10px;
-}
-
-.login-btn:hover {
-  background-color: white;
+#login-btn {
+  margin: 20px 0 20px 0;
 }
 
 .login-img {
