@@ -1,0 +1,21 @@
+.create-container {
+  flex-direction: column;
+  padding: 25px;
+  margin: 5% 20vw 0 20vw;
+}
+
+.p-decor {
+  text-decoration: underline;
+}
+
+.spacing {
+  margin-top: 2%;
+}
+
+.spacing-bottom {
+  margin-bottom: 2%;
+}
+
+.spacing-right {
+  padding-right: 10px;
+}

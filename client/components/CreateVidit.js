@@ -14,6 +14,7 @@ import {
 } from '@material-ui/core'
 import Alert from '@material-ui/lab/Alert'
 
+import './styles/CreateVidit.css'
 import {addViditThunk} from '../store/vidit'
 import {addCreated} from '../store/user'
 
@@ -164,11 +165,11 @@ const CreateVidit = ({
   }
 
   return (
-    <div>
+    <div className="create-container flex shadow">
       <h1>Create Vidit!</h1>
 
       <FormControl fullWidth={true}>
-        <p>Question:</p>
+        <h3 className="p-decor">Question:</h3>
         <TextField
           required
           label="Enter a question..."
@@ -177,7 +178,7 @@ const CreateVidit = ({
           onChange={(e) => setQuestion(e.target.value)}
         />
       </FormControl>
-      <p>What type of question is this?</p>
+      <h3 className="spacing p-decor">What type of question is this?</h3>
       <FormControl fullWidth={true}>
         <InputLabel>Format:</InputLabel>
         <Select value={type} onChange={(e) => setType(e.target.value)}>
@@ -191,7 +192,7 @@ const CreateVidit = ({
 
       {Object.keys(choices).length !== 0 && (
         <div>
-          <p>What are the choices?</p>
+          <h3 className="spacing p-decor">What are the choices?</h3>
           {Object.keys(choices).map((choice) => (
             <TextField
               key={choice}
@@ -209,11 +210,10 @@ const CreateVidit = ({
 
       {type === 'Range' && (
         <div>
-          <p>
+          <Alert className="spacing" severity="info">
             Range questions are only 1-10. Need more? Use a Free Response type!
-          </p>
+          </Alert>
           <FormControl>
-            <p>Is your question measured in quantity or spectrum?</p>
             <RadioGroup
               row
               value={rangeDescription}
@@ -222,6 +222,9 @@ const CreateVidit = ({
                 setRangeDescription(value)
               }}
             >
+              <h3 className="spacing-right">
+                Is your question measured in quantity or spectrum?
+              </h3>
               <FormControlLabel
                 value={true}
                 control={<Radio color="primary" />}
@@ -263,7 +266,7 @@ const CreateVidit = ({
       )}
 
       {type === 'Open' && (
-        <div>
+        <div className="spacing">
           <FormControl fullWidth={true}>
             <InputLabel>Data Type:</InputLabel>
             <Select
@@ -277,11 +280,11 @@ const CreateVidit = ({
         </div>
       )}
 
-      {dataType === 'Number' && (
+      {type === 'Open' && dataType === 'Number' && (
         <div>
-          <p style={{color: 'DarkOliveGreen', fontStyle: 'italic'}}>
-            *Graphs are better with a thoughtful max!*
-          </p>
+          <Alert className="spacing spacing-bottom" severity="info">
+            Graphs are better with a thoughtful max!
+          </Alert>
           <TextField
             fullWidth={true}
             required
@@ -314,8 +317,17 @@ const CreateVidit = ({
           />
         </div>
       )}
-      {error && <Alert severity="error">{error}</Alert>}
-      <Button onClick={handleSubmit} variant="outlined" color="primary">
+      {error && (
+        <Alert severity="error" className="spacing">
+          {error}
+        </Alert>
+      )}
+      <Button
+        onClick={handleSubmit}
+        variant="contained"
+        color="primary"
+        style={{marginTop: '3%'}}
+      >
         Submit
       </Button>
     </div>
