@@ -164,7 +164,12 @@ class TreeMap extends Component {
     this.appendText(cell)
   }
 
+  // eslint-disable-next-line max-statements
   async handleClick() {
+    document.getElementById('activateFilterTM').disabled = true
+    setTimeout(() => {
+      document.getElementById('activateFilterTM').disabled = false
+    }, 3000)
     if (this.state.filterActive) {
       this.resetFilter()
     }
@@ -259,6 +264,7 @@ class TreeMap extends Component {
     return (
       <div id="singleTMViditFull">
         <div id="testChartTM">
+          <div id="treeMapQuestionTitle">{this.props.question}</div>
           <img src="/capitalV.png" id="VTM" className="vHiddenTM" />
           <div id="mainTreeMap">
             <div id="mainTreeMapDiv"></div>

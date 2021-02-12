@@ -96,7 +96,7 @@ const Navbar = ({isLoggedIn, logout}) => {
           )}
         </div>
       </Drawer>
-      <Link to="/" id="no-style-anchor" style={{textDecoration: 'none'}}>
+      <Link to="/vidits" id="no-style-anchor" style={{textDecoration: 'none'}}>
         <p id="logo">Viditia</p>
       </Link>
     </div>

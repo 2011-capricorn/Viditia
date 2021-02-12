@@ -1,6 +1,6 @@
 #singleTMViditFull {
   width: 100vw;
-  height: 100vh;
+  height: 80vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,7 +12,7 @@
   margin-left: 0px;
   margin-right: 0px;
   margin-top: 15px;
-  height: 1150px;
+  height: 1275px;
   width: 1150px;
   min-width: 1150px;
   max-width: 1150px;
@@ -22,12 +22,22 @@
   justify-content: space-between;
   background-color: rgba(97, 53, 138, 0.034);
   border-radius: 25px;
+  box-shadow: rgba(149, 157, 165, 0.407) 0px 8px 24px;
 }
+
+#treeMapQuestionTitle {
+  position: absolute;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 40px;
+  font-weight: 700;
+  margin-top: 25px;
+}
+
 #mainTreeMap {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 100px;
 }
 
 #mainTreeMapDiv {
@@ -47,9 +57,9 @@
 #VTM {
   position: absolute;
   z-index: -1;
-  height: 700px;
+  height: 730px;
   width: auto;
-  margin-top: 220px;
+  margin-top: 300px;
   opacity: 0;
 }
 
@@ -76,7 +86,7 @@
 }
 
 #filterControlsTM {
-  margin: 75px 0px 0px 0px;
+  margin: 36px 0px 0px 0px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -90,11 +100,11 @@
 
 @keyframes TMrideA {
   0% {
-    margin-top: -752px;
+    margin-top: -745px;
     opacity: 0;
   }
   100% {
-    margin-top: -55px;
+    margin-top: -40px;
     margin-left: -540px;
     opacity: 1;
   }
@@ -102,11 +112,11 @@
 
 @keyframes TMrideB {
   0% {
-    margin-top: -752px;
+    margin-top: -745px;
     opacity: 0;
   }
   100% {
-    margin-top: -55px;
+    margin-top: -40px;
     margin-right: -540px;
     opacity: 1;
   }
@@ -167,8 +177,8 @@
 #subTMLabelA {
   position: absolute;
   margin-left: -525px;
-  margin-top: -95px;
-  font-family: 'Caveat', cursive;
+  margin-top: -85px;
+  font-family: 'Open Sans', sans-serif;
   font-size: 24px;
 }
 
@@ -198,8 +208,8 @@
 #subTMLabelB {
   position: absolute;
   margin-left: 525px;
-  margin-top: -95px;
-  font-family: 'Caveat', cursive;
+  margin-top: -85px;
+  font-family: 'Open Sans', sans-serif;
   font-size: 24px;
 }
 
@@ -228,8 +238,8 @@
 
 @media (max-width: 2555px) {
   #testChartTM {
-    transform: scale(0.85);
-    margin-top: -55px;
+    transform: scale(0.81);
+    margin-top: -75px;
   }
 }
 

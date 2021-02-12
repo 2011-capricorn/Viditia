@@ -56,6 +56,7 @@ const HomePage = () => {
       'https://www.linkedin.com/in/aram-martin',
       'https://github.com/God-Im-Bored',
       'This is where you put your professional bio. Maybe include your background, why software development, and your main contribution to this project. ',
+
     ],
   }
 
