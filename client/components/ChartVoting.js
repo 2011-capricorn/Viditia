@@ -34,6 +34,7 @@ class ChartVoting extends Component {
   }
 
   async componentDidMount() {
+    window.scrollTo(0, 0)
     const {
       question,
       choices,

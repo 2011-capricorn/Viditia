@@ -21,44 +21,42 @@ class AllVidits extends Component {
       <div id="allViditFull">
         <div id="allViditContainer">
           {allVidit.map((vidit) => (
-            <div key={vidit.pollKey} style={{width: '25%', margin: '2%'}}>
+            <div key={vidit.pollKey} id="SVCardMasterMaster">
               {vidit.type === 'Multiple 2' ? (
                 <ViditCard
                   question={vidit.question}
                   votes={vidit.totalVoteCount}
-                  imageUrl={`/dummyPieChart${Math.floor(
-                    Math.random() * 3
-                  )}.png`}
+                  imageUrl="/pieChartIcon.png"
                   pollKey={vidit.pollKey}
                   history={this.props.history}
+                  chartType="Pie Chart"
                 />
               ) : vidit.type === 'Range' || vidit.type === 'Multiple +' ? (
                 <ViditCard
                   question={vidit.question}
                   votes={vidit.totalVoteCount}
-                  imageUrl={`/dummyBarChart${Math.floor(
-                    Math.random() * 3
-                  )}.png`}
+                  imageUrl="/barChartIcon.png"
                   pollKey={vidit.pollKey}
                   history={this.props.history}
+                  chartType="Bar Chart"
                 />
               ) : vidit.type === 'Open' && vidit.dataType === 'Number' ? (
                 <ViditCard
                   question={vidit.question}
                   votes={vidit.totalVoteCount}
-                  imageUrl={`/dummyLineChart${Math.floor(
-                    Math.random() * 3
-                  )}.png`}
+                  imageUrl="/lineChartIcon.png"
                   pollKey={vidit.pollKey}
                   history={this.props.history}
+                  chartType="Line Chart"
                 />
               ) : (
                 <ViditCard
                   question={vidit.question}
                   votes={vidit.totalVoteCount}
-                  imageUrl={`/dummyTreeMap${Math.floor(Math.random() * 3)}.png`}
+                  imageUrl="/treeMapIcon.png"
                   pollKey={vidit.pollKey}
                   history={this.props.history}
+                  chartType="Tree Map"
                 />
               )}
             </div>
