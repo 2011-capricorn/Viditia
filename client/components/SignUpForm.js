@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
+
 import {
   Button,
   Divider,
@@ -9,6 +10,7 @@ import {
   Select,
   TextField,
 } from '@material-ui/core'
+import Alert from '@material-ui/lab/Alert'
 
 import ConfirmPassword from './ConfirmPassword'
 import {signUpThunk} from '../store/user'
@@ -20,6 +22,7 @@ const SignUpForm = ({isLoggedIn, register, history}) => {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [error, setError] = useState(null)
   const signUpQuestions = {
     Season: ['Summer or winter?', ['Summer', 'Winter']],
     Awake: [
@@ -35,7 +38,6 @@ const SignUpForm = ({isLoggedIn, register, history}) => {
     Artist: ['Beyonce or Black Sabbath?', ['Beyonce', 'Black Sabbath']],
     Boolean: ['Yes or no?', ['Yes', 'No']],
   }
-
   const [signUpAnswers, setSignUpAnswers] = useState({
     Season: '',
     Awake: '',
@@ -48,7 +50,6 @@ const SignUpForm = ({isLoggedIn, register, history}) => {
     Artist: '',
     Boolean: '',
   })
-  const [error, setError] = useState('')
 
   const checkAnswers = () => {
     return Object.keys(signUpAnswers).some(
@@ -141,10 +142,10 @@ const SignUpForm = ({isLoggedIn, register, history}) => {
             )
           })}
         </div>
-        {error !== '' && (
-          <p className="tac" style={{marginBottom: 0}}>
+        {error && (
+          <Alert severity="error" style={{marginTop: '3%'}}>
             {error}
-          </p>
+          </Alert>
         )}
         <Button variant="contained" color="primary" type="submit" id="mgt">
           Sign up!

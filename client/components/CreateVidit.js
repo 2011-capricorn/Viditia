@@ -1,3 +1,6 @@
+import React, {useState, useEffect} from 'react'
+import {connect} from 'react-redux'
+
 import {
   Button,
   FormControl,
@@ -9,8 +12,7 @@ import {
   Select,
   TextField,
 } from '@material-ui/core'
-import React, {useState, useEffect} from 'react'
-import {connect} from 'react-redux'
+import Alert from '@material-ui/lab/Alert'
 
 import {addViditThunk} from '../store/vidit'
 import {addCreated} from '../store/user'
@@ -33,7 +35,7 @@ const CreateVidit = ({
   const [rangeLabel5, setRangeLabel5] = useState('')
   const [rangeLabel10, setRangeLabel10] = useState('')
   const [dataType, setDataType] = useState('String')
-  const [error, setError] = useState('')
+  const [error, setError] = useState(null)
   const [choices, setChoices] = useState({})
 
   useEffect(() => {
@@ -312,7 +314,7 @@ const CreateVidit = ({
           />
         </div>
       )}
-      {error.length > 0 && <p className="error">{error}</p>}
+      {error && <Alert severity="error">{error}</Alert>}
       <Button onClick={handleSubmit} variant="outlined" color="primary">
         Submit
       </Button>

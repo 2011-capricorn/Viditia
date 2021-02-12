@@ -8,6 +8,7 @@ import {
   TextField,
 } from '@material-ui/core'
 import {Visibility, VisibilityOff} from '@material-ui/icons'
+import Alert from '@material-ui/lab/Alert'
 import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
@@ -39,7 +40,7 @@ const LoginForm = ({isLoggedIn, login, oauthLogin, history}) => {
   }
 
   return (
-    <div className="flex jcb aic shadow container">
+    <div className="flex aic shadow container">
       <form onSubmit={handleSubmit}>
         <h1 className="tac">Welcome back!</h1>
         <TextField
@@ -75,7 +76,7 @@ const LoginForm = ({isLoggedIn, login, oauthLogin, history}) => {
         </Button>
       </form>
       <div>
-        {error !== '' && <p className="tac">{error}</p>}
+        {error && <Alert severity="error">{error}</Alert>}
         <p className="tac">Or sign in with:</p>
 
         <p>

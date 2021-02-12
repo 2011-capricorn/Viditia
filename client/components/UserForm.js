@@ -9,6 +9,7 @@ import {
   ListItemText,
   TextField,
 } from '@material-ui/core'
+import Alert from '@material-ui/lab/Alert'
 import CreateIcon from '@material-ui/icons/Create'
 import firebase from 'firebase'
 
@@ -23,8 +24,8 @@ const UserForm = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [newPassword, setNewPassword] = useState('')
   const [confirmNewPassword, setConfirmNewPassword] = useState('')
-  const [emailChangeMessage, setEmailChangeMessage] = useState('')
-  const [passwordChangeMessage, setPasswordChangeMessage] = useState('')
+  const [emailChangeMessage, setEmailChangeMessage] = useState(null)
+  const [passwordChangeMessage, setPasswordChangeMessage] = useState(null)
   const user = firebase.auth().currentUser
 
   const handleUpdateEmail = async () => {
@@ -80,9 +81,17 @@ const UserForm = () => {
             >
               Update Email
             </Button>
-            {emailChangeMessage !== '' && (
-              <p className="tac">{emailChangeMessage}</p>
-            )}
+            {emailChangeMessage &&
+              (emailChangeMessage ===
+              `Email successfully changed to ${email}` ? (
+                <Alert severity="success" className="alert">
+                  {emailChangeMessage}
+                </Alert>
+              ) : (
+                <Alert severity="error" className="alert">
+                  {emailChangeMessage}
+                </Alert>
+              ))}
           </div>
         )}
 
@@ -121,9 +130,16 @@ const UserForm = () => {
             >
               Update Password
             </Button>
-            {passwordChangeMessage !== '' && (
-              <p className="tac">{passwordChangeMessage}</p>
-            )}
+            {passwordChangeMessage &&
+              (passwordChangeMessage === 'Password successfully changed' ? (
+                <Alert severity="success" className="alert">
+                  {passwordChangeMessage}
+                </Alert>
+              ) : (
+                <Alert severity="error" className="alert">
+                  {passwordChangeMessage}
+                </Alert>
+              ))}
           </div>
         )}
       </List>
