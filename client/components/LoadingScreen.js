@@ -10,8 +10,8 @@ const LoadingScreen = () => {
         <div id="masterLoading">
           <img src="/dummyPieChart0.png" className="dcredblueloading" />
           <img src="/capitalV.png" className="vloading" />
-          <img src="/dummyPieChart1.png" className="dcgreenpurpleloading" />
-          <img src="/dummyPieChart2.png" className="dcyellowpinkloading" />
+          <img src="/dummyPieChart2.png" className="dcgreenpurpleloading" />
+          <img src="/dummyPieChart1.png" className="dcyellowpinkloading" />
         </div>
       </div>
     </div>

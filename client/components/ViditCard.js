@@ -11,36 +11,57 @@ import {
   Typography,
 } from '@material-ui/core'
 import FavoriteIcon from '@material-ui/icons/Favorite'
+import './styles/ViditCard.css'
 
-const ViditCard = ({question, votes, imageUrl, pollKey, history}) => {
+const ViditCard = ({
+  question,
+  votes,
+  imageUrl,
+  pollKey,
+  history,
+  chartType,
+}) => {
   const redirect = () => {
     history.push(`/vidit/${pollKey}`)
   }
   return (
-    <Card raised>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="350"
-          image={imageUrl}
-          onClick={redirect}
-        />
-      </CardActionArea>
+    <Card id="AVCardMaster">
+      <CardActionArea></CardActionArea>
       <CardContent>
-        <Typography gutterBottom variant="h5" component="h2">
+        <Typography
+          gutterBottom
+          variant="h5"
+          component="h2"
+          onClick={redirect}
+          id="AVCardTitle"
+        >
           {question}
         </Typography>
       </CardContent>
-      <CardActions>
-        <IconButton>
-          <FavoriteIcon />
+      <CardActions id="cardActionsRow">
+        <IconButton id="favoriteIcon">
+          <FavoriteIcon id="favoriteIcon" />
         </IconButton>
-        <Typography variant="body2" color="textSecondary" component="p">
+        <Typography
+          variant="body2"
+          color="textSecondary"
+          component="p"
+          id="AVCardVoteCount"
+        >
           {`${votes} votes`}
         </Typography>
-        <Button size="small" color="primary" onClick={redirect}>
+        <Button
+          size="small"
+          color="primary"
+          onClick={redirect}
+          id="participateButton"
+        >
           Participate
         </Button>
+        <div className="toolTip">
+          <span className="toolTipText">{chartType}</span>
+          <img src={imageUrl} id="chartTypeIcon" />
+        </div>
       </CardActions>
     </Card>
   )

@@ -33,8 +33,8 @@ class Landing extends Component {
             <div id="masterLanding">
               <img src="/dummyPieChart0.png" className="dcredbluelanding" />
               <img src="/capitalV.png" className="vlanding" />
-              <img src="/dummyPieChart1.png" className="dcgreenpurplelanding" />
-              <img src="/dummyPieChart2.png" className="dcyellowpinklanding" />
+              <img src="/dummyPieChart2.png" className="dcgreenpurplelanding" />
+              <img src="/dummyPieChart1.png" className="dcyellowpinklanding" />
             </div>
           </div>
         </div>

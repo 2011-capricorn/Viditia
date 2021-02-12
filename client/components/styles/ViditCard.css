@@ -1,0 +1,71 @@
+#chartTypeIcon {
+  width: 45px;
+  height: auto;
+}
+
+#AVCardTitle {
+  cursor: pointer;
+}
+
+#AVCardMaster {
+  box-shadow: rgba(149, 157, 165, 0.407) 0px 8px 24px;
+  min-width: 315px;
+}
+
+#cardActionsRow {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+#favoriteIcon {
+  margin: 0px;
+  padding: 0px;
+}
+
+#AVCardVoteCount {
+  margin: 0px;
+  padding: 0px;
+}
+
+#participateButton {
+  margin: 3px 0px 0px 0px;
+  padding: 0px;
+}
+
+.toolTip {
+  position: relative;
+  display: inline-block;
+}
+
+.toolTip .toolTipText {
+  visibility: hidden;
+  width: 120px;
+  background-color: rgb(220, 220, 220);
+  color: black;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  font-size: 10px;
+  width: 75px;
+  bottom: 115%;
+  left: 100%;
+  margin-left: -60px;
+  position: absolute;
+  z-index: 100;
+}
+
+.toolTip:hover .toolTipText {
+  visibility: visible;
+}
+
+.toolTip .toolTipText::after {
+  content: ' ';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgb(220, 220, 220) transparent transparent transparent;
+}
