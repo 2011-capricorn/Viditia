@@ -14,7 +14,7 @@ import ConfirmPassword from './ConfirmPassword'
 import {signUpThunk} from '../store/user'
 import './styles/SignUpForm.css'
 
-const SignUpForm = ({register, history}) => {
+const SignUpForm = ({isLoggedIn, register, history}) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -72,6 +72,10 @@ const SignUpForm = ({register, history}) => {
 
     proceedRegister()
   }
+
+  useEffect(() => {
+    if (isLoggedIn) history.push('/home')
+  }, [isLoggedIn])
 
   useEffect(() => {
     if (error === undefined) history.push('/vidits')
@@ -150,9 +154,13 @@ const SignUpForm = ({register, history}) => {
   )
 }
 
+const mapState = ({user: {userKey}}) => ({
+  isLoggedIn: !!userKey,
+})
+
 const mapDispatch = (dispatch) => ({
   register: (email, password, answers) =>
     dispatch(signUpThunk(email, password, answers)),
 })
 
-export default connect(null, mapDispatch)(SignUpForm)
+export default connect(mapState, mapDispatch)(SignUpForm)
