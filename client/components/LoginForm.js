@@ -15,11 +15,19 @@ import {loginThunk, oauthLoginThunk} from '../store/user'
 
 import './styles/LoginForm.css'
 
-const LoginForm = ({login, oauthLogin, history}) => {
+const LoginForm = ({isLoggedIn, login, oauthLogin, history}) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState(null)
+
+  useEffect(() => {
+    if (isLoggedIn) history.push('/home')
+  }, [isLoggedIn])
+
+  useEffect(() => {
+    if (error === undefined) history.push('/vidits')
+  }, [error])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -29,10 +37,6 @@ const LoginForm = ({login, oauthLogin, history}) => {
   const handleOauth = async (type) => {
     setError(await oauthLogin(type))
   }
-
-  useEffect(() => {
-    if (error === undefined) history.push('/vidits')
-  }, [error])
 
   return (
     <div className="flex jcb aic shadow container">
@@ -105,9 +109,13 @@ const LoginForm = ({login, oauthLogin, history}) => {
   )
 }
 
+const mapState = ({user: {userKey}}) => ({
+  isLoggedIn: !!userKey,
+})
+
 const mapDispatch = (dispatch) => ({
   login: (email, password) => dispatch(loginThunk(email, password)),
   oauthLogin: (type) => dispatch(oauthLoginThunk(type)),
 })
 
-export default connect(null, mapDispatch)(LoginForm)
+export default connect(mapState, mapDispatch)(LoginForm)
