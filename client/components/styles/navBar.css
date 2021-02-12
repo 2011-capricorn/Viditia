@@ -30,7 +30,7 @@
 }
 
 .navItem {
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   margin-left: 15px;
   color: black;
 }
@@ -45,7 +45,7 @@
 }
 
 body {
-  font-family: sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 a {
@@ -94,10 +94,6 @@ form {
 
 .tac {
   text-align: center;
-}
-
-.shadow {
-  box-shadow: 5px 5px 15px 10px rgb(0 0 0 / 15%);
 }
 
 #mgt {

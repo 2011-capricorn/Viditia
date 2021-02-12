@@ -196,7 +196,13 @@ class PieChart extends Component {
     this.appendFilterText(g, filterWord)
   }
 
+  // eslint-disable-next-line max-statements
   async handleClick() {
+    document.getElementById('activateFilter').disabled = true
+    setTimeout(() => {
+      document.getElementById('activateFilter').disabled = false
+    }, 3000)
+
     if (this.state.filterActive) {
       this.resetFilter()
     }
@@ -284,8 +290,9 @@ class PieChart extends Component {
     return (
       <div id="singleViditFull">
         <div id="testChart">
+          <div id="pieChartQuestionTitle">{this.props.question}</div>
           <img src="/capitalV.png" id="V" className="vHidden" />
-          <div id="mainChart">
+          <div id="mainChartPieChart">
             <svg width="400" height="400" id="mainChartSVG"></svg>
 
             <br></br>

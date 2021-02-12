@@ -1,5 +1,5 @@
 .MuiContainer-maxWidthMd {
-  font-family: Lato, sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-weight: 300px;
   font-size: 52px;
   text-align: center;
@@ -12,7 +12,7 @@
   display: inline-block;
   margin: 30px atuo;
   font-size: 32px;
-  font-family: Lato, sans-serif;
+  font-family: 'Open Sans', sans-serif;
   padding: 10px;
   color: #313131;
 }
@@ -61,7 +61,7 @@
   display: inline-block;
   margin: 30px atuo;
   font-size: 52px;
-  font-family: Lato, sans-serif;
+  font-family: 'Open Sans', sans-serif;
   padding: 30px;
   color: #313131;
 }

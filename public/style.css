@@ -1,5 +1,5 @@
 body {
-  font-family: sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 a {
@@ -51,7 +51,7 @@ form {
 }
 
 .shadow {
-  box-shadow: 5px 5px 15px 10px rgb(0 0 0 / 5%);
+  box-shadow: rgba(149, 157, 165, 0.407) 0px 8px 24px;
 }
 
 #no-style-anchor {
@@ -66,3 +66,7 @@ form {
 body {
   margin: 0px;
 }
+
+/* 
+font-family: 'Open Sans', sans-serif;
+font-family: 'Sacramento', cursive; */

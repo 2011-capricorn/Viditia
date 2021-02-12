@@ -37,7 +37,9 @@ class SingleVidit extends Component {
 
   renderChart(data, id) {
     if (data.type === 'Multiple 2') {
-      return <PieChart size={[500, 500]} pollKey={id} />
+      return (
+        <PieChart size={[500, 500]} pollKey={id} question={data.question} />
+      )
     }
     if (data.type === 'Multiple +' || data.type === 'Range') {
       return (
@@ -49,14 +51,17 @@ class SingleVidit extends Component {
           masterLabel={data.masterLabel}
           type={data.type}
           choices={data.choices}
+          question={data.question}
         />
       )
     }
     if (data.type === 'Open' && data.dataType === 'Number') {
-      return <LineChart pollKey={id} units={data.units} />
+      return (
+        <LineChart pollKey={id} units={data.units} question={data.question} />
+      )
     }
     if (data.type === 'Open' && data.dataType === 'String') {
-      return <TreeMap pollKey={id} />
+      return <TreeMap pollKey={id} question={data.question} />
     }
   }
 
@@ -64,7 +69,7 @@ class SingleVidit extends Component {
     let {pollKey: id, data, userAnswered, loading} = this.state
     return !loading ? (
       <div id="singleViditContainer">
-        <h1 id="SVTitle">{data.question}</h1>
+        {/* <h1 id="SVTitle">{data.question}</h1> */}
         {!userAnswered && <ChartVoting pollKey={id} />}
         {this.renderChart(data, id)}
       </div>

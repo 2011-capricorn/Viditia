@@ -125,7 +125,7 @@
 
 #loadingtitle {
   margin: 0px;
-  font-family: 'Caveat', cursive;
+  font-family: 'Open Sans', sans-serif;
   animation-name: loading;
   animation-duration: 2.5s;
   animation-iteration-count: infinite;
