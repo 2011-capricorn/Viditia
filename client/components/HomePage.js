@@ -1,7 +1,6 @@
 import React from 'react'
 import TechCard from './TechCard'
 import BioCard from './BioCard'
-import groupBios from '../../text.js'
 import './styles/HomePage.css'
 import {makeStyles, Container, Grid, Card} from '@material-ui/core'
 
@@ -37,8 +36,6 @@ const HomePage = () => {
     Devops: ['/npm.png', 'webpack.png', 'babel.png'],
   }
 
-  const {aramBio} = groupBios
-
   const names = {
     'Gerald Lou Berzuela': [
       'https://www.linkedin.com/in/gerald-lou-berzuela/',
@@ -58,7 +55,7 @@ const HomePage = () => {
     'Aram Martin': [
       'https://www.linkedin.com/in/aram-martin',
       'https://github.com/God-Im-Bored',
-      aramBio,
+      'This is where you put your professional bio. Maybe include your background, why software development, and your main contribution to this project. ',
     ],
   }
 

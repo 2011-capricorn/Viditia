@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 
@@ -8,6 +9,15 @@ import firebase from '../../public/firebase'
 const db = firebase.firestore()
 
 import LoadingScreen from './LoadingScreen'
+import {
+  Button,
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  Slider,
+  TextField,
+} from '@material-ui/core'
 
 class ChartVoting extends Component {
   constructor() {
@@ -28,6 +38,7 @@ class ChartVoting extends Component {
       rangeLabel5: '',
       rangeLabel10: '',
       masterLabel: '',
+      answered: false,
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -100,6 +111,7 @@ class ChartVoting extends Component {
   }
 
   async handleChange(e) {
+    console.log('slide on change -->', e.target)
     await this.setState({
       [e.target.name]: e.target.value,
     })
@@ -114,11 +126,13 @@ class ChartVoting extends Component {
         this.state.range === '' ||
         Number(this.state.range) > 10)
     ) {
-      voteBtn.disabled = true
-      voteBtn.className = 'submitBtnVoteDisabled'
+      this.setState({answered: false})
+      // voteBtn.disabled = true
+      // voteBtn.className = 'submitBtnVoteDisabled'
     } else {
-      voteBtn.disabled = false
-      voteBtn.className = 'submitBtnVoteEnabled'
+      this.setState({answered: true})
+      // voteBtn.disabled = false
+      // voteBtn.className = 'submitBtnVoteEnabled'
     }
   }
 
@@ -147,22 +161,24 @@ class ChartVoting extends Component {
               <label id="votequestion" htmlFor=" Question at hand">
                 {question}
               </label>
-              {type.includes('Multiple') &&
-                Object.keys(choices).map((choice) => (
-                  <div key={choice}>
-                    <input
-                      type="radio"
-                      name="multiple"
-                      value={choices[choice]}
-                      onChange={this.handleChange}
-                      checked={multiple === choices[choice]}
-                      className="radioButtonVote"
-                    />
-                    <label htmlFor={pollKey} className="radioLabelVote">
-                      {choices[choice]}
-                    </label>
-                  </div>
-                ))}
+              {type.includes('Multiple') && (
+                <FormControl>
+                  <RadioGroup
+                    value={this.state.multiple}
+                    onChange={this.handleChange}
+                    name="multiple"
+                  >
+                    {Object.keys(choices).map((choice) => (
+                      <FormControlLabel
+                        key={choice}
+                        value={choices[choice]}
+                        control={<Radio color="primary" />}
+                        label={choices[choice]}
+                      />
+                    ))}
+                  </RadioGroup>
+                </FormControl>
+              )}
               {type === 'Range' && (
                 <div id="rangeFull">
                   {masterLabel !== undefined ? (
@@ -171,20 +187,33 @@ class ChartVoting extends Component {
                     <p>1 - 10</p>
                   )}
                   <div id="rangeInputBox">
-                    {rangeLabel1 !== undefined && <p>{rangeLabel1}</p>}
-                    <input
-                      type="number"
-                      min="1"
-                      max="10"
-                      name="range"
-                      value={this.state.range}
+                    <Slider
+                      id="mui-slider"
+                      defaultValue={0}
+                      getAriaValueText={(value) => `${value}`}
+                      aria-labelledby="discrete-slider-custom"
+                      valueLabelDisplay="auto"
+                      step={1}
+                      marks={[
+                        {value: 1, label: rangeLabel1 ? rangeLabel1 : '1'},
+                        {
+                          value: 5,
+                          label: rangeLabel5
+                            ? rangeLabel5
+                            : masterLabel
+                            ? masterLabel
+                            : '5',
+                        },
+                        {value: 10, label: rangeLabel10 ? rangeLabel10 : '10'},
+                      ]}
+                      // value={this.state.range}
+                      min={0}
+                      max={10}
                       onChange={this.handleChange}
-                      id="rangeInput"
+                      name="range"
                     />
-                    {rangeLabel10 !== undefined && <p>{rangeLabel10}</p>}
                   </div>
                   {masterLabel !== undefined && <p>1 - 10</p>}
-                  {rangeLabel5 !== undefined && <p>{rangeLabel5}</p>}
                 </div>
               )}
               {type === 'Open' && dataType === 'Number' && (
@@ -219,13 +248,28 @@ class ChartVoting extends Component {
                   />
                 </div>
               )}
-              <button
-                id="submitBtnVote"
-                type="submit"
-                className="submitBtnVoteDisabled"
-              >
-                VOTE
-              </button>
+              {this.state.answered ? (
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  type="submit"
+                  id="submitBtnVote"
+                  className="submitBtnVoteDisabled"
+                >
+                  VOTE
+                </Button>
+              ) : (
+                <Button
+                  disabled
+                  variant="outlined"
+                  color="primary"
+                  type="submit"
+                  id="submitBtnVote"
+                  className="submitBtnVoteDisabled"
+                >
+                  VOTE
+                </Button>
+              )}
               <h3 id="thankYou" className="tyHidden">
                 Thank you for voting!
               </h3>
