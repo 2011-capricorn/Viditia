@@ -75,7 +75,7 @@ class SingleVidit extends Component {
 }
 
 const mapState = ({user: {userKey, answered}, vidit: {allVidit}}) => ({
-  userKey,
+  isLoggedIn: !!userKey,
   allVidit,
   answered,
 })
