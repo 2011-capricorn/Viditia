@@ -1,6 +1,6 @@
 #singleLCViditFull {
   width: 100vw;
-  height: 100vh;
+  height: 80vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11,8 +11,8 @@
 #testChartLC {
   margin-left: 0px;
   margin-top: 0px;
-  margin-top: 15px;
-  height: 1150px;
+  margin-top: 45px;
+  height: 1275px;
   width: 1150px;
   min-width: 1150px;
   max-width: 1150px;
@@ -22,11 +22,22 @@
   justify-content: space-between;
   background-color: rgba(143, 122, 163, 0.034);
   border-radius: 25px;
+  box-shadow: rgba(149, 157, 165, 0.407) 0px 8px 24px;
 }
+
+#lineChartQuestionTitle {
+  position: absolute;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 40px;
+  font-weight: 700;
+  margin-top: 32px;
+}
+
 #mainLineChart {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 100px;
 }
 
 #mainLineChartDiv {
@@ -46,9 +57,9 @@
 #VLC {
   position: absolute;
   z-index: -1;
-  height: 700px;
+  height: 730px;
   width: auto;
-  margin-top: 220px;
+  margin-top: 300px;
   opacity: 0;
 }
 
@@ -75,7 +86,7 @@
 }
 
 #filterControlsLC {
-  margin: 75px 0px 0px 0px;
+  margin: 36px 0px 0px 0px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -89,11 +100,11 @@
 
 @keyframes LCrideA {
   0% {
-    margin-top: -752px;
+    margin-top: -745px;
     opacity: 0;
   }
   100% {
-    margin-top: -55px;
+    margin-top: -40px;
     margin-left: -540px;
     opacity: 1;
   }
@@ -101,11 +112,11 @@
 
 @keyframes LCrideB {
   0% {
-    margin-top: -752px;
+    margin-top: -745px;
     opacity: 0;
   }
   100% {
-    margin-top: -55px;
+    margin-top: -40px;
     margin-right: -540px;
     opacity: 1;
   }
@@ -164,11 +175,11 @@
 }
 
 .centerWord {
-  font-family: 'Caveat', cursive;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .sliceWord {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .line {
@@ -194,8 +205,8 @@
 
 @media (max-width: 2555px) {
   #testChartLC {
-    transform: scale(0.85);
-    margin-top: -55px;
+    transform: scale(0.81);
+    margin-top: -75px;
   }
 }
 

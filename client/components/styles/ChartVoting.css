@@ -70,7 +70,7 @@
   transition-duration: 0.2s;
   background-color: rgba(255, 255, 255, 0);
   border: 3px solid #8f7aa3 !important;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   border: none;
   cursor: pointer;
   letter-spacing: 5px;
@@ -91,7 +91,7 @@
   height: 36px !important;
   border: 3px solid #8f7aa372 !important;
   transition-duration: 0.2s;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   background-color: rgba(255, 255, 255, 0);
   border: none;
   cursor: not-allowed;
@@ -102,7 +102,7 @@
   margin: 15px;
   font-size: 25px;
   text-align: center;
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .radioButtonVote {
@@ -112,11 +112,11 @@
 .radioLabelVote {
   margin-left: 10px;
   margin-top: 15px;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .tyHidden {
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 20px;
   margin-top: 36px;
   opacity: 0;
@@ -132,7 +132,7 @@
 }
 
 .tyReveal {
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 20px;
   margin-top: 36px;
   opacity: 1;

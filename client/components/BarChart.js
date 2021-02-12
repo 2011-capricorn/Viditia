@@ -380,6 +380,7 @@ class BarChart extends Component {
     return (
       <div id="singleBCViditFull">
         <div id="testChartBC">
+          <div id="barChartQuestionTitle">{this.props.question}</div>
           <img src="/capitalV.png" id="VBC" className="vHiddenBC" />
           <div id="mainMainChart">
             <div id="mainMainChartDiv"></div>

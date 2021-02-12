@@ -70,7 +70,13 @@ class LineChart extends Component {
         value: preProcess[key],
       }))
 
-      this.setState({doc, chartData: result, reset: result, users})
+      this.setState({
+        doc,
+        chartData: result,
+        reset: result,
+        users,
+        units: this.props.units,
+      })
     }
   }
 
@@ -170,6 +176,7 @@ class LineChart extends Component {
       .attr('class', 'y label')
       .attr('text-anchor', 'end')
       .attr('y', -45)
+      .attr('x', -107)
       .attr('dy', '.75em')
       .attr('transform', 'rotate(-90)')
       .text('Responses')
@@ -230,7 +237,12 @@ class LineChart extends Component {
     if (filtering) this.appendSubLabel(svg, width, filterWord)
   }
 
+  // eslint-disable-next-line max-statements
   async handleClick() {
+    document.getElementById('activateFilterLC').disabled = true
+    setTimeout(() => {
+      document.getElementById('activateFilterLC').disabled = false
+    }, 3000)
     if (this.state.filterActive) {
       this.resetFilter()
     }
@@ -322,6 +334,7 @@ class LineChart extends Component {
     return (
       <div id="singleLCViditFull">
         <div id="testChartLC">
+          <div id="lineChartQuestionTitle">{this.props.question}</div>
           <img src="/capitalV.png" id="VLC" className="vHiddenLC" />
           <div id="mainLineChart">
             <div id="mainLineChartDiv"></div>
