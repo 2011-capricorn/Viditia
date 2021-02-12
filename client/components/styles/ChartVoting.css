@@ -168,6 +168,10 @@
   justify-content: center;
 }
 
+#mui-slider {
+  width: 80%;
+}
+
 #openNumberLabel {
   margin: 0px;
 }
