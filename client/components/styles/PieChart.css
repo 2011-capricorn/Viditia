@@ -4,14 +4,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  margin: 0px;
 }
 
 #testChart {
-  margin-left: 50px;
-  margin-top: 25px;
-  /* background-color: aquamarine; */
-  height: 100vh;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 15px;
+  height: 1150px;
   width: 1150px;
   min-width: 1150px;
   max-width: 1150px;
@@ -19,9 +20,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  background-color: rgba(143, 122, 163, 0.034);
+  background-color: rgba(97, 53, 138, 0.034);
   border-radius: 25px;
 }
+
 #mainChart {
   display: flex;
   flex-direction: column;
@@ -33,7 +35,6 @@
   width: 1150px;
   min-width: 1150px;
   max-width: 1150px;
-  /* background-color: rgba(193, 241, 209, 0.322); */
   display: flex;
   justify-content: space-evenly;
 }
@@ -41,9 +42,9 @@
 #V {
   position: absolute;
   z-index: -1;
-  height: 900px;
+  height: 700px;
   width: auto;
-  margin-top: 50px;
+  margin-top: 220px;
   opacity: 0;
 }
 
@@ -66,14 +67,12 @@
 .vFlare {
   animation-name: flare;
   animation-duration: 1.5s;
-  /* animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); */
   opacity: 0;
 }
 
 .filterCharts {
   height: 100%;
   width: 400px;
-  /* background-color: rgba(127, 119, 216, 0.33); */
 }
 
 #filterControls {
@@ -83,12 +82,6 @@
   align-items: center;
 }
 
-/* #filterA {
-  position: absolute;
-  margin-top: -929px;
-  padding: 0px;
-} */
-
 .filterStart {
   position: absolute;
   margin-top: -929px;
@@ -97,24 +90,24 @@
 
 @keyframes rideA {
   0% {
-    margin-top: -929px;
+    margin-top: -752px;
     opacity: 0;
   }
   100% {
-    margin-top: -200px;
-    margin-left: -705px;
+    margin-top: -55px;
+    margin-left: -540px;
     opacity: 1;
   }
 }
 
 @keyframes rideB {
   0% {
-    margin-top: -929px;
+    margin-top: -752px;
     opacity: 0;
   }
   100% {
-    margin-top: -200px;
-    margin-right: -705px;
+    margin-top: -55px;
+    margin-right: -540px;
     opacity: 1;
   }
 }
@@ -124,7 +117,6 @@
   animation-name: rideA;
   animation-duration: 2s;
   animation-fill-mode: forwards;
-  /* animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); */
 }
 
 .filterRideB {
@@ -132,39 +124,44 @@
   animation-name: rideB;
   animation-duration: 2s;
   animation-fill-mode: forwards;
-  /* animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); */
 }
 
 #filterChoice {
   padding: 5px;
   border-radius: 5px;
-  background-image: linear-gradient(to bottom, #ffffff 0%, #e5e5e5 100%);
+  background-color: rgba(255, 255, 255, 0);
+  text-align: center;
+  border: 2px solid #806d92;
+  outline: none;
+  cursor: pointer;
 }
 
 #activateFilter {
   cursor: pointer;
   border-radius: 10px;
-  border: none;
-  background-color: rgba(103, 185, 22, 0.63);
+  background-color: rgba(255, 255, 255, 0);
+  border: 3px solid #8f7aa3;
+  outline: none;
   padding: 15px;
-  transition-duration: 0.5s;
+  transition-duration: 0.25s;
 }
 
 #activateFilter:hover {
-  background-color: rgb(104, 185, 22);
+  transform: scale(1.05);
 }
 
 #resetFilter {
   cursor: pointer;
   border-radius: 10px;
-  border: none;
-  background-color: rgba(238, 53, 53, 0.63);
+  background-color: rgba(255, 255, 255, 0);
   padding: 15px;
-  transition-duration: 0.5s;
+  transition-duration: 0.25s;
+  border: 3px solid #c7bcd1;
+  outline: none;
 }
 
 #resetFilter:hover {
-  background-color: rgb(238, 53, 53);
+  transform: scale(1.05);
 }
 
 .centerWord {
@@ -173,4 +170,47 @@
 
 .sliceWord {
   font-family: 'Montserrat', sans-serif;
+}
+
+#mainChartSVG {
+  height: 400px;
+  width: 400px;
+  margin-top: 25px;
+}
+
+.pcHeightWidth {
+  height: 400px;
+  width: 400px;
+}
+
+body {
+  margin: 0px;
+}
+
+@media (max-width: 2555px) {
+  #testChart {
+    transform: scale(0.85);
+    margin-top: -55px;
+  }
+}
+
+@media (max-width: 1440px) {
+  #testChart {
+    transform: scale(0.65);
+    margin-top: -185px;
+  }
+}
+
+@media (max-width: 768px) {
+  #testChart {
+    transform: scale(0.5);
+    margin-top: -265px;
+  }
+}
+
+@media (max-width: 375px) {
+  #testChart {
+    transform: scale(0.3);
+    margin-top: -380px;
+  }
 }

@@ -4,15 +4,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   position: absolute;
+  z-index: 1;
 }
 
 #chartVoting {
   position: absolute;
   margin-left: 50px;
   margin-top: 25px;
-  height: 100vh;
+  height: 1150px;
   width: 1150px;
   min-width: 1150px;
   max-width: 1150px;
@@ -65,9 +66,10 @@
   margin: 25px 0px 0px 0px;
   border-radius: 15px;
   width: 100px;
-  height: 36px;
-  background-image: linear-gradient(to bottom, #c69400 0%, #f9bb00 100%);
+  height: 36px !important;
   transition-duration: 0.2s;
+  background-color: rgba(255, 255, 255, 0);
+  border: 3px solid #8f7aa3 !important;
   font-family: 'Montserrat', sans-serif;
   border: none;
   cursor: pointer;
@@ -86,10 +88,11 @@
   margin: 25px 0px 0px 0px;
   border-radius: 15px;
   width: 100px;
-  height: 36px;
-  background-image: linear-gradient(to bottom, #c6940081 0%, #f9bb0080 100%);
+  height: 36px !important;
+  border: 3px solid #8f7aa372 !important;
   transition-duration: 0.2s;
   font-family: 'Montserrat', sans-serif;
+  background-color: rgba(255, 255, 255, 0);
   border: none;
   cursor: not-allowed;
   letter-spacing: 5px;

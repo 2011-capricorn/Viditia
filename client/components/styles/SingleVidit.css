@@ -1,4 +1,8 @@
 #SVTitle {
   margin-bottom: 0px;
-  margin-left: 25px;
+  text-align: center;
+}
+
+#singleViditContainer {
+  margin: 0px;
 }

@@ -1,8 +1,3 @@
-/* font-family: 'Caveat', cursive;
-font-family: 'Montserrat', sans-serif;
-font-family: 'Oswald', sans-serif;
-font-family: 'Sacramento', cursive; */
-
 body {
   font-family: sans-serif;
 }
@@ -72,3 +67,12 @@ form {
 #mgt {
   margin-top: 20px;
 }
+
+body {
+  margin: 0px;
+}
+
+/* font-family: 'Caveat', cursive;
+font-family: 'Montserrat', sans-serif;
+font-family: 'Oswald', sans-serif;
+font-family: 'Sacramento', cursive; */

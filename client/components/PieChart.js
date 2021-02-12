@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import * as d3 from 'd3'
 
 import './styles/PieChart.css'
-import {pieChartColors} from './styles/ChartColors'
 import firebase from '../../public/firebase'
 import filterAB from '../filterAB'
 
@@ -16,7 +15,7 @@ class PieChart extends Component {
       chartDataA: [],
       chartDataB: [],
       reset: [],
-      colors: [d3.rgb(226, 138, 138), d3.rgb(116, 176, 228)],
+      colors: ['#8F7AA3', '#c7bcd1'],
       users: [],
       doc: [],
       filter: 'Hand',
@@ -36,16 +35,6 @@ class PieChart extends Component {
         .collection('polls')
         .doc(this.props.pollKey)
         .onSnapshot((doc) => this.formatData(doc.data().answers)),
-    })
-    let randomNumber = Math.floor(Math.random() * 12)
-    const one = pieChartColors[randomNumber][0]
-    const two = pieChartColors[randomNumber][1]
-    const three = pieChartColors[randomNumber][2]
-    const four = pieChartColors[randomNumber][3]
-    const five = pieChartColors[randomNumber][4]
-    const six = pieChartColors[randomNumber][5]
-    this.setState({
-      colors: [d3.rgb(one, two, three), d3.rgb(four, five, six)],
     })
     this.createMainPieChart()
   }
