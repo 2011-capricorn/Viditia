@@ -23,7 +23,7 @@ const LoginForm = ({isLoggedIn, login, oauthLogin, history}) => {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    if (isLoggedIn) history.push('/home')
+    if (isLoggedIn) history.goBack()
   }, [isLoggedIn])
 
   useEffect(() => {
