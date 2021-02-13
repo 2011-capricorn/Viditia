@@ -11,7 +11,6 @@
 #testChartBC {
   margin-left: 0px;
   margin-right: 0px;
-  margin-top: 45px;
   height: 1275px;
   width: 1150px;
   min-width: 1150px;
@@ -23,14 +22,26 @@
   background-color: rgba(97, 53, 138, 0.034);
   border-radius: 25px;
   box-shadow: rgba(149, 157, 165, 0.407) 0px 8px 24px;
+  transform: scale(0.81);
+  margin-top: -75px;
 }
 
 #barChartQuestionTitle {
   position: absolute;
   font-family: 'Open Sans', sans-serif;
-  font-size: 40px;
   font-weight: 700;
   margin-top: 32px;
+  margin-left: 15px;
+  margin-right: 15px;
+  text-align: center;
+}
+
+.BCQTLarge {
+  font-size: 40px;
+}
+
+.BCQTSmall {
+  font-size: 25px;
 }
 
 #mainMainChart {
@@ -197,30 +208,30 @@
   stroke: steelblue;
 }
 
-@media (max-width: 2555px) {
-  #testChartBC {
-    transform: scale(0.81);
-    margin-top: -75px;
-  }
-}
-
-@media (max-width: 1440px) {
+@media (max-width: 1920px) {
   #testChartBC {
     transform: scale(0.65);
     margin-top: -185px;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1366px) {
   #testChartBC {
     transform: scale(0.5);
-    margin-top: -265px;
+    margin-top: -290px;
   }
 }
 
-@media (max-width: 375px) {
+@media (max-width: 600px) {
+  #testChartBC {
+    transform: scale(0.4);
+    margin-top: -355px;
+  }
+}
+
+@media (max-width: 414px) {
   #testChartBC {
     transform: scale(0.3);
-    margin-top: -380px;
+    margin-top: -425px;
   }
 }

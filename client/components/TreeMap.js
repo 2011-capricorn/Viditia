@@ -37,6 +37,10 @@ class TreeMap extends Component {
         .doc(this.props.pollKey)
         .onSnapshot((doc) => this.formatData(doc.data().answers)),
     })
+    const title = document.getElementById('treeMapQuestionTitle')
+    if (this.props.question.split('').length >= 50) {
+      title.className = 'TMQTSmall'
+    }
   }
 
   componentDidUpdate() {
@@ -264,7 +268,9 @@ class TreeMap extends Component {
     return (
       <div id="singleTMViditFull">
         <div id="testChartTM">
-          <div id="treeMapQuestionTitle">{this.props.question}</div>
+          <div id="treeMapQuestionTitle" className="TMQTLarge">
+            {this.props.question}
+          </div>
           <img src="/capitalV.png" id="VTM" className="vHiddenTM" />
           <div id="mainTreeMap">
             <div id="mainTreeMapDiv"></div>

@@ -39,6 +39,10 @@ class LineChart extends Component {
         .doc(this.props.pollKey)
         .onSnapshot((doc) => this.formatData(doc.data().answers)),
     })
+    const title = document.getElementById('lineChartQuestionTitle')
+    if (this.props.question.split('').length >= 50) {
+      title.className = 'LCQTSmall'
+    }
   }
 
   componentDidUpdate() {
@@ -334,7 +338,9 @@ class LineChart extends Component {
     return (
       <div id="singleLCViditFull">
         <div id="testChartLC">
-          <div id="lineChartQuestionTitle">{this.props.question}</div>
+          <div id="lineChartQuestionTitle" className="LCQTLarge">
+            {this.props.question}
+          </div>
           <img src="/capitalV.png" id="VLC" className="vHiddenLC" />
           <div id="mainLineChart">
             <div id="mainLineChartDiv"></div>

@@ -134,7 +134,8 @@
 
 #landingtitle {
   margin: 0px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Sacramento', cursive;
+  font-size: 36px;
   animation-name: landingTitle;
   animation-duration: 2.5s;
   animation-iteration-count: 1;
@@ -169,13 +170,13 @@
 
 #blocker {
   background-color: rgb(255, 255, 255);
-  height: 50px;
+  height: 75px;
   width: 125px;
   position: absolute;
-  margin-top: -45px;
+  margin-top: -70px;
   margin-left: 65px;
   animation-name: unblock;
   animation-duration: 2.5s;
-  animation-iteration-count: 1;
+  animation-iteration-count: 10;
   animation-fill-mode: forwards;
 }

@@ -45,7 +45,7 @@ const HomePage = () => {
     'Derek Louis': [
       'https://www.linkedin.com/in/derek-louis/',
       'https://github.com/dereklouis',
-      'This is where you put your professional bio. Maybe include your background, why software development, and your main contribution to this project. ',
+      'Software engineer, telescope enthusiast & bonsai lover, Derek looks forward to working on projects based in science, the arts, education and beyond. ',
     ],
     'Randy Hyun': [
       'https://www.linkedin.com/in/randy-hyun/',
@@ -56,7 +56,6 @@ const HomePage = () => {
       'https://www.linkedin.com/in/aram-martin',
       'https://github.com/God-Im-Bored',
       'This is where you put your professional bio. Maybe include your background, why software development, and your main contribution to this project. ',
-
     ],
   }
 
@@ -71,9 +70,8 @@ const HomePage = () => {
       <Container fixed>
         <div className="landing-desc">
           <p>
-            This paragraph is used to describe our project. We can discuss:
-            inspiration, implementation, stack and future add-ons. Lastly, we
-            can add a link to our presentation video.
+            Viditia is a web-application where users can visualize and interact
+            with data in a fun and unique way.
           </p>
         </div>
       </Container>

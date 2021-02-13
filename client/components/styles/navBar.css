@@ -3,7 +3,7 @@
 }
 
 #drawer-header {
-  margin-top: 132px;
+  margin-top: 72px;
 }
 
 .hamburger {
@@ -27,6 +27,8 @@
   font-size: 36px;
   margin-left: 16px;
   color: black;
+  margin-top: 15px;
+  margin-bottom: 5px;
 }
 
 .navItem {
