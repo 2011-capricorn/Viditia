@@ -3,6 +3,7 @@ import TechCard from './TechCard'
 import BioCard from './BioCard'
 import './styles/HomePage.css'
 import {makeStyles, Container, Grid, Card} from '@material-ui/core'
+import groupBios from '../../text.js'
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -20,6 +21,8 @@ const useStyles = makeStyles((theme) => ({
     width: 125,
   },
 }))
+
+const {aramBio} = groupBios
 
 const HomePage = () => {
   const titles = {
@@ -55,11 +58,9 @@ const HomePage = () => {
     'Aram Martin': [
       'https://www.linkedin.com/in/aram-martin',
       'https://github.com/God-Im-Bored',
-      'This is where you put your professional bio. Maybe include your background, why software development, and your main contribution to this project. ',
+      aramBio,
     ],
   }
-
-  const classes = useStyles()
 
   return (
     <div className="landing-home">
