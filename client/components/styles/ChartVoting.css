@@ -65,9 +65,8 @@
 }
 
 .submitBtnVoteEnabled {
-  margin: 5opx 0px 0px 0px !important;
+  margin: 25px 0px 0px 0px !important;
   border-radius: 15px;
-  width: 100px;
   height: 36px !important;
   transition-duration: 0.2s;
   background-color: rgba(255, 255, 255, 0);
@@ -87,9 +86,8 @@
 }
 
 .submitBtnVoteDisabled {
-  margin: 50px 0px 0px 0px !important;
+  margin: 25px 0px 0px 0px !important;
   border-radius: 15px;
-  width: 100px;
   height: 36px !important;
   border: 3px solid #8f7aa372 !important;
   transition-duration: 0.2s;

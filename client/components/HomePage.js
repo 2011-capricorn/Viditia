@@ -40,7 +40,7 @@ const HomePage = () => {
     'Gerald Lou Berzuela': [
       'https://www.linkedin.com/in/gerald-lou-berzuela/',
       'https://github.com/gberzuela',
-      'This is where you put your professional bio. Maybe include your background, why software development, and your main contribution to this project. ',
+      'Student and problem solver by nature. Gerald is eager to learn new technologies and to contribute in the development of groundbreaking software.',
     ],
     'Derek Louis': [
       'https://www.linkedin.com/in/derek-louis/',

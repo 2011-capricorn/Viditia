@@ -72,8 +72,6 @@ class ChartVoting extends Component {
       rangeLabel10,
       masterLabel,
     })
-    const voteBtn = document.getElementById('submitBtnVote')
-    voteBtn.disabled = true
   }
 
   handleSubmit(e) {
@@ -110,12 +108,25 @@ class ChartVoting extends Component {
     setTimeout(() => updateUserStore(pollKey, userKey), 3100)
   }
 
-  async handleChange(e) {
-    console.log('slide on change -->', e.target)
-    await this.setState({
-      [e.target.name]: e.target.value,
-    })
-    const voteBtn = document.getElementById('submitBtnVote')
+  handleChange(e, newValue) {
+    if (!e.target.name) {
+      this.setState(
+        {
+          range: newValue,
+        },
+        this.checkAnswer
+      )
+    } else {
+      this.setState(
+        {
+          [e.target.name]: e.target.value,
+        },
+        this.checkAnswer
+      )
+    }
+  }
+
+  checkAnswer() {
     if (
       this.state.multiple === '' &&
       (Number(this.state.numberOpen) < 0 ||
@@ -127,12 +138,8 @@ class ChartVoting extends Component {
         Number(this.state.range) > 10)
     ) {
       this.setState({answered: false})
-      // voteBtn.disabled = true
-      // voteBtn.className = 'submitBtnVoteDisabled'
     } else {
       this.setState({answered: true})
-      // voteBtn.disabled = false
-      // voteBtn.className = 'submitBtnVoteEnabled'
     }
   }
 
@@ -151,7 +158,6 @@ class ChartVoting extends Component {
       rangeLabel10,
       masterLabel,
     } = this.state
-    const {pollKey} = this.props
 
     return !loading ? (
       <div id="chartVotingFull" className="visable">
@@ -206,7 +212,7 @@ class ChartVoting extends Component {
                         },
                         {value: 10, label: rangeLabel10 ? rangeLabel10 : '10'},
                       ]}
-                      // value={this.state.range}
+                      value={this.state.range}
                       min={0}
                       max={10}
                       onChange={this.handleChange}
@@ -222,14 +228,14 @@ class ChartVoting extends Component {
                     <p>Min-Max: 0 - {max}</p>
                   </div>
                   <div id="openNumberBox">
-                    <input
+                    <TextField
                       type="number"
+                      min={0}
                       max={max}
-                      min="0"
                       name="numberOpen"
+                      label="Answer"
                       value={this.state.numberOpen}
                       onChange={this.handleChange}
-                      id="openNumberInput"
                     />
                     <label htmlFor="numberOpen" id="openNumberLabel">
                       {units}
@@ -239,12 +245,11 @@ class ChartVoting extends Component {
               )}
               {type === 'Open' && dataType === 'String' && (
                 <div id="stringOpenContainer">
-                  <input
-                    type="text"
+                  <TextField
                     name="stringOpen"
+                    label="Answer"
                     value={this.state.stringOpen}
                     onChange={this.handleChange}
-                    id="openStringInput"
                   />
                 </div>
               )}
@@ -267,7 +272,7 @@ class ChartVoting extends Component {
                   id="submitBtnVote"
                   className="submitBtnVoteDisabled"
                 >
-                  VOTE
+                  Answer required
                 </Button>
               )}
               <h3 id="thankYou" className="tyHidden">
