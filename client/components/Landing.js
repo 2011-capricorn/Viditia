@@ -11,6 +11,7 @@ class Landing extends Component {
   }
 
   componentDidMount() {
+    window.scrollTo(0, 0)
     setTimeout(() => localStorage.setItem('Viditia', 'True'), 3000)
     setTimeout(
       () =>

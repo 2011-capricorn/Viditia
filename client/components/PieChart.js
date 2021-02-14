@@ -38,6 +38,10 @@ class PieChart extends Component {
         .onSnapshot((doc) => this.formatData(doc.data().answers)),
     })
     this.createMainPieChart()
+    const title = document.getElementById('pieChartQuestionTitle')
+    if (this.props.question.split('').length >= 50) {
+      title.className = 'PCQTSmall'
+    }
   }
 
   componentDidUpdate() {
@@ -290,7 +294,9 @@ class PieChart extends Component {
     return (
       <div id="singleViditFull">
         <div id="testChart">
-          <div id="pieChartQuestionTitle">{this.props.question}</div>
+          <div id="pieChartQuestionTitle" className="PCQTLarge">
+            {this.props.question}
+          </div>
           <img src="/capitalV.png" id="V" className="vHidden" />
           <div id="mainChartPieChart">
             <svg width="400" height="400" id="mainChartSVG"></svg>

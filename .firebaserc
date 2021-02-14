@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "viditia-cf976"
+    "default": "viditia-cf976",
+    "production": "viditia-cf976"
   }
 }

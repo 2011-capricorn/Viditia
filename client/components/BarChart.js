@@ -23,6 +23,9 @@ class BarChart extends Component {
       width: 550,
       height: 550,
       margin: {top: 70, bottom: 70, left: 70, right: 70},
+      rangeLabel1: '',
+      rangeLabel5: '',
+      rangeLabel10: '',
       unsubscribe: null,
     }
     this.createBarChart = this.createBarChart.bind(this)
@@ -39,6 +42,28 @@ class BarChart extends Component {
         .collection('polls')
         .doc(this.props.pollKey)
         .onSnapshot((doc) => this.formatData(doc.data().answers)),
+    })
+    const title = document.getElementById('barChartQuestionTitle')
+    if (this.props.question.split('').length >= 50) {
+      title.className = 'BCQTSmall'
+    }
+    let rangeLabel1 = this.props.rangeLabel1
+    let rangeLabel5 = this.props.rangeLabel5
+    let rangeLabel10 = this.props.rangeLabel10
+
+    if (rangeLabel1 && rangeLabel1.length > 5) {
+      rangeLabel1 = rangeLabel1.slice(0, 5) + '.'
+    }
+    if (rangeLabel5 && rangeLabel5.length > 5) {
+      rangeLabel5 = rangeLabel5.slice(0, 5) + '.'
+    }
+    if (rangeLabel10 && rangeLabel10.length > 5) {
+      rangeLabel10 = rangeLabel10.slice(0, 5) + '.'
+    }
+    this.setState({
+      rangeLabel1,
+      rangeLabel5,
+      rangeLabel10,
     })
   }
 
@@ -205,7 +230,7 @@ class BarChart extends Component {
       .attr('font-size', 24)
       .attr('x', width / 2)
       .attr('y', height - 20)
-      .text(this.props.masterLabel || this.props.rangeLabel5)
+      .text(this.props.masterLabel || this.state.rangeLabel5)
   }
 
   setXRightLabel(svg) {
@@ -217,7 +242,7 @@ class BarChart extends Component {
       .attr('font-size', 24)
       .attr('x', 462)
       .attr('y', height - 20)
-      .text(this.props.rangeLabel10)
+      .text(this.state.rangeLabel10)
   }
 
   setXLeftLabel(svg) {
@@ -229,7 +254,7 @@ class BarChart extends Component {
       .attr('font-size', 24)
       .attr('x', 91)
       .attr('y', height - 20)
-      .text(this.props.rangeLabel1)
+      .text(this.state.rangeLabel1)
   }
 
   setYLabel(svg) {
@@ -380,7 +405,9 @@ class BarChart extends Component {
     return (
       <div id="singleBCViditFull">
         <div id="testChartBC">
-          <div id="barChartQuestionTitle">{this.props.question}</div>
+          <div id="barChartQuestionTitle" className="BCQTLarge">
+            {this.props.question}
+          </div>
           <img src="/capitalV.png" id="VBC" className="vHiddenBC" />
           <div id="mainMainChart">
             <div id="mainMainChartDiv"></div>
