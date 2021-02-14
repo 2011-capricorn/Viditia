@@ -39,9 +39,9 @@ const ViditCard = ({
         </Typography>
       </CardContent>
       <CardActions id="cardActionsRow">
-        <IconButton id="favoriteIcon">
+        {/* <IconButton id="favoriteIcon">
           <FavoriteIcon id="favoriteIcon" />
-        </IconButton>
+        </IconButton> */}
         <Typography
           variant="body2"
           color="textSecondary"
