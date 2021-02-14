@@ -12,7 +12,7 @@ const ConfirmPassword = ({
   title1,
   title2,
   password,
-  confirmPasswod,
+  confirmPassword,
   showPassword,
   showConfirmPassword,
   setPassword,
@@ -26,6 +26,7 @@ const ConfirmPassword = ({
         <InputLabel htmlFor={title1}>{title1}</InputLabel>
         <OutlinedInput
           id={title1}
+          labelWidth={75}
           type={showPassword ? 'text' : 'password'}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -47,8 +48,9 @@ const ConfirmPassword = ({
         <InputLabel htmlFor={title2}>{title2}</InputLabel>
         <OutlinedInput
           id={title2}
+          labelWidth={135}
           type={showConfirmPassword ? 'text' : 'password'}
-          value={confirmPasswod}
+          value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           endAdornment={
             <InputAdornment position="end">
