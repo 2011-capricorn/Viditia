@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
 
@@ -18,7 +19,6 @@ import './styles/CreateVidit.css'
 import {addViditThunk} from '../store/vidit'
 import {addCreated} from '../store/user'
 
-// eslint-disable-next-line complexity
 const CreateVidit = ({
   isLoggedIn,
   userKey,
@@ -108,7 +108,6 @@ const CreateVidit = ({
     return false
   }
 
-  // eslint-disable-next-line complexity
   const getReturnValue = async () => {
     const split = type.split(' ')
     const returnType =
@@ -149,7 +148,6 @@ const CreateVidit = ({
     history.push(`/vidit/${pollKey}`)
   }
 
-  // eslint-disable-next-line complexity
   const handleSubmit = () => {
     setError('')
     let errorExists =
@@ -166,10 +164,10 @@ const CreateVidit = ({
 
   return (
     <div className="create-container flex shadow">
-      <h1>Create Vidit!</h1>
+      <h1 style={{marginTop: 0}}>Create Vidit!</h1>
 
       <FormControl fullWidth={true}>
-        <h3 className="p-decor">Question:</h3>
+        <h3>Question:</h3>
         <TextField
           required
           label="Enter a question..."
@@ -178,7 +176,7 @@ const CreateVidit = ({
           onChange={(e) => setQuestion(e.target.value)}
         />
       </FormControl>
-      <h3 className="spacing p-decor">What type of question is this?</h3>
+      <h3 className="spacing">What type of question is this?</h3>
       <FormControl fullWidth={true}>
         <InputLabel>Format:</InputLabel>
         <Select value={type} onChange={(e) => setType(e.target.value)}>
@@ -192,7 +190,7 @@ const CreateVidit = ({
 
       {Object.keys(choices).length !== 0 && (
         <div>
-          <h3 className="spacing p-decor">What are the choices?</h3>
+          <h3 className="spacing">What are the choices?</h3>
           {Object.keys(choices).map((choice) => (
             <TextField
               key={choice}
