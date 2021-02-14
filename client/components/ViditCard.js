@@ -27,7 +27,7 @@ const ViditCard = ({
   return (
     <Card id="AVCardMaster">
       <CardActionArea></CardActionArea>
-      <CardContent>
+      <CardContent className={chartType.split(' ').join('') + 'VCBD'}>
         <Typography
           gutterBottom
           variant="h5"

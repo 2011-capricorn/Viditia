@@ -5,6 +5,23 @@
 
 #AVCardTitle {
   cursor: pointer;
+  color: white;
+}
+
+.PieChartVCBD {
+  background-color: #8f7aa3;
+}
+
+.LineChartVCBD {
+  background-color: #c7bcd1;
+}
+
+.BarChartVCBD {
+  background-color: #a493b4;
+}
+
+.TreeMapVCBD {
+  background-color: #715c84;
 }
 
 #AVCardMaster {
@@ -16,6 +33,7 @@
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  margin-top: 15px;
 }
 
 #favoriteIcon {
