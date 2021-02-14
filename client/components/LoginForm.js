@@ -51,10 +51,10 @@ const LoginForm = ({isLoggedIn, login, oauthLogin, history}) => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <FormControl variant="outlined" id="mgt" fullWidth={true}>
-          <InputLabel htmlFor="Password">Password</InputLabel>
+        <FormControl variant="outlined" id="mgt">
+          <InputLabel>Password</InputLabel>
           <OutlinedInput
-            id="Password"
+            labelWidth={75}
             type={showPassword ? 'text' : 'password'}
             value={password}
             onChange={(e) => setPassword(e.target.value)}

@@ -20,6 +20,7 @@ import './styles/UserCreatedList.css'
 
 const UserCreatedList = ({userKey, polls, removeVidit, deleteVidit}) => {
   const [open, setOpen] = useState(false)
+  const [target, setTarget] = useState('')
 
   const update = (pollKey, uid) => {
     deleteVidit(pollKey)
@@ -30,20 +31,18 @@ const UserCreatedList = ({userKey, polls, removeVidit, deleteVidit}) => {
     <List>
       {polls.map((poll) => (
         <ListItem key={poll.pollKey} className="shadow" id="created-list-item">
-          <p>{poll.question}</p>
+          <p>{`${poll.question} ${poll.pollKey}`}</p>
           <p>Contributions: {poll.totalVoteCount}</p>
           <ListItemIcon>
             <DeleteIcon
               className="created-list-delete"
-              onClick={() => setOpen(true)}
-              // onClick={() => update(poll.pollKey, userKey)}
+              onClick={() => {
+                setOpen(true)
+                setTarget(poll.pollKey)
+              }}
             />
           </ListItemIcon>
-          <Dialog
-            open={open}
-            onClose={() => setOpen(false)}
-            aria-labelledby="draggable-dialog-title"
-          >
+          <Dialog open={open} onClose={() => setOpen(false)}>
             <DialogTitle>Please confirm</DialogTitle>
             <DialogContent>
               <DialogContentText>
@@ -57,7 +56,7 @@ const UserCreatedList = ({userKey, polls, removeVidit, deleteVidit}) => {
               </Button>
               <Button
                 onClick={() => {
-                  update(poll.pollKey, userKey)
+                  update(target, userKey)
                   setOpen(false)
                 }}
                 color="secondary"

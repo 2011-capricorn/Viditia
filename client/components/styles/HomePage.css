@@ -17,6 +17,10 @@
   color: #313131;
 }
 
+.landing-home {
+  margin-bottom: 20px;
+}
+
 #tech-grid {
   display: flex;
   justify-content: center;
