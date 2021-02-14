@@ -1,28 +1,29 @@
 #chartVotingFull {
   width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  position: absolute;
-  z-index: 1;
-}
-
-#chartVoting {
-  position: absolute;
-  margin-left: 50px;
-  margin-top: 25px;
-  height: 1150px;
-  width: 1150px;
-  min-width: 1150px;
-  max-width: 1150px;
-  border-radius: 25px;
-  background-color: rgba(249, 249, 249);
+  height: 90vh;
+  min-height: 1100px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: absolute;
+  z-index: 1;
+  background-color: rgb(255, 255, 255);
+}
+
+#chartVoting {
+  margin-left: 0px;
+  height: 1275px;
+  width: 1150px;
+  min-width: 1150px;
+  max-width: 1150px;
+  border-radius: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0.81);
+  margin-top: -75px;
 }
 
 @keyframes fade {
@@ -47,7 +48,8 @@
   width: 600px;
   padding: 25px;
   border-radius: 15px;
-  background-color: rgb(225, 225, 225);
+  background-color: rgba(97, 53, 138, 0.034);
+  box-shadow: rgba(149, 157, 165, 0.407) 0px 8px 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -63,13 +65,13 @@
 }
 
 .submitBtnVoteEnabled {
-  margin: 25px 0px 0px 0px;
+  margin: 5opx 0px 0px 0px !important;
   border-radius: 15px;
   width: 100px;
   height: 36px !important;
   transition-duration: 0.2s;
   background-color: rgba(255, 255, 255, 0);
-  border: 3px solid #8f7aa3 !important;
+  border: 3px solid #22ac37 !important;
   font-family: 'Open Sans', sans-serif;
   border: none;
   cursor: pointer;
@@ -85,7 +87,7 @@
 }
 
 .submitBtnVoteDisabled {
-  margin: 25px 0px 0px 0px;
+  margin: 50px 0px 0px 0px !important;
   border-radius: 15px;
   width: 100px;
   height: 36px !important;
@@ -94,7 +96,7 @@
   font-family: 'Open Sans', sans-serif;
   background-color: rgba(255, 255, 255, 0);
   border: none;
-  cursor: not-allowed;
+  /* cursor: not-allowed !important; */
   letter-spacing: 5px;
 }
 
@@ -210,4 +212,44 @@
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+}
+
+@media (max-width: 1920px) {
+  #chartVoting {
+    transform: scale(0.65);
+    margin-top: -185px;
+  }
+  #chartVotingFull {
+    min-height: 900px;
+  }
+}
+
+@media (max-width: 1366px) {
+  #chartVoting {
+    transform: scale(0.5);
+    margin-top: -290px;
+  }
+  #chartVotingFull {
+    min-height: 700px;
+  }
+}
+
+@media (max-width: 600px) {
+  #chartVoting {
+    transform: scale(0.4);
+    margin-top: -355px;
+  }
+  #chartVotingFull {
+    min-height: 575px;
+  }
+}
+
+@media (max-width: 414px) {
+  #chartVoting {
+    transform: scale(0.3);
+    margin-top: -425px;
+  }
+  #chartVotingFull {
+    min-height: 475px;
+  }
 }
