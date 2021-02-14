@@ -3,7 +3,6 @@ import TechCard from './TechCard'
 import BioCard from './BioCard'
 import './styles/HomePage.css'
 import {makeStyles, Container, Grid, Card} from '@material-ui/core'
-import groupBios from '../../text.js'
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -21,8 +20,6 @@ const useStyles = makeStyles((theme) => ({
     width: 125,
   },
 }))
-
-const {aramBio} = groupBios
 
 const HomePage = () => {
   const titles = {
@@ -58,7 +55,7 @@ const HomePage = () => {
     'Aram Martin': [
       'https://www.linkedin.com/in/aram-martin',
       'https://github.com/God-Im-Bored',
-      aramBio,
+      "I'm alot of things, but what I consider myself most is a problem solver. When I'm not learning new technologies, you can find me reading my favorite books or watching Lupin the 3rd.",
     ],
   }
 
