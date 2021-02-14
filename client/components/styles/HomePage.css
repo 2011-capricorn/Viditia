@@ -19,11 +19,14 @@
 
 #tech-grid {
   display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 #tech-card {
   flex: 1;
   margin: 15px;
+  min-width: 125px;
 }
 
 #tech-img {
@@ -50,6 +53,14 @@
 
 #bio-grid {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#bio-card {
+  width: 278px;
+  min-width: 278px;
+  max-width: 278px;
 }
 
 #bio-links {

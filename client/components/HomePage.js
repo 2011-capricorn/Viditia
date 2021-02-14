@@ -94,6 +94,7 @@ const HomePage = () => {
             linkedin={names[name][0]}
             github={names[name][1]}
             bio={names[name][2]}
+            id="bio-card"
           />
         ))}
       </Container>
