@@ -70,7 +70,10 @@ const Navbar = ({isLoggedIn, logout}) => {
                   <ListItem
                     button
                     onClick={() => {
-                      if (text === 'Logout') logout()
+                      if (text === 'Logout') {
+                        logout()
+                        return '/home'
+                      }
                       setOpen(false)
                     }}
                   >
