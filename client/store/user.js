@@ -9,7 +9,6 @@ const ADD_CREATED = 'ADD_CREATED'
 const REMOVE_CREATED = 'REMOVE_CREATED'
 
 const defaultUser = {
-  // userKey: 'bddR4THyLXZh0kw7DEYb2iusoY42',
   userKey: '',
   answered: [],
   created: [],
@@ -44,7 +43,6 @@ export const loginThunk = (email, password) => {
     try {
       await firebase.auth().signInWithEmailAndPassword(email, password)
       const userKey = firebase.auth().currentUser.uid
-      // const userKey = 'bddR4THyLXZh0kw7DEYb2iusoY42'
       const {created, answered} = (
         await db.collection('users').doc(userKey).get()
       ).data()
@@ -121,7 +119,7 @@ export const logoutThunk = () => {
 }
 
 export const updateAnsweredThunk = (pollKey, userKey) => {
-  return async (dispatch) => {
+  return (dispatch) => {
     try {
       const userRef = db.collection('users').doc(userKey)
       userRef.update({
