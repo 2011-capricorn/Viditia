@@ -68,8 +68,8 @@ const HomePage = () => {
       <Container fixed>
         <div className="landing-desc">
           <p>
-            Viditia is a web-application where users can visualize and interact
-            with data in a fun and unique way.
+            Viditia is a web application where users can participate, visualize
+            and interact with data from polls in a fun and clever way.
           </p>
         </div>
       </Container>

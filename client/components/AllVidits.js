@@ -26,10 +26,10 @@ class AllVidits extends Component {
                 <ViditCard
                   question={vidit.question}
                   votes={vidit.totalVoteCount}
-                  imageUrl="/pieChartIcon.png"
+                  imageUrl="/donutChartIcon.png"
                   pollKey={vidit.pollKey}
                   history={this.props.history}
-                  chartType="Pie Chart"
+                  chartType="Donut Chart"
                 />
               ) : vidit.type === 'Range' || vidit.type === 'Multiple +' ? (
                 <ViditCard
