@@ -3,20 +3,21 @@
 }
 
 #drawer-header {
-  margin-top: 72px;
+  margin-top: 75px;
 }
 
 .hamburger {
   cursor: pointer;
+  color: white;
 }
 
 .navBar {
   padding: 0 30px 0 30px;
-  border-bottom: 1px solid black;
+  border-bottom: 6px solid #715c84;
   position: sticky;
   z-index: 10;
   top: 0;
-  background-color: white;
+  background-color: #8f7aa3;
 }
 
 #nav {
@@ -26,8 +27,8 @@
   font-family: 'Sacramento', cursive;
   font-size: 36px;
   margin-left: 16px;
-  color: black;
-  margin-top: 15px;
+  color: white;
+  margin-top: 16px;
   margin-bottom: 5px;
 }
 

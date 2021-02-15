@@ -55,11 +55,9 @@ const HomePage = () => {
     'Aram Martin': [
       'https://www.linkedin.com/in/aram-martin',
       'https://github.com/God-Im-Bored',
-      'This is where you put your professional bio. Maybe include your background, why software development, and your main contribution to this project. ',
+      "Aram's alot of things, but what he considers himself most is a problem solver. When he's not learning new technologies, you can find him reading his favorite books or watching Lupin the 3rd.",
     ],
   }
-
-  const classes = useStyles()
 
   return (
     <div className="landing-home">
