@@ -50,7 +50,7 @@ const HomePage = () => {
     'Randy Hyun': [
       'https://www.linkedin.com/in/randy-hyun/',
       'https://github.com/randy5478',
-      'This is where you put your professional bio. Maybe include your background, why software development, and your main contribution to this project. ',
+      'Software Engineer who enjoys snowboarding and playing drums. Randy has a thirst to sharpen his skills of programming and learn new technology. ',
     ],
     'Aram Martin': [
       'https://www.linkedin.com/in/aram-martin',
