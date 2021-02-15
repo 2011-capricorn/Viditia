@@ -29,7 +29,6 @@ const Navbar = ({isLoggedIn, logout}) => {
     if (text === 'Vidits') return '/vidits'
     if (text === 'Profile') return '/profile'
     if (text === 'Create Vidit!') return '/create'
-    if (text === 'Logout') return '/login'
   }
 
   return (
@@ -65,14 +64,13 @@ const Navbar = ({isLoggedIn, logout}) => {
           <Divider />
           {isLoggedIn ? (
             <List>
-              {['Profile', 'Create Vidit!', 'Logout'].map((text) => (
+              {['Profile', 'Create Vidit!'].map((text) => (
                 <Link key={text} to={handleLink(text)} id="no-style-anchor">
                   <ListItem
                     button
                     onClick={() => {
                       if (text === 'Logout') {
                         logout()
-                        return '/home'
                       }
                       setOpen(false)
                     }}
@@ -80,12 +78,23 @@ const Navbar = ({isLoggedIn, logout}) => {
                     <ListItemIcon>
                       {text === 'Profile' && <AccountBoxIcon />}
                       {text === 'Create Vidit!' && <AddBoxIcon />}
-                      {text === 'Logout' && <ExitToAppIcon />}
                     </ListItemIcon>
                     <ListItemText primary={text} />
                   </ListItem>
                 </Link>
               ))}
+              <ListItem
+                button
+                onClick={() => {
+                  logout()
+                  setOpen(false)
+                }}
+              >
+                <ListItemIcon>
+                  <ExitToAppIcon />
+                </ListItemIcon>
+                <ListItemText primary="Logout" />
+              </ListItem>
             </List>
           ) : (
             <Link to="/login" id="no-style-anchor">

@@ -35,6 +35,10 @@ class SingleVidit extends Component {
     })
   }
 
+  componentDidUpdate() {
+    if (!this.props.isLoggedIn) this.props.history.push('/login')
+  }
+
   renderChart(data, id) {
     if (data.type === 'Multiple 2') {
       return (

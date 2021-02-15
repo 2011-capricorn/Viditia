@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 
 import {
   Button,
@@ -16,10 +16,10 @@ import firebase from 'firebase'
 import ConfirmPassword from './ConfirmPassword'
 import './styles/UserForm.css'
 
-const UserForm = () => {
+const UserForm = ({history}) => {
   const [updateEmail, setUpdateEmail] = useState(false)
   const [updatePassword, setUpdatePassword] = useState(false)
-  const [email, setEmail] = useState(firebase.auth().currentUser.email)
+  const [email, setEmail] = useState('')
   const [showNewPassword, setShowNewPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [newPassword, setNewPassword] = useState('')
@@ -27,6 +27,11 @@ const UserForm = () => {
   const [emailChangeMessage, setEmailChangeMessage] = useState(null)
   const [passwordChangeMessage, setPasswordChangeMessage] = useState(null)
   const user = firebase.auth().currentUser
+
+  useEffect(() => {
+    if (user) setEmail(user.email)
+    else history.push('/login')
+  }, [])
 
   const handleUpdateEmail = async () => {
     try {

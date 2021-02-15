@@ -30,7 +30,7 @@ export const UserProfile = ({isLoggedIn, created, allVidit, history}) => {
           </div>
           <Divider orientation="vertical" />
           <div className="profile-content">
-            {showUserInformation && <UserForm />}
+            {showUserInformation && <UserForm history={history} />}
             {!showUserInformation && <UserCreatedList polls={userCreated} />}
           </div>
         </div>
