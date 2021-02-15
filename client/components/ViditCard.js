@@ -34,6 +34,7 @@ const ViditCard = ({
           component="h2"
           onClick={redirect}
           id="AVCardTitle"
+          style={{textAlign: 'center'}}
         >
           {question}
         </Typography>
