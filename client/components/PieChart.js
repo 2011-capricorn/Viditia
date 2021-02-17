@@ -179,14 +179,17 @@ class PieChart extends Component {
       chart === 'chartDataA'
         ? filterAB[this.state.filter][0]
         : filterAB[this.state.filter][1]
+
     data[0].name = data[0].name
       .split(' ')
       .filter((word) => !filterWord.includes(word))
       .join(' ')
-    data[1].name = data[1].name
-      .split(' ')
-      .filter((word) => !filterWord.includes(word))
-      .join(' ')
+    if (data[1]) {
+      data[1].name = data[1].name
+        .split(' ')
+        .filter((word) => !filterWord.includes(word))
+        .join(' ')
+    }
     const svg = this.createSVG(selectValue, 400, 400, idValue)
     const radius = 200
     const g = this.createGroup(svg)
