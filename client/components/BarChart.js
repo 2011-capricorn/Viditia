@@ -280,9 +280,6 @@ class BarChart extends Component {
       .text(filterWord)
   }
 
-  // this.createBarChart('#BCFilterA', 'BCsvgA', true, 'chartDataA')
-  //   this.createBarChart('#BCFilterB', 'BCsvgB', true, 'chartDataB')
-
   createBarChart(selectValue, idValue, filtering, filterChart) {
     let data = filtering ? this.state[filterChart] : this.state.chartData
     let filterWord = null
