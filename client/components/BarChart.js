@@ -95,7 +95,6 @@ class BarChart extends Component {
         name: key.slice(0, 4),
         value: preProcess[key],
       }))
-
       this.setState({doc, chartData: result, reset: result, users})
     }
   }
@@ -281,6 +280,9 @@ class BarChart extends Component {
       .text(filterWord)
   }
 
+  // this.createBarChart('#BCFilterA', 'BCsvgA', true, 'chartDataA')
+  //   this.createBarChart('#BCFilterB', 'BCsvgB', true, 'chartDataB')
+
   createBarChart(selectValue, idValue, filtering, filterChart) {
     let data = filtering ? this.state[filterChart] : this.state.chartData
     let filterWord = null
@@ -290,7 +292,7 @@ class BarChart extends Component {
           ? filterAB[this.state.filter][0]
           : filterAB[this.state.filter][1]
       data = data.map((obj) => {
-        obj.name = obj.name.slice(0, 4)
+        obj.name = obj.name.slice(0, 4).trim()
         return obj
       })
     }
